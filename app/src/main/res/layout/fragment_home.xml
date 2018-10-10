@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_fun"
+            android:layout_width="26dp"
+            android:layout_height="38dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/ic_action_category" />
+
+        <com.flyco.tablayout.SlidingTabLayout
+            android:id="@+id/spl"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            app:tl_indicator_color="@color/word_black"
+            app:tl_indicator_height="3dp"
+            app:tl_indicator_margin_bottom="5dp"
+            app:tl_indicator_width="15dp"
+            app:tl_textSelectColor="@color/word_black"
+            app:tl_textUnselectColor="@color/word_gray" />
+
+
+        <ImageView
+            android:id="@+id/iv_search"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/search_72px" />
+    </LinearLayout>
+
+    <View style="@style/gap"></View>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>
