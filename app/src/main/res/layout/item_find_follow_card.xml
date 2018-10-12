@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ll_title"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -15,9 +16,10 @@
             android:id="@+id/iv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@color/word_gray" />
+            android:src="@color/word_gray"
+            app:roundedCornerRadius="3dp" />
 
-        <com.facebook.drawee.view.SimpleDraweeView
+        <ImageView
             android:id="@+id/iv_select"
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -29,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="10dp"
-            android:background="@color/black"
+            android:background="@drawable/time_black_shape"
             android:padding="2dp"
             android:text="14:50"
             android:textColor="@color/white" />
@@ -42,28 +44,47 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/iv_local"
-            android:layout_width="30dp"
-            android:layout_height="30dp" />
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/iv_header"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:scaleType="centerCrop"
+                app:roundAsCircle="true" />
+
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_gravity="bottom|end"
+                android:src="@drawable/author_icon" />
+        </FrameLayout>
+
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="5dp"
             android:layout_weight="1"
+            android:gravity="center_vertical"
             android:orientation="vertical">
 
             <com.memo.deep.openmyeye.ui.view.FZTextView
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:text="@string/app_name" />
 
             <TextView
                 android:id="@+id/tv_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:text="TED/ #科技"
                 android:textSize="12sp" />
         </LinearLayout>

@@ -21,6 +21,7 @@ class HomeFragment : Fragment() {
     private fun initView(inflate: View) {
         val discoverFragment = FindFragment()
         val recommendFragment = RecommendFragment()
+        // 初始化tab
         inflate.spl.setViewPager(inflate.vp,
                 arrayOf("发现", "推荐"),
                 activity,

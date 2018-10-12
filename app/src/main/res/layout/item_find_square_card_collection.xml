@@ -7,11 +7,10 @@
     android:orientation="vertical">
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/vp"
+        android:id="@+id/vp_square"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_marginTop="10dp"
-        android:background="@color/colorAccent"
         android:clipToPadding="false"
         android:paddingLeft="20dp"
         android:paddingRight="20dp" />

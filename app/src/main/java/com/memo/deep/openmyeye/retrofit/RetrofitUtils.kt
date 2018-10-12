@@ -1,11 +1,14 @@
 package com.bkvito.beikeshequ.retrofit
 
+import com.google.gson.Gson
+import com.memo.deep.openmyeye.bean.find.*
 import com.trello.rxlifecycle2.LifecycleProvider
 import com.trello.rxlifecycle2.android.ActivityEvent
 import com.trello.rxlifecycle2.android.FragmentEvent
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import org.json.JSONObject
 
 
 object RetrofitUtils {
@@ -69,4 +72,51 @@ object RetrofitUtils {
                     .compose(provider.bindUntilEvent(FragmentEvent.DESTROY_VIEW))
         }
     }
+
+    /**
+     * 把responseBody的json数据依次转变成对应的bean类
+     */
+    fun transformData(string: String): List<Any> {
+        val list = ArrayList<Any>()
+        val jsonObject = JSONObject(string)
+        val array = jsonObject.getJSONArray("itemList")
+        val gson = Gson()
+        for (i in 0 until array.length()) {
+            val json = array.get(i).toString()
+            val type = JSONObject(json).getString("type")
+            when (type) {
+                "horizontalScrollCard" -> {
+                    val element = gson.fromJson(json, HorizontalScrollCard::class.java)
+                    list.add(element)
+                }
+                "textCard" -> {
+                    val element = gson.fromJson(json, TextCard::class.java)
+                    list.add(element)
+                }
+                "briefCard" -> {
+                    val element = gson.fromJson(json, BriefCard::class.java)
+                    list.add(element)
+                }
+                "followCard" -> {
+                    val element = gson.fromJson(json, FollowCard::class.java)
+                    list.add(element)
+                }
+                "videoSmallCard" -> {
+                    val element = gson.fromJson(json, VideoSmallCard::class.java)
+                    list.add(element)
+                }
+                "squareCardCollection" -> {
+                    val element = gson.fromJson(json, SquareCardCollection::class.java)
+                    list.add(element)
+                }
+                "videoCollectionWithBrief" -> {
+                    val element = gson.fromJson(json, VideoCollectionWithBrief::class.java)
+                    list.add(element)
+                }
+            }
+        }
+        return list
+    }
+
+
 }

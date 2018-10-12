@@ -18,4 +18,9 @@ class CardAdapter(
         return list.size
     }
 
+//    override fun destroyItem(container: ViewGroup, position: Int, any: Any) {
+//        // 覆写destroyItem并且空实现,这样每个Fragment中的视图就不会被销毁
+//        // super.destroyItem(container, position, object);
+//    }
+
 }

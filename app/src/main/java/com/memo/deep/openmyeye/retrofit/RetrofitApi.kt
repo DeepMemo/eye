@@ -1,7 +1,8 @@
 package com.bkvito.beikeshequ.retrofit
 
-import com.memo.deep.openmyeye.bean.FindBean
 import io.reactivex.Observable
+import okhttp3.ResponseBody
+import retrofit2.Response
 import retrofit2.http.GET
 
 /**
@@ -16,6 +17,6 @@ interface RetrofitApi {
     }
 
     @GET("v5/index/tab/discovery?udid=a754f397b32441feabdafd94c5833118cbd76441&vc=403&vn=4.5.1&deviceModel=LLD-AL00&first_channel=eyepetizer_zhihuiyun_market&last_channel=eyepetizer_zhihuiyun_market&system_version_code=26")
-    fun getFind(): Observable<FindBean>
+    fun getFind(): Observable<Response<ResponseBody>>
 
 }

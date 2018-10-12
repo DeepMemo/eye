@@ -9,6 +9,8 @@
     tools:context=".ui.activity.TestActivity">
 
 
-    <include layout="@layout/item_find_square_card_collection"></include>
-
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"></android.support.v7.widget.RecyclerView>
 </LinearLayout>
