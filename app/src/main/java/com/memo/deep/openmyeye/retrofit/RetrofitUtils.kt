@@ -1,7 +1,8 @@
 package com.bkvito.beikeshequ.retrofit
 
 import com.google.gson.Gson
-import com.memo.deep.openmyeye.bean.find.*
+import com.memo.deep.openmyeye.bean.beanBase.BaseMuti
+import com.memo.deep.openmyeye.bean.beanItem.*
 import com.trello.rxlifecycle2.LifecycleProvider
 import com.trello.rxlifecycle2.android.ActivityEvent
 import com.trello.rxlifecycle2.android.FragmentEvent
@@ -76,8 +77,8 @@ object RetrofitUtils {
     /**
      * 把responseBody的json数据依次转变成对应的bean类
      */
-    fun transformData(string: String): List<Any> {
-        val list = ArrayList<Any>()
+    fun transformData(string: String): List<BaseMuti> {
+        val list = ArrayList<BaseMuti>()
         val jsonObject = JSONObject(string)
         val array = jsonObject.getJSONArray("itemList")
         val gson = Gson()
@@ -111,6 +112,10 @@ object RetrofitUtils {
                 }
                 "videoCollectionWithBrief" -> {
                     val element = gson.fromJson(json, VideoCollectionWithBrief::class.java)
+                    list.add(element)
+                }
+                "DynamicInfoCard" -> {
+                    val element = gson.fromJson(json, DynamicInfoCard::class.java)
                     list.add(element)
                 }
             }

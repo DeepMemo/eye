@@ -1,6 +1,10 @@
-package com.memo.deep.openmyeye.bean.find
+package com.memo.deep.openmyeye.bean.beanItem
 
+import com.memo.deep.openmyeye.bean.beanBase.BaseMuti
 
+/**
+ * 短视频，左边视频，右边文字
+ */
 data class VideoSmallCard(
         var type: String = "",
         var data: Data = Data(),

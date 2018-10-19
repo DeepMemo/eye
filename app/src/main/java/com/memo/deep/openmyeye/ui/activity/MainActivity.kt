@@ -1,5 +1,6 @@
 package com.memo.deep.openmyeye.ui.activity.mvp
 
+import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -11,6 +12,7 @@ import com.memo.deep.openmyeye.ui.activity.TestActivity
 import com.memo.deep.openmyeye.ui.fragment.first.FocusFragment
 import com.memo.deep.openmyeye.ui.fragment.first.HomeFragment
 import com.memo.deep.openmyeye.ui.fragment.second.FindFragment
+import pub.devrel.easypermissions.EasyPermissions
 
 class MainActivity : AppCompatActivity() {
     //存储tab下标签的fragment
@@ -59,6 +61,14 @@ class MainActivity : AppCompatActivity() {
     private fun initView() {
 
     }
+
+    override fun onResume() {
+        super.onResume()
+        val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+        EasyPermissions.requestPermissions(this, getString(R.string.srl_content_empty), 0, *permissions)
+    }
+
 
     /**
      * 下面tab标签切换

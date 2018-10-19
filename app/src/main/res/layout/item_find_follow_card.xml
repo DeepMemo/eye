@@ -4,13 +4,16 @@
     android:id="@+id/ll_title"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginEnd="15dp"
+    android:layout_marginStart="15dp"
     android:orientation="vertical">
 
     <FrameLayout
         android:id="@+id/fl_pic"
         android:layout_width="match_parent"
         android:layout_height="185dp"
-        android:layout_margin="10dp">
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/iv"
@@ -24,6 +27,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_margin="15dp"
+            android:background="@color/transparent"
             android:src="@drawable/daily_label" />
 
         <TextView
@@ -31,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="10dp"
-            android:background="@drawable/time_black_shape"
+            android:background="@drawable/shape_time_black"
             android:padding="2dp"
             android:text="14:50"
             android:textColor="@color/white" />
@@ -40,7 +44,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginStart="10dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -92,7 +95,6 @@
         <ImageView
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_marginEnd="10dp"
             android:src="@drawable/card_more_action_icon" />
     </LinearLayout>
 

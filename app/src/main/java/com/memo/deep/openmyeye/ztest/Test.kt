@@ -1,5 +1,9 @@
 package com.memo.deep.openmyeye.ztest
 
+import com.blankj.utilcode.util.TimeUtils
+import java.text.SimpleDateFormat
+import java.util.*
+
 class Test {
     fun addFakeData(str: String): List<String> {
         val list = arrayListOf<String>()
@@ -10,5 +14,7 @@ class Test {
     }
 
     fun time() {
+        val millis2String = TimeUtils.millis2String(1539496511000L, SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()))
+        print(millis2String)
     }
 }

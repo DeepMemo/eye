@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.facebook.drawee.view.SimpleDraweeView
 import com.memo.deep.openmyeye.R
-import com.memo.deep.openmyeye.bean.find.HorizontalScrollCard
-import com.memo.deep.openmyeye.bean.find.SquareCardCollection
-import com.memo.deep.openmyeye.bean.find.VideoCollectionWithBrief
+import com.memo.deep.openmyeye.bean.beanItem.HorizontalScrollCard
+import com.memo.deep.openmyeye.bean.beanItem.SquareCardCollection
+import com.memo.deep.openmyeye.bean.beanItem.VideoCollectionWithBrief
 import kotlinx.android.synthetic.main.item_find_follow_card.view.*
 
 /**

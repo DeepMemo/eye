@@ -1,4 +1,4 @@
-package com.memo.deep.openmyeye.bean
+package com.memo.deep.openmyeye.bean.beanBase
 
 
 data class VoidBean(

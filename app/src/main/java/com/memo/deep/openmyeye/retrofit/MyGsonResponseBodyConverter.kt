@@ -2,7 +2,7 @@ package com.bkvito.beikeshequ.retrofit
 
 import com.google.gson.Gson
 import com.google.gson.TypeAdapter
-import com.memo.deep.openmyeye.bean.VoidBean
+import com.memo.deep.openmyeye.bean.beanBase.VoidBean
 import okhttp3.ResponseBody
 import retrofit2.Converter
 import java.io.ByteArrayInputStream

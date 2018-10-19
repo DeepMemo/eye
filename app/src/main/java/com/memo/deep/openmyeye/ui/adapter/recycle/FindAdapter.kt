@@ -3,22 +3,26 @@ package com.memo.deep.openmyeye.ui.adapter.recycle
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
+import com.blankj.utilcode.util.ConvertUtils
+import com.blankj.utilcode.util.TimeUtils
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.facebook.drawee.view.SimpleDraweeView
 import com.memo.deep.openmyeye.R
-import com.memo.deep.openmyeye.bean.find.*
+import com.memo.deep.openmyeye.bean.beanBase.BaseMuti
+import com.memo.deep.openmyeye.bean.beanItem.*
 import com.memo.deep.openmyeye.ui.adapter.viewpager.CardAdapter
 import com.memo.deep.openmyeye.ui.adapter.viewpager.NormalViewPagerAdapter
 import com.memo.deep.openmyeye.ui.fragment.viewPagerFragment.AuthorFragment
 import com.memo.deep.openmyeye.ui.fragment.viewPagerFragment.CardFragment
 import com.memo.deep.openmyeye.util.MyUtils
+import java.text.SimpleDateFormat
 import java.util.*
 
 /**
  * 发现页面的adapter
  */
-class FindAdapter(val context: Fragment, list: List<BaseMuti>)
+class FindAdapter(private val context: Fragment, list: List<BaseMuti>)
     : BaseMultiItemQuickAdapter<BaseMuti, BaseViewHolder>(list) {
 
     init {
@@ -30,6 +34,7 @@ class FindAdapter(val context: Fragment, list: List<BaseMuti>)
         addItemType(BaseMuti.videoSmallCard, R.layout.item_find_video_small_card)
         addItemType(BaseMuti.squareCardCollection, R.layout.item_find_square_card_collection)
         addItemType(BaseMuti.videoCollectionWithBrief, R.layout.item_find_video_collection_with_brief)
+        addItemType(BaseMuti.dynamicInfoCard, R.layout.item_find_dynamic_info_card)
     }
 
     private lateinit var helper: BaseViewHolder
@@ -38,21 +43,32 @@ class FindAdapter(val context: Fragment, list: List<BaseMuti>)
         this.helper = helper
         this.item = item
         when (item.itemType) {
-            BaseMuti.horizontalScrollCard -> initHorizontal()
+            BaseMuti.horizontalScrollCard -> initHorizontalScrollCard()
             BaseMuti.textCard -> initTextCard()
             BaseMuti.textCardFooter -> initTextCardFooter()
             BaseMuti.briefCard -> initBriefCard()
             BaseMuti.followCard -> initFollowCard()
             BaseMuti.videoSmallCard -> initVideoSmall()
-            BaseMuti.squareCardCollection -> initSquareCard()
-            BaseMuti.videoCollectionWithBrief -> initVideoCollection()
+            BaseMuti.squareCardCollection -> initSquareCardCollection()
+            BaseMuti.videoCollectionWithBrief -> initVideoCollectionWithBrief()
+            BaseMuti.dynamicInfoCard -> initDynamicInfoCard()
         }
+    }
+
+    /**
+     * 初始化viewpager
+     */
+    private fun initViewPager(viewPager: ViewPager, list: ArrayList<Fragment>) {
+        viewPager.adapter = CardAdapter(list, context.childFragmentManager)
+        // 两个页面的空白间隙
+        viewPager.offscreenPageLimit = 3
+        viewPager.pageMargin = ConvertUtils.dp2px(5f)
     }
 
     /**
      * 初始化化第一部分
      */
-    private fun initHorizontal() {
+    private fun initHorizontalScrollCard() {
         val viewPager = helper.getView<ViewPager>(R.id.vp_horizontal)
         val list = ArrayList<Fragment>()
         (item as HorizontalScrollCard).data.itemList.forEach {
@@ -62,12 +78,11 @@ class FindAdapter(val context: Fragment, list: List<BaseMuti>)
             element.arguments = bundle
             list.add(element)
         }
-        viewPager.adapter = CardAdapter(list, context.childFragmentManager)
-        viewPager.offscreenPageLimit = 3
+        initViewPager(viewPager, list)
     }
 
     /**
-     * 初始化化第一部分
+     * 使用不是fragment进行适配，暂保留
      */
     private fun initHorizontal2() {
         val viewPager = helper.getView<ViewPager>(R.id.vp_horizontal)
@@ -93,7 +108,8 @@ class FindAdapter(val context: Fragment, list: List<BaseMuti>)
 
     private fun initFollowCard() {
         val followCard = item as FollowCard
-        val detail = followCard.data.content.data.author.name + " /  #" + followCard.data.content.data.category
+        val detail = followCard.data.content.data.author.name +
+                " /  #" + followCard.data.content.data.category
         helper.setText(R.id.tv_title, followCard.data.content.data.title)
                 .setText(R.id.tv_detail, detail)
         helper.getView<SimpleDraweeView>(R.id.iv).setImageURI(followCard.data.content.data.cover.detail)
@@ -111,10 +127,9 @@ class FindAdapter(val context: Fragment, list: List<BaseMuti>)
     }
 
     private var initSquare = false
-    private fun initSquareCard() {
+    private fun initSquareCardCollection() {
         // 初始化了，就不在初始化了，解决滑动卡顿的问题
         if (initSquare) return
-
         val squareCardCollection = item as SquareCardCollection
         val viewPager = helper.getView<ViewPager>(R.id.vp_square)
         val list = ArrayList<Fragment>()
@@ -125,14 +140,13 @@ class FindAdapter(val context: Fragment, list: List<BaseMuti>)
             element.arguments = bundle
             list.add(element)
         }
-        viewPager.adapter = CardAdapter(list, context.childFragmentManager)
-        viewPager.offscreenPageLimit = 3
+        initViewPager(viewPager, list)
         initSquare = true
 
     }
 
     private var initVideo = false
-    private fun initVideoCollection() {
+    private fun initVideoCollectionWithBrief() {
         // 初始化了，就不在初始化了，解决滑动卡顿的问题
         if (initVideo) return
         // 上面标题
@@ -150,9 +164,30 @@ class FindAdapter(val context: Fragment, list: List<BaseMuti>)
             element.arguments = bundle
             list.add(element)
         }
-        viewPager.adapter = CardAdapter(list, context.childFragmentManager)
-        viewPager.offscreenPageLimit = 3
+        initViewPager(viewPager, list)
         initVideo = true
     }
+
+    /**
+     * 初始化评论
+     */
+    private fun initDynamicInfoCard() {
+        val dynamicInfoCard = item as DynamicInfoCard
+        val time = TimeUtils.millis2String(dynamicInfoCard.data.createDate
+                , SimpleDateFormat("yyyy/MM/dd", Locale.getDefault()))
+        val duration = MyUtils.getMinute(dynamicInfoCard.data.simpleVideo.duration)
+        helper.setText(R.id.tv_nickname, dynamicInfoCard.data.user.nickname)
+                .setText(R.id.tv_comment, dynamicInfoCard.data.reply.message)
+                .setText(R.id.tv_praise, dynamicInfoCard.data.reply.likeCount.toString())
+                .setText(R.id.tv_title, dynamicInfoCard.data.simpleVideo.title)
+                .setText(R.id.tv_type, "#" + dynamicInfoCard.data.simpleVideo.category)
+                .setText(R.id.tv_time, time)
+                .setText(R.id.tv_duration, duration)
+        val pic = helper.getView<SimpleDraweeView>(R.id.iv)
+        val header = helper.getView<SimpleDraweeView>(R.id.iv_header)
+        pic.setImageURI(dynamicInfoCard.data.simpleVideo.cover.detail)
+        header.setImageURI(dynamicInfoCard.data.user.avatar)
+    }
+
 
 }

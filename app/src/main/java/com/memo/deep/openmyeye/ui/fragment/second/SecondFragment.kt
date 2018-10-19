@@ -13,7 +13,8 @@ import com.trello.navi2.component.support.NaviFragment
  */
 abstract class SecondFragment<T> : NaviFragment() {
 
-    protected var list = ArrayList<T>()
+    lateinit var inflate: View
+    protected open var list = ArrayList<T>()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -25,7 +26,7 @@ abstract class SecondFragment<T> : NaviFragment() {
     /**
      * 考虑使用不同的presenter和使用不同的adapter
      */
-    abstract fun initView(inflate: View)
+    abstract fun initView(view: View)
 
 
 }

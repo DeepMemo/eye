@@ -19,4 +19,7 @@ interface RetrofitApi {
     @GET("v5/index/tab/discovery?udid=a754f397b32441feabdafd94c5833118cbd76441&vc=403&vn=4.5.1&deviceModel=LLD-AL00&first_channel=eyepetizer_zhihuiyun_market&last_channel=eyepetizer_zhihuiyun_market&system_version_code=26")
     fun getFind(): Observable<Response<ResponseBody>>
 
+    @GET("v5/index/tab/discovery?start=0&udid=a754f397b32441feabdafd94c5833118cbd76441&vc=403&vn=4.5.1&deviceModel=LLD-AL00&first_channel=eyepetizer_zhihuiyun_market&last_channel=eyepetizer_zhihuiyun_market&system_version_code=26")
+    fun getComment(): Observable<Response<ResponseBody>>
+
 }

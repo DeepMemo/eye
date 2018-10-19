@@ -1,6 +1,10 @@
-package com.memo.deep.openmyeye.bean.find
+package com.memo.deep.openmyeye.bean.beanItem
 
+import com.memo.deep.openmyeye.bean.beanBase.BaseMuti
 
+/**
+ * 顶部滚动页面
+ */
 data class HorizontalScrollCard(
         var type: String = "",
         var data: Data = Data(),

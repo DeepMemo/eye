@@ -1,6 +1,10 @@
-package com.memo.deep.openmyeye.bean.find
+package com.memo.deep.openmyeye.bean.beanItem
 
+import com.memo.deep.openmyeye.bean.beanBase.BaseMuti
 
+/**
+ * 不知道用在哪儿
+ */
 data class Banner(
         var type: String = "",
         var data: Data = Data(),

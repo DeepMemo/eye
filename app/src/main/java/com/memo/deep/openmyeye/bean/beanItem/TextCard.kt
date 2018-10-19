@@ -1,6 +1,10 @@
-package com.memo.deep.openmyeye.bean.find
+package com.memo.deep.openmyeye.bean.beanItem
 
+import com.memo.deep.openmyeye.bean.beanBase.BaseMuti
 
+/**
+ * 文字
+ */
 data class TextCard(
         var type: String = "",
         var data: Data = Data(),

@@ -1,7 +1,10 @@
-package com.memo.deep.openmyeye.bean.find
+package com.memo.deep.openmyeye.bean.beanBase
 
 import com.chad.library.adapter.base.entity.MultiItemEntity
 
+/**
+ * find数据bean的父类
+ */
 abstract class BaseMuti: MultiItemEntity {
     companion object {
         val horizontalScrollCard = 0
@@ -14,5 +17,6 @@ abstract class BaseMuti: MultiItemEntity {
         val squareCardCollection = 5
         val videoCollectionWithBrief = 6
         val banner = 7
+        val dynamicInfoCard = 8
     }
 }
