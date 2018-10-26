@@ -9,5 +9,8 @@
     <color name="comment_blue">#4687D7</color>
     <color name="comment_gray">#F6F6F6</color>
     <color name="transparent">#00000000</color>
+    <color name="video_cover">#A55A5A5A</color>
+    <color name="progress_buffer">#adadad</color>
+    <color name="progress_total">#494444</color>
 
 </resources>

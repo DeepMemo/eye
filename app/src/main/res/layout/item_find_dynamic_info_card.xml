@@ -31,7 +31,7 @@
             android:gravity="center_vertical"
             android:orientation="vertical">
 
-            <com.memo.deep.openmyeye.ui.view.FZTextView
+            <com.memo.deep.openmyeye.ui.view.text_view.FZTextView
                 android:id="@+id/tv_nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
                 android:textSize="12sp" />
         </LinearLayout>
 
-        <com.memo.deep.openmyeye.ui.view.FZTextView
+        <com.memo.deep.openmyeye.ui.view.text_view.FZTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/hot_comment_blue_shape"
@@ -72,7 +72,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
         android:layout_marginStart="52dp"
         android:orientation="vertical">
 
@@ -93,9 +92,8 @@
 
             <FrameLayout
                 android:id="@+id/fl_pic"
-                android:layout_width="0dp"
-                android:layout_height="70dp"
-                android:layout_weight="1">
+                android:layout_width="140dp"
+                android:layout_height="80dp">
 
                 <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/iv"
@@ -117,14 +115,13 @@
             </FrameLayout>
 
             <FrameLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="10dp"
-                android:layout_weight="1"
                 android:background="@color/comment_gray"
                 android:orientation="vertical">
 
-                <com.memo.deep.openmyeye.ui.view.FZTextView
+                <com.memo.deep.openmyeye.ui.view.text_view.FZTextView
                     android:id="@+id/tv_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -152,7 +149,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
 
-            <com.memo.deep.openmyeye.ui.view.FZTextView
+            <com.memo.deep.openmyeye.ui.view.text_view.FZTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/reply" />

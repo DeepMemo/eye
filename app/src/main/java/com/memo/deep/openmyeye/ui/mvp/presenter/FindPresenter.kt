@@ -3,44 +3,82 @@ package com.memo.deep.openmyeye.ui.mvp.presenter
 import com.bkvito.beikeshequ.retrofit.BaseObserver
 import com.bkvito.beikeshequ.retrofit.RetrofitFactory
 import com.bkvito.beikeshequ.retrofit.RetrofitUtils
+import com.memo.deep.openmyeye.`interface`.Constant
 import com.memo.deep.openmyeye.bean.beanBase.BaseMuti
 import com.memo.deep.openmyeye.ui.mvp.contract.IFindContract
 import com.trello.rxlifecycle2.LifecycleProvider
 import com.trello.rxlifecycle2.android.FragmentEvent
-import io.reactivex.Observable
-import io.reactivex.functions.BiFunction
-import okhttp3.ResponseBody
-import retrofit2.Response
 
 class FindPresenter(val view: IFindContract.View,
                     private val provider: LifecycleProvider<FragmentEvent>) {
-
+    // 评论的起始数据
+    var start = 0
 
     /**
-     * 内容和评论一起查询
+     * 内容
      */
-    fun getFind() {
-        val observableContent = RetrofitFactory.createInterface().getFind()
-        val observableComment = RetrofitFactory.createInterface().getComment()
-        Observable.zip(observableContent, observableComment,
-                object : BiFunction<Response<ResponseBody>, Response<ResponseBody>, List<BaseMuti>> {
-                    override fun apply(t1: Response<ResponseBody>, t2: Response<ResponseBody>): List<BaseMuti> {
-                        val body1 = t1.body().string()
-                        val body2 = t2.body().string()
-                        val list1 = RetrofitUtils.transformData(body1)
-                        val list2 = RetrofitUtils.transformData(body2)
-                        val list = mutableListOf<BaseMuti>()
-                        list.addAll(list1)
-                        list.addAll(list2)
-                        return list
-                    }
-
-                })
+    fun getFindContent() {
+        RetrofitFactory
+                .createInterface()
+                .getFindContent(Constant.URL_MAP)
+                .map {
+                    val body = it.body().string()
+                    return@map RetrofitUtils.transformData(body)
+                }
                 .compose(RetrofitUtils.setFragmentBase(provider))
                 .subscribe(object : BaseObserver<List<BaseMuti>>() {
                     override fun onNext(t: List<BaseMuti>) {
                         view.onNext(t)
                     }
+
+                    override fun onError(e: Throwable) {
+                        super.onError(e)
+                        view.onError()
+                    }
+                })
+
+        start = 0
+    }
+
+    /**
+     * 获取更多评论
+     */
+    fun getMoreComment() {
+        RetrofitFactory
+                .createInterface()
+                .getComment(getParamMap())
+                .map {
+                    val body = it.body().string()
+                    return@map RetrofitUtils.transformData(body)
+                }
+                .compose(RetrofitUtils.setFragmentBase(provider))
+                .subscribe(object : BaseObserver<List<BaseMuti>>() {
+                    override fun onNext(t: List<BaseMuti>) {
+                        if (t.isEmpty()) {
+                            view.onMoreEnd()
+                        } else {
+                            view.onNextMore(t)
+                        }
+                    }
+
+                    override fun onError(e: Throwable) {
+                        super.onError(e)
+                        view.onError()
+                    }
                 })
     }
+
+    /**
+     * 获取添加参数过后的map
+     */
+    private fun getParamMap(): Map<String, String> {
+        val map = mutableMapOf<String, String>()
+        map["start"] = start.toString()
+        map.put("num", 5.toString())
+        map.putAll(Constant.URL_MAP)
+        // 每次增加5个数据
+        start += 5
+        return map
+    }
+
 }

@@ -7,7 +7,7 @@
         <item name="colorPrimaryDark">@color/word_black</item>
         <item name="colorAccent">@color/colorAccent</item>
         <!--这里不仅把activity的背景变成白色，把所有的组件的背景到变成白色了，如Imagev-->
-        <item name="android:background">@color/white</item>
+        <!--<item name="android:background">@color/white</item>-->
     </style>
 
     <style name="gap">

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ui.fragment.second.SecondFragment">
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
@@ -20,7 +21,7 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_margin="15dp"
-                android:src="@drawable/reupload" />
+                android:src="@drawable/eye_loading_progress" />
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView

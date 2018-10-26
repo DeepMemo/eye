@@ -74,7 +74,7 @@
             android:gravity="center_vertical"
             android:orientation="vertical">
 
-            <com.memo.deep.openmyeye.ui.view.FZTextView
+            <com.memo.deep.openmyeye.ui.view.text_view.FZTextView
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

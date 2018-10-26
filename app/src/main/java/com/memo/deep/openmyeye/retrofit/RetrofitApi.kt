@@ -4,6 +4,7 @@ import io.reactivex.Observable
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.QueryMap
 
 /**
  * retrofit 的访问地址,
@@ -13,13 +14,13 @@ import retrofit2.http.GET
 interface RetrofitApi {
 
     companion object {
-        const val BASE_URL: String = "http://baobab.kaiyanapp.com/api/"
+        const val BASE_URL: String = "http://baobab.kaiyanapp.com/"
     }
 
-    @GET("v5/index/tab/discovery?udid=a754f397b32441feabdafd94c5833118cbd76441&vc=403&vn=4.5.1&deviceModel=LLD-AL00&first_channel=eyepetizer_zhihuiyun_market&last_channel=eyepetizer_zhihuiyun_market&system_version_code=26")
-    fun getFind(): Observable<Response<ResponseBody>>
+    @GET("api/v5/index/tab/discovery")
+    fun getFindContent(@QueryMap map: Map<String, String>): Observable<Response<ResponseBody>>
 
-    @GET("v5/index/tab/discovery?start=0&udid=a754f397b32441feabdafd94c5833118cbd76441&vc=403&vn=4.5.1&deviceModel=LLD-AL00&first_channel=eyepetizer_zhihuiyun_market&last_channel=eyepetizer_zhihuiyun_market&system_version_code=26")
-    fun getComment(): Observable<Response<ResponseBody>>
+    @GET("api/v5/index/tab/discovery")
+    fun getComment(@QueryMap map: Map<String, String>): Observable<Response<ResponseBody>>
 
 }

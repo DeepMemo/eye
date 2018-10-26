@@ -1,44 +1,42 @@
 package com.memo.deep.openmyeye.ui.activity
 
-import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.util.DiffUtil
 import android.view.View
 import android.widget.ImageView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.memo.deep.openmyeye.R
-import com.memo.deep.openmyeye.ui.adapter.recycle.TestAdapter
+import com.memo.deep.openmyeye.code.SampleCoverVideo
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder
 import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack
 import com.shuyu.gsyvideoplayer.listener.LockClickListener
 import com.shuyu.gsyvideoplayer.utils.Debuger
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
-import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
-import kotlinx.android.synthetic.main.activity_test.*
+import kotlinx.android.synthetic.main.activity_play_detail.*
 
-class TestActivity : AppCompatActivity() {
+
+/**
+ * 视频播放页面
+ */
+class PlayDetailActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_test)
+        setContentView(R.layout.activity_play_detail)
         initView()
-        progress.thumb =getDrawable( R.drawable.empty)
     }
 
-    private lateinit var testAdapter: TestAdapter
-    //    private lateinit var testAdapter: OriginAdapter
-    val list = arrayListOf("1", "2", "3")
-
-    lateinit var detailPlayer: StandardGSYVideoPlayer
+    //    lateinit var detailPlayer: StandardGSYVideoPlayer
+    lateinit var detailPlayer: SampleCoverVideo
     lateinit var orientationUtils: OrientationUtils
     var isPlay = false
     var isPause = false
     private fun initView() {
 //        PlayerFactory.setPlayManager(IjkPlayerManager::class.java)
         detailPlayer = detail_player
+        // 设置新的seekbar
+//        detailPlayer.setBottomProgressBar(sb_progress)
         orientationUtils = OrientationUtils(this, detailPlayer)
         //外部辅助的旋转，帮助全屏
         val orientationUtils = OrientationUtils(this, detail_player)
@@ -57,8 +55,10 @@ class TestActivity : AppCompatActivity() {
                 .setShowFullAnimation(false)
                 .setNeedLockFull(true)
                 .setUrl("http://baobab.kaiyanapp.com/api/v1/playUrl?vid=132919&resourceType=video&editionType=high&source=aliyun")
-                .setCacheWithPlay(false)
-                .setVideoTitle("测试视频")
+                .setCacheWithPlay(true)
+                .setIsTouchWiget(false)
+                .setEnlargeImageRes(R.drawable.full_screen)
+                .setShrinkImageRes(com.shuyu.gsyvideoplayer.R.drawable.video_shrink)
                 .setVideoAllCallBack(object : GSYSampleCallBack() {
                     override fun onPrepared(url: String?, vararg objects: Any) {
                         super.onPrepared(url, *objects)
@@ -84,6 +84,9 @@ class TestActivity : AppCompatActivity() {
                     }
                 }).build(detailPlayer)
 
+        detailPlayer.backButton.setOnClickListener {
+            finish()
+        }
         detailPlayer.getFullscreenButton().setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
                 //直接横屏
@@ -137,42 +140,4 @@ class TestActivity : AppCompatActivity() {
         }
     }
 
-    override fun onRestart() {
-        super.onRestart()
-
-    }
-
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-    }
-
-    fun onNext(oldList: List<String>, newList: ArrayList<String>) {
-        val diffResult = DiffUtil.calculateDiff(NewDiffCallback(oldList, newList))
-        testAdapter.list.clear()
-        testAdapter.list.addAll(newList)
-        diffResult.dispatchUpdatesTo(testAdapter)
-    }
-
-    /**
-     * 数据差异比较
-     */
-    class NewDiffCallback(private val oldList: List<String>,
-                          private val newList: List<String>) : DiffUtil.Callback() {
-        override fun areItemsTheSame(p0: Int, p1: Int): Boolean {
-            return true
-        }
-
-        override fun getOldListSize(): Int {
-            return oldList.size
-        }
-
-        override fun getNewListSize(): Int {
-            return newList.size
-        }
-
-        override fun areContentsTheSame(p0: Int, p1: Int): Boolean {
-            return oldList.get(p0) == newList.get(p1)
-        }
-
-    }
 }

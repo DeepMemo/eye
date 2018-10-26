@@ -6,6 +6,9 @@ interface IFindContract {
 
     interface View {
         fun onNext(t: List<BaseMuti>)
+        fun onNextMore(t: List<BaseMuti>)
+        fun onError()
+        fun onMoreEnd()
     }
 
     interface Presenter {

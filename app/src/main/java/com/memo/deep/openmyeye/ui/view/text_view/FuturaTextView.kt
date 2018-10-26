@@ -1,4 +1,4 @@
-package com.memo.deep.openmyeye.ui.view
+package com.memo.deep.openmyeye.ui.view.text_view
 
 import android.content.Context
 import android.util.AttributeSet
@@ -7,9 +7,9 @@ import com.memo.deep.openmyeye.util.FontCache
 
 
 /**
- * 方正兰亭中粗黑简体的TextView
+ * Futura-CondensedMedium的TextView
  */
-class FZTextView : TextView {
+class FuturaTextView : TextView {
     constructor(context: Context) : super(context) {
         applyCustomFont(context)
     }
@@ -24,7 +24,7 @@ class FZTextView : TextView {
 
 
     private fun applyCustomFont(context: Context) {
-        val customFont = FontCache.getTypeface("fonts/FZLanTingHeiS-DB1-GB-Regular.TTF", context)
+        val customFont = FontCache.getTypeface("fonts/Futura-CondensedMedium.ttf", context)
         typeface = customFont
     }
 

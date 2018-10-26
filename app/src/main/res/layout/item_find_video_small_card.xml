@@ -4,8 +4,8 @@
     android:id="@+id/ll_title"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="15dp"
     android:layout_marginEnd="15dp"
+    android:layout_marginStart="15dp"
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
@@ -40,13 +40,15 @@
     <FrameLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <com.memo.deep.openmyeye.ui.view.FZTextView
+        <com.memo.deep.openmyeye.ui.view.text_view.FZTextView
             android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:ellipsize="end"
@@ -65,8 +67,8 @@
             android:textSize="12sp" />
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_gravity="bottom|end"
             android:layout_marginBottom="10dp"
             android:src="@drawable/card_more_action_icon" />

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.PlayDetailActivity">
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="201dp"
+        android:background="@color/qmui_config_color_red"
+        android:clipChildren="false">
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="207dp">
+
+        <com.memo.deep.openmyeye.code.SampleCoverVideo
+            android:id="@+id/detail_player"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!--<com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer-->
+        <!--android:id="@+id/detail_player"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
+
+    </LinearLayout>
+
+
+    <!--<SeekBar-->
+        <!--android:id="@+id/sb_progress"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="192dp"-->
+        <!--android:max="100"-->
+        <!--android:maxHeight="2dp"-->
+        <!--android:minHeight="2dp"-->
+        <!--android:paddingEnd="0dp"-->
+        <!--android:paddingStart="0dp"-->
+        <!--android:progressDrawable="@drawable/video_progress"-->
+        <!--android:thumb="@drawable/spot"-->
+        <!--android:thumbOffset="0dp" />-->
+
+</FrameLayout>

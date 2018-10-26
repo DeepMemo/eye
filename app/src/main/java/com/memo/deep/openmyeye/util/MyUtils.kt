@@ -27,4 +27,15 @@ object MyUtils {
         itemView.layoutParams = lp
     }
 
+    /**
+     * 动态设置margin
+     */
+    fun setMargins(v: View?, l: Int, t: Int, r: Int, b: Int) {
+        if (v != null && v.layoutParams is ViewGroup.MarginLayoutParams) {
+            val p = v.layoutParams as ViewGroup.MarginLayoutParams
+            p.setMargins(l, t, r, b)
+            v.requestLayout()
+        }
+    }
+
 }

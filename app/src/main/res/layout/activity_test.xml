@@ -4,13 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
+    android:clipChildren="false"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".ui.activity.TestActivity">
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv"
+    <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
+        android:id="@+id/detail_player"
         android:layout_width="match_parent"
-        android:layout_height="200dp"></android.support.v7.widget.RecyclerView>
+        android:layout_height="200dp" />
+
+    <SeekBar
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:maxHeight="4.0dip"
+        android:minHeight="4.0dip"
+        android:progressDrawable="@drawable/video_seek_progress"
+        android:thumb="@drawable/qmui_switch_thumb_checked"
+        android:thumbOffset="0dp" />
+
 </LinearLayout>

@@ -19,11 +19,11 @@
             app:roundedCornerRadius="3dp" />
 
         <ImageView
-            android:background="@color/transparent"
             android:id="@+id/iv_select"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_margin="15dp"
+            android:background="@color/transparent"
             android:src="@drawable/daily_label" />
 
         <TextView
@@ -50,7 +50,7 @@
             android:gravity="center_vertical"
             android:orientation="vertical">
 
-            <com.memo.deep.openmyeye.ui.view.FZTextView
+            <com.memo.deep.openmyeye.ui.view.text_view.FZTextView
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -71,6 +71,7 @@
         <ImageView
             android:layout_width="25dp"
             android:layout_height="25dp"
+            android:layout_gravity="bottom"
             android:layout_marginEnd="10dp"
             android:src="@drawable/card_more_action_icon" />
     </LinearLayout>

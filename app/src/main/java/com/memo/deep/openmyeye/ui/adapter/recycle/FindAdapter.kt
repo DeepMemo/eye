@@ -13,8 +13,8 @@ import com.memo.deep.openmyeye.bean.beanBase.BaseMuti
 import com.memo.deep.openmyeye.bean.beanItem.*
 import com.memo.deep.openmyeye.ui.adapter.viewpager.CardAdapter
 import com.memo.deep.openmyeye.ui.adapter.viewpager.NormalViewPagerAdapter
-import com.memo.deep.openmyeye.ui.fragment.viewPagerFragment.AuthorFragment
-import com.memo.deep.openmyeye.ui.fragment.viewPagerFragment.CardFragment
+import com.memo.deep.openmyeye.ui.fragment.third.AuthorFragment
+import com.memo.deep.openmyeye.ui.fragment.third.CardFragment
 import com.memo.deep.openmyeye.util.MyUtils
 import java.text.SimpleDateFormat
 import java.util.*
@@ -61,7 +61,6 @@ class FindAdapter(private val context: Fragment, list: List<BaseMuti>)
     private fun initViewPager(viewPager: ViewPager, list: ArrayList<Fragment>) {
         viewPager.adapter = CardAdapter(list, context.childFragmentManager)
         // 两个页面的空白间隙
-        viewPager.offscreenPageLimit = 3
         viewPager.pageMargin = ConvertUtils.dp2px(5f)
     }
 
@@ -188,6 +187,5 @@ class FindAdapter(private val context: Fragment, list: List<BaseMuti>)
         pic.setImageURI(dynamicInfoCard.data.simpleVideo.cover.detail)
         header.setImageURI(dynamicInfoCard.data.user.avatar)
     }
-
 
 }

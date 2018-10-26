@@ -1,4 +1,4 @@
-package com.memo.deep.openmyeye.ui.fragment.viewPagerFragment
+package com.memo.deep.openmyeye.ui.fragment.third
 
 import android.os.Bundle
 import android.support.v4.app.Fragment

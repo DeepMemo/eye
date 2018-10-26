@@ -9,7 +9,15 @@ import pub.devrel.easypermissions.EasyPermissions
 /**
  * 基础Activity提供常用的操作
  */
-abstract class BaseActivity : NaviAppCompatActivity(), EasyPermissions.PermissionCallbacks, View.OnClickListener {
+ open class BaseActivity : NaviAppCompatActivity(), EasyPermissions.PermissionCallbacks, View.OnClickListener {
+    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
+    }
+
+    override fun onClick(v: View?) {
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
