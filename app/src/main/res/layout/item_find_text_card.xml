@@ -8,7 +8,7 @@
     android:paddingTop="35dp">
 
     <!--textCard-->
-    <com.memo.deep.openmyeye.ui.view.text_view.FZTextView
+    <com.memo.deep.openmyeye.ui.view.textView.FZTextView
         android:id="@+id/tv_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

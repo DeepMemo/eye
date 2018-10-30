@@ -5,7 +5,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity
 /**
  * find数据bean的父类
  */
-abstract class BaseMuti: MultiItemEntity {
+abstract class BaseMuti : MultiItemEntity {
     companion object {
         val horizontalScrollCard = 0
         val textCard = 1
@@ -18,5 +18,8 @@ abstract class BaseMuti: MultiItemEntity {
         val videoCollectionWithBrief = 6
         val banner = 7
         val dynamicInfoCard = 8
+        // 自己加的
+        val playDetail = 9
+        val footerBean = 10
     }
 }

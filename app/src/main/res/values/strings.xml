@@ -8,6 +8,8 @@
     <string name="notification">通知</string>
     <string name="my">我的</string>
     <string name="reply">回复</string>
+    <string name="cache">缓存</string>
+    <string name="pull_to_close">下  拉  关  闭  页  面</string>
 
 
 </resources>

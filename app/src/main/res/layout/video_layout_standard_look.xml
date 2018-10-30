@@ -53,16 +53,24 @@
         android:scaleType="centerCrop"
         android:src="@drawable/ic_player_play" />
 
+    <ImageView
+        android:id="@+id/loading"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/video_loading"
+        android:visibility="gone" />
+
 
     <ImageView
         android:id="@+id/fullscreen"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginEnd="10dp"
-        android:scaleType="centerCrop"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="15dp"
         android:src="@drawable/full_screen" />
 
 

@@ -31,7 +31,7 @@
             android:gravity="center_vertical"
             android:orientation="vertical">
 
-            <com.memo.deep.openmyeye.ui.view.text_view.FZTextView
+            <com.memo.deep.openmyeye.ui.view.textView.FZTextView
                 android:id="@+id/tv_nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
                 android:textSize="12sp" />
         </LinearLayout>
 
-        <com.memo.deep.openmyeye.ui.view.text_view.FZTextView
+        <com.memo.deep.openmyeye.ui.view.textView.FZTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/hot_comment_blue_shape"
@@ -121,7 +121,7 @@
                 android:background="@color/comment_gray"
                 android:orientation="vertical">
 
-                <com.memo.deep.openmyeye.ui.view.text_view.FZTextView
+                <com.memo.deep.openmyeye.ui.view.textView.FZTextView
                     android:id="@+id/tv_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -149,7 +149,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
 
-            <com.memo.deep.openmyeye.ui.view.text_view.FZTextView
+            <com.memo.deep.openmyeye.ui.view.textView.FZTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/reply" />

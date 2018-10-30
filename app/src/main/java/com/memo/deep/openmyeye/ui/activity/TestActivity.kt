@@ -25,7 +25,8 @@ class TestActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test)
         initView()
-        progress.thumb =getDrawable( R.drawable.empty)
+        progress.thumb = getDrawable(R.drawable.empty)
+        tv_typer.animateText(getString(R.string.pull_to_close))
     }
 
     private lateinit var testAdapter: TestAdapter

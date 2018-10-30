@@ -9,7 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter
  */
 class CardAdapter(
         val list: List<Fragment>,
-        fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
+        fragmentManager: FragmentManager?) : FragmentPagerAdapter(fragmentManager) {
     override fun getItem(p0: Int): Fragment {
         return list.get(p0)
     }

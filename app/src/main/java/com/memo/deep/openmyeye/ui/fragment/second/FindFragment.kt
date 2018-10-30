@@ -7,12 +7,14 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.view.animation.LinearInterpolator
 import com.memo.deep.openmyeye.bean.beanBase.BaseMuti
+import com.memo.deep.openmyeye.bean.beanItem.FollowCard
 import com.memo.deep.openmyeye.bean.beanItem.TextCard
+import com.memo.deep.openmyeye.bean.my.PlayDetail
 import com.memo.deep.openmyeye.ui.activity.PlayDetailActivity
 import com.memo.deep.openmyeye.ui.adapter.recycle.FindAdapter
 import com.memo.deep.openmyeye.ui.mvp.contract.IFindContract
 import com.memo.deep.openmyeye.ui.mvp.presenter.FindPresenter
-import com.memo.deep.openmyeye.ui.view.text_view.CustomLoadMoreView
+import com.memo.deep.openmyeye.ui.view.textView.CustomLoadMoreView
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import com.trello.rxlifecycle2.navi.NaviLifecycle
@@ -31,6 +33,7 @@ class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
         initSrl()
         initData()
         initRotation()
+        initListener()
     }
 
     private fun initAdapter() {
@@ -38,11 +41,8 @@ class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
         adapter = FindAdapter(this, list)
         inflate.rv.adapter = adapter
         adapter.setPreLoadNumber(3)
-        adapter.setOnItemClickListener { adapter, view, position ->
-            val intent = Intent(activity, PlayDetailActivity::class.java)
-            startActivity(intent)
-        }
     }
+
 
     /**
      * 初始化smartRefreshLayout
@@ -79,6 +79,47 @@ class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
         objectAnimator.repeatMode = ObjectAnimator.RESTART
         objectAnimator.repeatCount = ObjectAnimator.INFINITE
     }
+
+    private fun initListener() {
+        adapter.setOnItemClickListener { adapter, view, position ->
+            val playDetail = setPlayDetail(list.get(position))
+            val intent = Intent(activity, PlayDetailActivity::class.java)
+            intent.putExtra("data", playDetail)
+            startActivity(intent)
+        }
+    }
+
+    fun setPlayDetail(item: BaseMuti): PlayDetail {
+        val playDetail = PlayDetail()
+        when (item) {
+            is FollowCard -> setFollowData(item, playDetail)
+        }
+
+        return playDetail
+    }
+
+    private fun setFollowData(item: FollowCard, playDetail: PlayDetail) {
+        playDetail.id = item.data.header.id
+        playDetail.playUrl = item.data.content.data.playUrl
+        playDetail.coverUrl = item.data.content.data.cover.detail
+        playDetail.bgUrl = item.data.content.data.cover.blurred
+        playDetail.title = item.data.content.data.title
+        playDetail.type = item.data.header.description
+        playDetail.description = item.data.content.data.description
+        playDetail.collectionCount = item.data.content.data.consumption.collectionCount
+        playDetail.shareCount = item.data.content.data.consumption.shareCount
+        playDetail.replyCount = item.data.content.data.consumption.replyCount
+        playDetail.pic1 = item.data.content.data.tags.get(0).headerImage
+        playDetail.pic2 = item.data.content.data.tags.get(1).headerImage
+        playDetail.pic3 = item.data.content.data.tags.get(2).headerImage
+        playDetail.name1 = item.data.content.data.tags.get(0).name
+        playDetail.name2 = item.data.content.data.tags.get(1).name
+        playDetail.name3 = item.data.content.data.tags.get(2).name
+        playDetail.author = item.data.content.data.author.name
+        playDetail.authorPicUrl = item.data.content.data.author.icon
+        playDetail.authorType = item.data.content.data.category
+    }
+
 
     override fun onNext(t: List<BaseMuti>) {
         val diffResult = DiffUtil.calculateDiff(NewDiffCallback(list, t), true)

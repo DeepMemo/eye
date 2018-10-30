@@ -1,15 +1,15 @@
-package com.memo.deep.openmyeye.ui.view.text_view
+package com.memo.deep.openmyeye.ui.view.textView
 
 import android.content.Context
 import android.util.AttributeSet
-import android.widget.TextView
+import com.hanks.htextview.typer.TyperTextView
 import com.memo.deep.openmyeye.util.FontCache
 
 
 /**
  * 方正兰亭中粗黑简体的TextView
  */
-class FZTextView : TextView {
+class FZTextView : TyperTextView {
     constructor(context: Context) : super(context) {
         applyCustomFont(context)
     }
@@ -27,5 +27,4 @@ class FZTextView : TextView {
         val customFont = FontCache.getTypeface("fonts/FZLanTingHeiS-DB1-GB-Regular.TTF", context)
         typeface = customFont
     }
-
 }

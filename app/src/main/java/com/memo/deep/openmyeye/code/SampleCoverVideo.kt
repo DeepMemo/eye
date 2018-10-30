@@ -1,8 +1,10 @@
 package com.memo.deep.openmyeye.code
 
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.view.animation.LinearInterpolator
 import android.widget.ImageView
 import android.widget.SeekBar
 import com.blankj.utilcode.util.ConvertUtils
@@ -121,10 +123,23 @@ class SampleCoverVideo : StandardGSYVideoPlayer {
         mProgressBar = seekBar
     }
 
+    override fun changeUiToPreparingShow() {
+        super.changeUiToPreparingShow()
+        setViewShowState(mLoadingProgressBar, View.VISIBLE)
+        startRotation(mLoadingProgressBar)
+    }
+
     /**
      * 控制点击的时候，UI的显示
      */
+    // 第一次进入,自动播放，不显示其他UI界面
+    var isFirst = true
     override fun changeUiToPlayingShow() {
+        if (isFirst) {
+            changeUiToClear()
+            isFirst = false
+            return
+        }
         super.changeUiToPlayingShow()
         // 添加
         setProgressBar(true)
@@ -135,10 +150,20 @@ class SampleCoverVideo : StandardGSYVideoPlayer {
      * 控制点击的时候，UI的显示
      */
     override fun changeUiToClear() {
-       super.changeUiToClear()
+        super.changeUiToClear()
         // 添加
         setViewShowState(mFullscreenButton, View.INVISIBLE)
         setProgressBar(false)
+
+    }
+
+    private fun startRotation(view: View) {
+        val animator = ObjectAnimator.ofFloat(view, "rotation", 0f, 360f)
+        animator.duration = 400
+        animator.repeatCount = ObjectAnimator.INFINITE
+        animator.repeatCount = ObjectAnimator.RESTART
+        animator.interpolator = LinearInterpolator()
+        animator.start()
     }
 
 }

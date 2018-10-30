@@ -26,4 +26,12 @@
         android:thumb="@drawable/qmui_switch_thumb_checked"
         android:thumbOffset="0dp" />
 
+    <com.memo.deep.openmyeye.ui.view.textView.FZLIghtTextView
+        android:id="@+id/tv_typer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        app:charIncrease="1"
+        app:typerSpeed="20" />
+
 </LinearLayout>

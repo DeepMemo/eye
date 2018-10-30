@@ -49,7 +49,8 @@
         android:layout_height="80dp"
         android:visibility="gone">
 
-        <com.memo.deep.openmyeye.ui.view.text_view.LoTextView
+        <com.memo.deep.openmyeye.ui.view.textView.LoTextView
+            android:id="@+id/tv_footer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

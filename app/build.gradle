@@ -58,4 +58,5 @@ dependencies {
     implementation 'com.shuyu:GSYVideoPlayer:6.0.1'
 //    implementation 'com.shuyu:gsyVideoPlayer-java:6.0.1'
 //    implementation 'com.shuyu:gsyVideoPlayer-armv5:6.0.1'
+    implementation "com.hanks:htextview-typer:0.1.6"
 }

@@ -1,4 +1,4 @@
-package com.memo.deep.openmyeye.ui.view.text_view
+package com.memo.deep.openmyeye.ui.view.textView
 
 import com.chad.library.adapter.base.loadmore.LoadMoreView
 import com.memo.deep.openmyeye.R

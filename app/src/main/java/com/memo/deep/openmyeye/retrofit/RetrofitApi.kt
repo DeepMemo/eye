@@ -23,4 +23,7 @@ interface RetrofitApi {
     @GET("api/v5/index/tab/discovery")
     fun getComment(@QueryMap map: Map<String, String>): Observable<Response<ResponseBody>>
 
+    @GET("api/v4/video/related")
+    fun getPlayDetailContent(@QueryMap map: Map<String, String>): Observable<Response<ResponseBody>>
+
 }
