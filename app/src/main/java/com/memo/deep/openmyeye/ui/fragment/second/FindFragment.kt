@@ -6,9 +6,10 @@ import android.support.v7.util.DiffUtil
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.view.animation.LinearInterpolator
+import com.blankj.utilcode.util.ToastUtils
+import com.memo.deep.openmyeye.R
 import com.memo.deep.openmyeye.bean.beanBase.BaseMuti
-import com.memo.deep.openmyeye.bean.beanItem.FollowCard
-import com.memo.deep.openmyeye.bean.beanItem.TextCard
+import com.memo.deep.openmyeye.bean.beanItem.*
 import com.memo.deep.openmyeye.bean.my.PlayDetail
 import com.memo.deep.openmyeye.ui.activity.PlayDetailActivity
 import com.memo.deep.openmyeye.ui.adapter.recycle.FindAdapter
@@ -38,7 +39,7 @@ class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
 
     private fun initAdapter() {
         inflate.rv.layoutManager = LinearLayoutManager(activity)
-        adapter = FindAdapter(this, list)
+        adapter = FindAdapter(this, list, onViewPagerClick = onViewPagerClick)
         inflate.rv.adapter = adapter
         adapter.setPreLoadNumber(3)
     }
@@ -80,46 +81,64 @@ class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
         objectAnimator.repeatCount = ObjectAnimator.INFINITE
     }
 
+    private lateinit var playDetail: PlayDetail
     private fun initListener() {
         adapter.setOnItemClickListener { adapter, view, position ->
-            val playDetail = setPlayDetail(list.get(position))
-            val intent = Intent(activity, PlayDetailActivity::class.java)
-            intent.putExtra("data", playDetail)
-            startActivity(intent)
+            val item = list.get(position)
+            when (item) {
+                is FollowCard -> {
+                    playDetail = presenter.setFollowCardData(item)
+                    val intent = Intent(activity, PlayDetailActivity::class.java)
+                    intent.putExtra("data", playDetail)
+                    startActivity(intent)
+                }
+                is VideoSmallCard -> {
+                    playDetail = presenter.setVideoSmallCardData(item)
+                    val intent = Intent(activity, PlayDetailActivity::class.java)
+                    intent.putExtra("data", playDetail)
+                    startActivity(intent)
+                }
+            }
+
         }
-    }
 
-    fun setPlayDetail(item: BaseMuti): PlayDetail {
-        val playDetail = PlayDetail()
-        when (item) {
-            is FollowCard -> setFollowData(item, playDetail)
+        adapter.setOnItemChildClickListener { adapter, view, position ->
+            val item = list.get(position)
+            when (item) {
+                is VideoCollectionWithBrief -> {
+                    when (view.id) {
+                        R.id.tv_watch -> {
+                            ToastUtils.showShort("关注了")
+                        }
+                    }
+                }
+                is SquareCardCollection -> {
+                }
+                is HorizontalScrollCard -> {
+                }
+            }
         }
 
-        return playDetail
     }
 
-    private fun setFollowData(item: FollowCard, playDetail: PlayDetail) {
-        playDetail.id = item.data.header.id
-        playDetail.playUrl = item.data.content.data.playUrl
-        playDetail.coverUrl = item.data.content.data.cover.detail
-        playDetail.bgUrl = item.data.content.data.cover.blurred
-        playDetail.title = item.data.content.data.title
-        playDetail.type = item.data.header.description
-        playDetail.description = item.data.content.data.description
-        playDetail.collectionCount = item.data.content.data.consumption.collectionCount
-        playDetail.shareCount = item.data.content.data.consumption.shareCount
-        playDetail.replyCount = item.data.content.data.consumption.replyCount
-        playDetail.pic1 = item.data.content.data.tags.get(0).headerImage
-        playDetail.pic2 = item.data.content.data.tags.get(1).headerImage
-        playDetail.pic3 = item.data.content.data.tags.get(2).headerImage
-        playDetail.name1 = item.data.content.data.tags.get(0).name
-        playDetail.name2 = item.data.content.data.tags.get(1).name
-        playDetail.name3 = item.data.content.data.tags.get(2).name
-        playDetail.author = item.data.content.data.author.name
-        playDetail.authorPicUrl = item.data.content.data.author.icon
-        playDetail.authorType = item.data.content.data.category
-    }
+    /**
+     * 嵌套的viewpager的点击事件的回调，当做一个全局变量使用
+     */
+    private val onViewPagerClick: (item: Any) -> Unit = {
+        when (it) {
+            is VideoCollectionWithBrief.Data.Item -> {
+                playDetail = presenter.setVideoCollectionWithBriefData(it)
+                val intent = Intent(activity, PlayDetailActivity::class.java)
+                intent.putExtra("data", playDetail)
+                startActivity(intent)
+            }
+            is SquareCardCollection.Data.Item -> {
+            }
+            is HorizontalScrollCard.Data.Item -> {
+            }
+        }
 
+    }
 
     override fun onNext(t: List<BaseMuti>) {
         val diffResult = DiffUtil.calculateDiff(NewDiffCallback(list, t), true)
@@ -135,7 +154,6 @@ class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
         if (last is TextCard) {
             adapter.loadMoreEnd()
         }
-
     }
 
     /**

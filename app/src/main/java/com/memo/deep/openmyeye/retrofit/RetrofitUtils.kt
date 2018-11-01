@@ -6,6 +6,7 @@ import com.memo.deep.openmyeye.bean.beanItem.*
 import com.trello.rxlifecycle2.LifecycleProvider
 import com.trello.rxlifecycle2.android.ActivityEvent
 import com.trello.rxlifecycle2.android.FragmentEvent
+import io.reactivex.FlowableTransformer
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -27,6 +28,19 @@ object RetrofitUtils {
 
     fun <T> setBase(provider: LifecycleProvider<ActivityEvent>): ObservableTransformer<T, T> {
         return ObservableTransformer { upstream ->
+            upstream
+//                    .retryWhen(TokenRetry())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    // 默认的是在stop中取消订阅，然后出现了在弹出系统权限对话框，刷新头部不消失的问题
+                    // 为了避免此类问题，就直接在销毁页面才取消订阅
+                    .compose(provider.bindUntilEvent(ActivityEvent.DESTROY))
+
+        }
+    }
+
+    fun <T> setFlowableBase(provider: LifecycleProvider<ActivityEvent>): FlowableTransformer<T, T> {
+        return FlowableTransformer { upstream ->
             upstream
 //                    .retryWhen(TokenRetry())
                     .subscribeOn(Schedulers.io())

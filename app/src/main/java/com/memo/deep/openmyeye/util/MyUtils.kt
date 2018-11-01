@@ -38,4 +38,15 @@ object MyUtils {
         }
     }
 
+    /**
+     * 把string变成等量的空格
+     */
+    fun convertEmptyString(text: String): String {
+        val sb = StringBuilder()
+        for (c in text) {
+            sb.append("  ")
+        }
+        return sb.toString()
+    }
+
 }

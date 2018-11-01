@@ -14,15 +14,11 @@ import com.shuyu.gsyvideoplayer.utils.CommonUtil
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
 import com.shuyu.gsyvideoplayer.video.base.GSYVideoView
 
-/**
- * 带封面
- * Created by guoshuyu on 2017/9/3.
- */
 
 class SampleCoverVideo : StandardGSYVideoPlayer {
 
     constructor(context: Context) : super(context)
-
+    constructor(context: Context, fullFlag: Boolean?) : super(context, fullFlag)
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
 
@@ -32,6 +28,9 @@ class SampleCoverVideo : StandardGSYVideoPlayer {
     }
 
     override fun getLayoutId(): Int {
+        if (mIfCurrentIsFullscreen) {
+            return R.layout.video_layout_standard
+        }
         return R.layout.video_layout_standard_look
     }
 
@@ -134,6 +133,7 @@ class SampleCoverVideo : StandardGSYVideoPlayer {
      */
     // 第一次进入,自动播放，不显示其他UI界面
     var isFirst = true
+
     override fun changeUiToPlayingShow() {
         if (isFirst) {
             changeUiToClear()
@@ -157,6 +157,9 @@ class SampleCoverVideo : StandardGSYVideoPlayer {
 
     }
 
+    /**
+     * 加载动画
+     */
     private fun startRotation(view: View) {
         val animator = ObjectAnimator.ofFloat(view, "rotation", 0f, 360f)
         animator.duration = 400
@@ -165,5 +168,4 @@ class SampleCoverVideo : StandardGSYVideoPlayer {
         animator.interpolator = LinearInterpolator()
         animator.start()
     }
-
 }

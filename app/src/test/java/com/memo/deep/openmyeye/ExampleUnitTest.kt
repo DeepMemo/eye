@@ -17,6 +17,8 @@ class ExampleUnitTest {
 
     @Test
     fun inTest() {
-        val list = com.memo.deep.openmyeye.ztest.Test().time()
+//        val list = com.memo.deep.openmyeye.ztest.Test().time()
+        var str = "fafda"
+        println(str.subSequence(0,5))
     }
 }

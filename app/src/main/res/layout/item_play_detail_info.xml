@@ -15,10 +15,9 @@
         android:text="反转爱情"
         android:textColor="@color/white"
         android:textSize="18sp"
-        app:charIncrease="5"
-        app:typerSpeed="80" />
+        app:sameComplete="true" />
 
-    <com.memo.deep.openmyeye.ui.view.textView.FZLIghtTextView
+    <com.memo.deep.openmyeye.ui.view.textView.FZTextView
         android:id="@+id/tv_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,10 +27,10 @@
         android:ellipsize="end"
         android:textColor="@color/white"
         android:textSize="12sp"
-        app:charIncrease="5"
-        app:typerSpeed="80" />
+        app:bold="false"
+        app:sameComplete="true" />
 
-    <com.memo.deep.openmyeye.ui.view.textView.FZLIghtTextView
+    <com.memo.deep.openmyeye.ui.view.textView.FZTextView
         android:id="@+id/tv_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,8 +39,8 @@
         android:layout_marginTop="10dp"
         android:textColor="@color/white"
         android:textSize="12sp"
-        app:charIncrease="12"
-        app:typerSpeed="20" />
+        app:bold="false"
+        app:sameComplete="true" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -230,8 +229,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginStart="12dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="12dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">

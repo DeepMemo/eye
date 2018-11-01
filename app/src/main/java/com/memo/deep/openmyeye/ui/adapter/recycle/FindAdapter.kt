@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.widget.TextView
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.TimeUtils
@@ -14,11 +16,11 @@ import com.memo.deep.openmyeye.R
 import com.memo.deep.openmyeye.bean.beanBase.BaseMuti
 import com.memo.deep.openmyeye.bean.beanItem.*
 import com.memo.deep.openmyeye.bean.my.PlayDetail
+import com.memo.deep.openmyeye.ui.activity.BaseActivity
 import com.memo.deep.openmyeye.ui.adapter.viewpager.CardAdapter
 import com.memo.deep.openmyeye.ui.adapter.viewpager.NormalViewPagerAdapter
 import com.memo.deep.openmyeye.ui.fragment.third.AuthorFragment
 import com.memo.deep.openmyeye.ui.fragment.third.CardFragment
-import com.memo.deep.openmyeye.ui.view.textView.FZLIghtTextView
 import com.memo.deep.openmyeye.ui.view.textView.FZTextView
 import com.memo.deep.openmyeye.util.MyUtils
 import java.text.SimpleDateFormat
@@ -27,7 +29,9 @@ import java.util.*
 /**
  * 发现页面的adapter
  */
-class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>, val isWhite: Boolean = false)
+class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>,
+                  val isWhite: Boolean = false, var activity: BaseActivity? = null,
+                  val onViewPagerClick: (item: Any) -> Unit = {})
     : BaseMultiItemQuickAdapter<BaseMuti, BaseViewHolder>(list) {
 
     init {
@@ -40,10 +44,11 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>, val isW
         addItemType(BaseMuti.squareCardCollection, R.layout.item_find_square_card_collection)
         addItemType(BaseMuti.videoCollectionWithBrief, R.layout.item_find_video_collection_with_brief)
         addItemType(BaseMuti.dynamicInfoCard, R.layout.item_find_dynamic_info_card)
-
         // 自己加的
         addItemType(BaseMuti.playDetail, R.layout.item_play_detail_info)
         addItemType(BaseMuti.footerBean, R.layout.custom_footer)
+
+
     }
 
     private lateinit var helper: BaseViewHolder
@@ -69,10 +74,20 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>, val isW
     /**
      * 初始化viewpager
      */
-    private fun initViewPager(viewPager: ViewPager, list: ArrayList<Fragment>) {
+    private fun initViewPager(viewPager: ViewPager, list: ArrayList<Fragment>, itemList: List<Any>) {
         viewPager.adapter = CardAdapter(list, fragment?.childFragmentManager)
         // 两个页面的空白间隙
         viewPager.pageMargin = ConvertUtils.dp2px(5f)
+        val gestureDetector = GestureDetector(mContext, object : GestureDetector.SimpleOnGestureListener() {
+            override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
+                onViewPagerClick(itemList.get(viewPager.currentItem))
+                return false
+            }
+        })
+
+        viewPager.setOnTouchListener { v, event ->
+            gestureDetector.onTouchEvent(event)
+        }
     }
 
     /**
@@ -88,7 +103,7 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>, val isW
             element.arguments = bundle
             list.add(element)
         }
-        initViewPager(viewPager, list)
+        initViewPager(viewPager, list, (item as HorizontalScrollCard).data.itemList)
     }
 
     /**
@@ -154,7 +169,7 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>, val isW
             element.arguments = bundle
             list.add(element)
         }
-        initViewPager(viewPager, list)
+        initViewPager(viewPager, list, squareCardCollection.data.itemList)
         initSquare = true
 
     }
@@ -163,6 +178,9 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>, val isW
     private fun initVideoCollectionWithBrief() {
         // 初始化了，就不在初始化了，解决滑动卡顿的问题
         if (initVideo) return
+        // 必须添加点击事件，不然嵌套无法点击
+        helper.addOnClickListener(R.id.vp_video_collection)
+        helper.addOnClickListener(R.id.tv_watch)
         // 上面标题
         val videoCollectionWithBrief = item as VideoCollectionWithBrief
         helper.setText(R.id.tv_title, videoCollectionWithBrief.data.header.title)
@@ -178,7 +196,7 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>, val isW
             element.arguments = bundle
             list.add(element)
         }
-        initViewPager(viewPager, list)
+        initViewPager(viewPager, list, videoCollectionWithBrief.data.itemList)
         initVideo = true
     }
 
@@ -211,10 +229,7 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>, val isW
 
     private fun initPlayDetail() {
         val playDetail = item as PlayDetail
-        helper.setText(R.id.tv_title, playDetail.title)
-                .setText(R.id.tv_type, playDetail.type)
-                .setText(R.id.tv_description, playDetail.description)
-                .setText(R.id.tv_collection, playDetail.collectionCount.toString())
+        helper.setText(R.id.tv_collection, playDetail.collectionCount.toString())
                 .setText(R.id.tv_share, playDetail.shareCount.toString())
                 .setText(R.id.tv_reply, playDetail.replyCount.toString())
                 .setText(R.id.tv_name1, playDetail.name1)
@@ -230,11 +245,14 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>, val isW
 
         if (isFirstPlay) {
             isFirstPlay = false
-            helper.getView<FZTextView>(R.id.tv_title).animateText(playDetail.title)
-            helper.getView<FZLIghtTextView>(R.id.tv_type).animateText(playDetail.type)
-            helper.getView<FZLIghtTextView>(R.id.tv_description).animateText(playDetail.description)
+            helper.getView<FZTextView>(R.id.tv_title).startTyper(activity, playDetail.title)
+            helper.getView<FZTextView>(R.id.tv_type).startTyper(activity, playDetail.type)
+            helper.getView<FZTextView>(R.id.tv_description).startTyper(activity, playDetail.description)
+        } else {
+            helper.setText(R.id.tv_title, playDetail.title)
+                    .setText(R.id.tv_type, playDetail.type)
+                    .setText(R.id.tv_description, playDetail.description)
         }
-
     }
 
     /**

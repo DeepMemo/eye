@@ -3,22 +3,25 @@ package com.memo.deep.openmyeye.ui.activity
 import android.content.res.Configuration
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.view.LayoutInflater
+import android.view.animation.LinearInterpolator
 import android.widget.ImageView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.memo.deep.openmyeye.R
+import com.memo.deep.openmyeye.`interface`.Constant
 import com.memo.deep.openmyeye.bean.beanBase.BaseMuti
 import com.memo.deep.openmyeye.bean.beanItem.FooterBean
 import com.memo.deep.openmyeye.bean.my.PlayDetail
 import com.memo.deep.openmyeye.ui.adapter.recycle.FindAdapter
 import com.memo.deep.openmyeye.ui.mvp.contract.IPlayDetailContract
 import com.memo.deep.openmyeye.ui.mvp.presenter.PlayDetailPresenter
+import com.scwang.smartrefresh.layout.api.RefreshHeader
+import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder
 import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
+import jp.wasabeef.recyclerview.animators.SlideInDownAnimator
 import kotlinx.android.synthetic.main.activity_play_detail.*
-import kotlinx.android.synthetic.main.item_play_detail_info.view.*
 
 
 /**
@@ -36,7 +39,7 @@ class PlayDetailActivity : BaseActivity(), IPlayDetailContract.View {
     private lateinit var playDetail: PlayDetail
     private lateinit var presenter: PlayDetailPresenter
     private fun initData() {
-        playDetail = intent.getSerializableExtra("data") as PlayDetail
+        playDetail = intent.getSerializableExtra(Constant.INTENT_DATA) as PlayDetail
         presenter = PlayDetailPresenter(this, getProvider())
         presenter.getContent(playDetail.id)
     }
@@ -57,29 +60,43 @@ class PlayDetailActivity : BaseActivity(), IPlayDetailContract.View {
         //初始化不打开外部的旋转
         orientationUtils.isEnable = false
         setOption().build(detail_player)
-        detail_player.startPlayLogic()
     }
 
     private fun initSrl() {
-//        srl.background = playDetail.bgUrl
+        //设置背景
         iv_bg.setImageURI(playDetail.bgUrl)
     }
 
 
     val list = mutableListOf<BaseMuti>()
-    val adapter = FindAdapter(null, list, true)
+    val adapter = FindAdapter(null, list, true, this)
     private fun initRecycle() {
         rv.layoutManager = LinearLayoutManager(this)
         rv.adapter = adapter
-//        setHeader()
+        val slideInDownAnimator = SlideInDownAnimator(LinearInterpolator())
+        slideInDownAnimator.addDuration = 500
+        rv.itemAnimator = slideInDownAnimator
     }
 
-    private fun setListener() {
 
+    private fun setListener() {
         srl.setOnRefreshListener {
-            srl.finishRefresh()
             finish()
+//            srl.finishRefresh()
         }
+
+        srl.setOnMultiPurposeListener(object : SimpleMultiPurposeListener() {
+            override fun onHeaderMoving(header: RefreshHeader?, isDragging: Boolean,
+                                        percent: Float, offset: Int, headerHeight: Int, maxDragHeight: Int) {
+                val string = getString(R.string.pull_to_close)
+                var end = (string.length * percent).toInt()
+                if (end > string.length) {
+                    end = string.length
+                }
+                val substring = string.substring(0, end)
+                tv_pull_header.text = substring
+            }
+        })
 
         adapter.setOnItemClickListener { adapter, view, position ->
             list.get(position)
@@ -135,35 +152,14 @@ class PlayDetailActivity : BaseActivity(), IPlayDetailContract.View {
         return gsyVideoOption
     }
 
-    private fun setHeader() {
-        val inflate = LayoutInflater.from(this).inflate(R.layout.item_play_detail_info, null)
-        inflate.tv_title.text = playDetail.title
-        inflate.tv_type.text = playDetail.type
-        inflate.tv_description.text = playDetail.description
-        inflate.tv_collection.text = playDetail.collectionCount.toString()
-        inflate.tv_share.text = playDetail.shareCount.toString()
-        inflate.tv_reply.text = playDetail.replyCount.toString()
-        inflate.iv1.setImageURI(playDetail.pic1)
-        inflate.iv2.setImageURI(playDetail.pic2)
-        inflate.iv3.setImageURI(playDetail.pic3)
-        inflate.tv_name1.text = playDetail.name1
-        inflate.tv_name2.text = playDetail.name2
-        inflate.tv_name3.text = playDetail.name3
-        inflate.iv.setImageURI(playDetail.authorPicUrl)
-        inflate.tv_author.text = playDetail.author
-        inflate.tv_detail.text = playDetail.authorType
-
-        adapter.addHeaderView(inflate)
-        inflate.tv_type.animateText(playDetail.type)
-        inflate.tv_description.animateText(playDetail.description)
-    }
-
 
     override fun onNext(t: List<BaseMuti>) {
         list.add(playDetail)
         list.addAll(t)
         list.add(FooterBean(R.color.white))
-        adapter.notifyDataSetChanged()
+        adapter.notifyItemInserted(0)
+        detail_player.startPlayLogic()
+
     }
 
     override fun onNextMore(t: List<BaseMuti>) {

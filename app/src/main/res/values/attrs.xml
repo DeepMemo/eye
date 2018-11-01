@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="FZTextView">
+        <attr name="bold" format="boolean"></attr>
+        <attr name="charIncrease" format="integer"></attr>
+        <attr name="typerSpeed" format="integer"></attr>
+        <attr name="sameComplete" format="boolean"></attr>
+    </declare-styleable>
+</resources>

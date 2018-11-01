@@ -13,6 +13,10 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            //APP的build.gradle设置支持的SO库架构
+            abiFilters 'armeabi-v7a'
+        }
     }
     buildTypes {
         release {
@@ -58,5 +62,5 @@ dependencies {
     implementation 'com.shuyu:GSYVideoPlayer:6.0.1'
 //    implementation 'com.shuyu:gsyVideoPlayer-java:6.0.1'
 //    implementation 'com.shuyu:gsyVideoPlayer-armv5:6.0.1'
-    implementation "com.hanks:htextview-typer:0.1.6"
+    implementation 'jp.wasabeef:recyclerview-animators:2.3.0'
 }

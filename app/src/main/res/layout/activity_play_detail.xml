@@ -18,19 +18,18 @@
         android:layout_marginTop="201dp">
 
         <com.memo.deep.openmyeye.ui.view.textView.FZTextView
+            android:id="@+id/tv_pull_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="50dp"
             android:gravity="center"
-            android:text="@string/pull_to_close"
             android:textColor="@color/white" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layoutAnimation="@anim/layout_animation_slide_in_bottom" />
+            android:layout_height="match_parent" />
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     <LinearLayout

@@ -1,37 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
-    android:clipChildren="false"
-    android:gravity="center"
-    android:orientation="vertical"
-    tools:context=".ui.activity.TestActivity">
+    android:orientation="vertical">
 
-    <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
-        android:id="@+id/detail_player"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="45dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-    <SeekBar
-        android:id="@+id/progress"
+        <ImageView
+            android:id="@+id/iv_fun"
+            android:layout_width="26dp"
+            android:layout_height="38dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/ic_action_category" />
+
+        <com.flyco.tablayout.SlidingTabLayout
+            android:id="@+id/spl"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            app:tl_indicator_color="@color/word_black"
+            app:tl_indicator_height="3dp"
+            app:tl_indicator_margin_bottom="5dp"
+            app:tl_indicator_width="15dp"
+            app:tl_textSelectColor="@color/word_black"
+            app:tl_textUnselectColor="@color/word_gray" />
+
+
+        <ImageView
+            android:id="@+id/iv_search"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/search_72px" />
+    </LinearLayout>
+
+    <View style="@style/gap"></View>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="100"
-        android:maxHeight="4.0dip"
-        android:minHeight="4.0dip"
-        android:progressDrawable="@drawable/video_seek_progress"
-        android:thumb="@drawable/qmui_switch_thumb_checked"
-        android:thumbOffset="0dp" />
-
-    <com.memo.deep.openmyeye.ui.view.textView.FZLIghtTextView
-        android:id="@+id/tv_typer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        app:charIncrease="1"
-        app:typerSpeed="20" />
-
+        android:layout_height="match_parent" />
 </LinearLayout>
