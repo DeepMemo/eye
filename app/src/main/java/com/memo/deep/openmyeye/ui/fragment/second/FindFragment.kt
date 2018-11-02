@@ -11,7 +11,6 @@ import com.memo.deep.openmyeye.R
 import com.memo.deep.openmyeye.`interface`.Constant
 import com.memo.deep.openmyeye.bean.beanBase.BaseMuti
 import com.memo.deep.openmyeye.bean.beanItem.*
-import com.memo.deep.openmyeye.bean.my.PlayDetail
 import com.memo.deep.openmyeye.cache.ConstantCache
 import com.memo.deep.openmyeye.ui.activity.PlayDetailActivity
 import com.memo.deep.openmyeye.ui.adapter.recycle.FindAdapter
@@ -26,10 +25,10 @@ import kotlinx.android.synthetic.main.fragment_second.view.*
 /**
  * 发现页面
  */
-class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
+open class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
 
-    private lateinit var presenter: FindPresenter
-    private lateinit var adapter: FindAdapter
+    protected lateinit var presenter: IFindContract.Presenter
+    protected lateinit var adapter: FindAdapter
     override fun initView(view: View) {
         inflate = view
         initAdapter()
@@ -39,7 +38,7 @@ class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
         initListener()
     }
 
-    private fun initAdapter() {
+    protected fun initAdapter() {
         inflate.rv.layoutManager = LinearLayoutManager(activity)
         adapter = FindAdapter(this, list, onViewPagerClick = onViewPagerClick)
         inflate.rv.adapter = adapter
@@ -50,7 +49,7 @@ class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
     /**
      * 初始化smartRefreshLayout
      */
-    private fun initSrl() {
+    protected open fun initSrl() {
         inflate.srl.setEnableLoadMore(false)
         inflate.srl.setOnMultiPurposeListener(object : SimpleMultiPurposeListener() {
             override fun onHeaderMoving(header: RefreshHeader?, isDragging: Boolean,
@@ -62,18 +61,18 @@ class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
 
         inflate.srl.setOnRefreshListener {
             objectAnimator.start()
-            presenter.getFindContent()
+            getContent()
         }
     }
 
-    private fun initData() {
+    protected fun initData() {
         presenter = FindPresenter(this,
                 NaviLifecycle.createFragmentLifecycleProvider(this))
         inflate.srl.autoRefresh()
     }
 
-    private lateinit var objectAnimator: ObjectAnimator
-    private fun initRotation() {
+    protected lateinit var objectAnimator: ObjectAnimator
+    protected fun initRotation() {
         objectAnimator = ObjectAnimator.ofFloat(
                 inflate.iv_header, "rotation", 0f, 360f)
                 .setDuration(600)
@@ -83,8 +82,7 @@ class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
         objectAnimator.repeatCount = ObjectAnimator.INFINITE
     }
 
-    private lateinit var playDetail: PlayDetail
-    private fun initListener() {
+    protected fun initListener() {
         // item 的整体点击你以为
         adapter.setOnItemClickListener { adapter, view, position ->
             val item = list.get(position)
@@ -128,7 +126,7 @@ class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
     /**
      * 嵌套的viewpager的点击事件的回调，当做一个全局变量使用
      */
-    private val onViewPagerClick: (item: Any) -> Unit = {
+    protected val onViewPagerClick: (item: Any) -> Unit = {
         when (it) {
             is VideoCollectionWithBrief.Data.Item -> {
                 ConstantCache.data = presenter.setVideoCollectionWithBriefData(it)
@@ -162,11 +160,11 @@ class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
     /**
      *
      */
-    private fun initLoadMore() {
+    protected fun initLoadMore() {
         // 刷新一次，数据重新获取，可以进行加载更多操作
         adapter.setLoadMoreView(CustomLoadMoreView())
         adapter.setOnLoadMoreListener({
-            presenter.getMoreComment()
+            getMoreContent()
         }, inflate.rv)
     }
 
@@ -188,7 +186,7 @@ class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
     /**
      *  处理刷新，错误，的各种情况
      */
-    private fun handleChange() {
+    protected fun handleChange() {
         inflate.srl.finishRefresh()
         objectAnimator.cancel()
         adapter.loadMoreComplete()
@@ -197,8 +195,8 @@ class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
     /**
      * 数据差异比较
      */
-    class NewDiffCallback(private val oldList: List<BaseMuti>,
-                          private val newList: List<BaseMuti>) : DiffUtil.Callback() {
+    class NewDiffCallback(protected val oldList: List<BaseMuti>,
+                          protected val newList: List<BaseMuti>) : DiffUtil.Callback() {
         override fun areItemsTheSame(p0: Int, p1: Int): Boolean {
             return oldList.get(p0).itemType == newList.get(p1).itemType
         }
@@ -215,6 +213,15 @@ class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
             return oldList.get(p0) == newList.get(p1)
         }
 
+    }
+
+
+    open fun getContent() {
+        presenter.getFindContent()
+    }
+
+    open fun getMoreContent() {
+        presenter.getMoreComment()
     }
 
 }

@@ -14,14 +14,67 @@ import com.trello.rxlifecycle2.LifecycleProvider
 import com.trello.rxlifecycle2.android.FragmentEvent
 
 class FindPresenter(val view: IFindContract.View,
-                    private val provider: LifecycleProvider<FragmentEvent>) {
+                    private val provider: LifecycleProvider<FragmentEvent>) : IFindContract.Presenter {
     // 评论的起始数据
     var start = 0
+
+
+    /**
+     * 公有的刷新获取方法,接口是有默认值的
+     */
+    override fun getCommonContent(path: String, map: Map<String, String>) {
+        RetrofitFactory
+                .createInterface()
+                .getCommonContent(path, map)
+                .map {
+                    val body = it.body().string()
+                    return@map RetrofitUtils.transformData(body)
+                }
+                .compose(RetrofitUtils.setFragmentBase(provider))
+                .subscribe(object : BaseObserver<List<BaseMuti>>() {
+                    override fun onNext(t: List<BaseMuti>) {
+                        view.onNext(t)
+                    }
+
+                    override fun onError(e: Throwable) {
+                        super.onError(e)
+                        view.onError()
+                    }
+                })
+    }
+
+    /**
+     * 公共的更多获取方法,接口是有默认值的
+     */
+    override fun getCommonMoreContent(path: String, map: Map<String, String>) {
+        RetrofitFactory
+                .createInterface()
+                .getCommonContent(path, map)
+                .map {
+                    val body = it.body().string()
+                    return@map RetrofitUtils.transformData(body)
+                }
+                .compose(RetrofitUtils.setFragmentBase(provider))
+                .subscribe(object : BaseObserver<List<BaseMuti>>() {
+                    override fun onNext(t: List<BaseMuti>) {
+                        if (t.isEmpty()) {
+                            view.onMoreEnd()
+                        } else {
+                            view.onNextMore(t)
+                        }
+                    }
+
+                    override fun onError(e: Throwable) {
+                        super.onError(e)
+                        view.onError()
+                    }
+                })
+    }
 
     /**
      * 内容
      */
-    fun getFindContent() {
+    override fun getFindContent() {
         RetrofitFactory
                 .createInterface()
                 .getFindContent(Constant.URL_MAP)
@@ -47,7 +100,7 @@ class FindPresenter(val view: IFindContract.View,
     /**
      * 获取更多评论
      */
-    fun getMoreComment() {
+    override fun getMoreComment() {
         RetrofitFactory
                 .createInterface()
                 .getComment(getParamMap())
@@ -85,7 +138,7 @@ class FindPresenter(val view: IFindContract.View,
         return map
     }
 
-    public fun setFollowCardData(item: FollowCard): PlayDetail {
+    override fun setFollowCardData(item: FollowCard): PlayDetail {
         val playDetail = PlayDetail()
         playDetail.id = item.data.header.id
         playDetail.playUrl = item.data.content.data.playUrl
@@ -110,7 +163,7 @@ class FindPresenter(val view: IFindContract.View,
         return playDetail
     }
 
-    fun setVideoSmallCardData(item: VideoSmallCard): PlayDetail {
+    override fun setVideoSmallCardData(item: VideoSmallCard): PlayDetail {
         val playDetail = PlayDetail()
         playDetail.id = item.data.id
         playDetail.playUrl = item.data.playUrl
@@ -135,7 +188,7 @@ class FindPresenter(val view: IFindContract.View,
         return playDetail
     }
 
-    fun setVideoCollectionWithBriefData(item: VideoCollectionWithBrief.Data.Item): PlayDetail {
+    override fun setVideoCollectionWithBriefData(item: VideoCollectionWithBrief.Data.Item): PlayDetail {
         val playDetail = PlayDetail()
         playDetail.id = item.data.id
         playDetail.playUrl = item.data.playUrl

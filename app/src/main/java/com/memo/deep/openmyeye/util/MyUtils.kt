@@ -3,6 +3,9 @@ package com.memo.deep.openmyeye.util
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import java.io.UnsupportedEncodingException
+import java.net.URLDecoder
+import java.net.URLEncoder
 
 object MyUtils {
 
@@ -47,6 +50,40 @@ object MyUtils {
             sb.append("  ")
         }
         return sb.toString()
+    }
+
+    /**
+     * web传输的时候，有些特殊字符必须经过urlEncode编码
+     */
+    fun urlEncoded(paramString: String): String {
+//        if (TextUtils.isEmpty(paramString)) {
+//            return ""
+//        }
+        try {
+            var str = String(paramString.toByteArray(), charset("UTF-8"))
+            str = URLEncoder.encode(str, "UTF-8")
+            return str
+        } catch (e: UnsupportedEncodingException) {
+            return ""
+        }
+
+    }
+
+    /**
+     * web传输的时候，有些特殊字符必须经过urlEncode编码
+     */
+    fun urlDecode(paramString: String): String {
+//        if (TextUtils.isEmpty(paramString)) {
+//            return ""
+//        }
+        try {
+            var str = String(paramString.toByteArray(), charset("UTF-8"))
+            str = URLDecoder.decode(str, "UTF-8")
+            return str
+        } catch (e: UnsupportedEncodingException) {
+            return ""
+        }
+
     }
 
 }

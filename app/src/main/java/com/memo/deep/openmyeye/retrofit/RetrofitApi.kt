@@ -7,6 +7,7 @@ import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.QueryMap
+import retrofit2.http.Url
 
 /**
  * retrofit 的访问地址,
@@ -18,6 +19,12 @@ interface RetrofitApi {
     companion object {
         const val BASE_URL: String = "http://baobab.kaiyanapp.com/"
     }
+
+    /**
+     * home页面共有的查询
+     */
+    @GET()
+    fun getCommonContent(@Url url: String, @QueryMap map: Map<String, String>): Observable<Response<ResponseBody>>
 
     @GET("api/v5/index/tab/discovery")
     fun getFindContent(@QueryMap map: Map<String, String>): Observable<Response<ResponseBody>>
@@ -31,6 +38,6 @@ interface RetrofitApi {
 
     // 获取播放页面视频详情
     @GET("/api/v2/video/{id}")
-    fun getPlayDetailVideo(@Path("id") id: String,@QueryMap map: Map<String, String>): Observable<VideoBeanForClient>
+    fun getPlayDetailVideo(@Path("id") id: String, @QueryMap map: Map<String, String>): Observable<VideoBeanForClient>
 
 }

@@ -1,13 +1,22 @@
 package com.memo.deep.openmyeye.ui.fragment.second
 
-import android.support.v7.widget.LinearLayoutManager
-import android.view.View
-import kotlinx.android.synthetic.main.fragment_second.view.*
+import com.memo.deep.openmyeye.`interface`.Constant
 
-class RecommendFragment : SecondFragment<String>() {
+class RecommendFragment : FindFragment() {
 
-    override fun initView(inflate: View) {
-        inflate.rv.layoutManager = LinearLayoutManager(activity)
-//        inflate.rv.adapter = DiscoveryAdapter(R.layout.item_find_text_card, MyUtils.addFakeData("推荐"))
+    var page = 0
+    override fun getContent() {
+        val map = mutableMapOf("page" to page.toString(),
+                "isOldUser" to "true")
+        map.putAll(Constant.URL_MAP)
+        presenter.getCommonContent("http://baobab.kaiyanapp.com/api/v5/index/tab/allRec", map)
     }
+
+    override fun getMoreContent() {
+        val map = mutableMapOf("page" to page++.toString(),
+                "isOldUser" to "true")
+        map.putAll(Constant.URL_MAP)
+        presenter.getCommonContent("api\\/v5\\/index\\/tab\\/allRec", map)
+    }
+
 }
