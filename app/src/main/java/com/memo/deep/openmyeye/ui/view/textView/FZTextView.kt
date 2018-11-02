@@ -8,7 +8,7 @@ import android.view.ViewTreeObserver
 import android.widget.TextView
 import com.memo.deep.openmyeye.R
 import com.memo.deep.openmyeye.ui.activity.BaseActivity
-import com.memo.deep.openmyeye.util.FontCache
+import com.memo.deep.openmyeye.cache.FontCache
 import com.trello.rxlifecycle2.android.ActivityEvent
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -58,7 +58,7 @@ class FZTextView : TextView {
     }
 
     public fun startTyper(activity: BaseActivity?, text: String) {
-        if (activity == null) {
+        if (activity == null||text.isEmpty()) {
             return
         }
 

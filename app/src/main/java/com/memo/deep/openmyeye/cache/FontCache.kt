@@ -1,4 +1,4 @@
-package com.memo.deep.openmyeye.util
+package com.memo.deep.openmyeye.cache
 
 import android.content.Context
 import android.graphics.Typeface

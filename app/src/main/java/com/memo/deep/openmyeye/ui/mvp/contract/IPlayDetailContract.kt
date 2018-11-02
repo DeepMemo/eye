@@ -13,5 +13,6 @@ interface IPlayDetailContract {
 
     interface Presenter {
         fun getContent(id: Int)
+        fun getPlayDetailVideo(id: Int)
     }
 }

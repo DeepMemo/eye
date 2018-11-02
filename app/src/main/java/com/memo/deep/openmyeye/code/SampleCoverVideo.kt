@@ -122,18 +122,29 @@ class SampleCoverVideo : StandardGSYVideoPlayer {
         mProgressBar = seekBar
     }
 
+    /**
+     * 修改准备播放时，UI显示
+     */
     override fun changeUiToPreparingShow() {
-        super.changeUiToPreparingShow()
+        setViewShowState(mTopContainer, View.INVISIBLE)
+        setViewShowState(mBottomContainer, View.INVISIBLE)
+        setViewShowState(mStartButton, View.INVISIBLE)
+        setViewShowState(mThumbImageViewLayout, View.INVISIBLE)
+        setViewShowState(mBottomProgressBar, View.INVISIBLE)
+        setViewShowState(mLockScreen, View.GONE)
+
+        // 自己添加
         setViewShowState(mLoadingProgressBar, View.VISIBLE)
+        setViewShowState(mFullscreenButton, View.INVISIBLE)
         startRotation(mLoadingProgressBar)
+        setProgressBar(false)
     }
 
     /**
-     * 控制点击的时候，UI的显示
+     * 准备播放以后就进入播放周期，第一次不显示UI
      */
     // 第一次进入,自动播放，不显示其他UI界面
     var isFirst = true
-
     override fun changeUiToPlayingShow() {
         if (isFirst) {
             changeUiToClear()

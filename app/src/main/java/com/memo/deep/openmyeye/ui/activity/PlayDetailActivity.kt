@@ -10,7 +10,9 @@ import com.memo.deep.openmyeye.R
 import com.memo.deep.openmyeye.`interface`.Constant
 import com.memo.deep.openmyeye.bean.beanBase.BaseMuti
 import com.memo.deep.openmyeye.bean.beanItem.FooterBean
+import com.memo.deep.openmyeye.bean.beanItem.VideoBeanForClient
 import com.memo.deep.openmyeye.bean.my.PlayDetail
+import com.memo.deep.openmyeye.cache.ConstantCache
 import com.memo.deep.openmyeye.ui.adapter.recycle.FindAdapter
 import com.memo.deep.openmyeye.ui.mvp.contract.IPlayDetailContract
 import com.memo.deep.openmyeye.ui.mvp.presenter.PlayDetailPresenter
@@ -36,12 +38,18 @@ class PlayDetailActivity : BaseActivity(), IPlayDetailContract.View {
         initView()
     }
 
-    private lateinit var playDetail: PlayDetail
+    private var playDetail: PlayDetail? = null
     private lateinit var presenter: PlayDetailPresenter
     private fun initData() {
-        playDetail = intent.getSerializableExtra(Constant.INTENT_DATA) as PlayDetail
         presenter = PlayDetailPresenter(this, getProvider())
-        presenter.getContent(playDetail.id)
+        val id = intent.getIntExtra(Constant.INTENT_ID, 0)
+        // 如果id等于0那么使用的是playDetail
+        if (id == 0) {
+            playDetail = ConstantCache.data as PlayDetail
+            presenter.getContent(playDetail?.id ?: return)
+        } else {
+            presenter.getPlayDetailVideo(id)
+        }
     }
 
     lateinit var orientationUtils: OrientationUtils
@@ -59,12 +67,15 @@ class PlayDetailActivity : BaseActivity(), IPlayDetailContract.View {
         orientationUtils = OrientationUtils(this, detail_player)
         //初始化不打开外部的旋转
         orientationUtils.isEnable = false
-        setOption().build(detail_player)
+        if (playDetail != null) {
+            setOption(playDetail?.coverUrl, playDetail?.playUrl).build(detail_player)
+            detail_player.startPlayLogic()
+        }
     }
 
     private fun initSrl() {
         //设置背景
-        iv_bg.setImageURI(playDetail.bgUrl)
+        iv_bg.setImageURI(playDetail?.bgUrl)
     }
 
 
@@ -82,7 +93,6 @@ class PlayDetailActivity : BaseActivity(), IPlayDetailContract.View {
     private fun setListener() {
         srl.setOnRefreshListener {
             finish()
-//            srl.finishRefresh()
         }
 
         srl.setOnMultiPurposeListener(object : SimpleMultiPurposeListener() {
@@ -113,11 +123,11 @@ class PlayDetailActivity : BaseActivity(), IPlayDetailContract.View {
     }
 
 
-    private fun setOption(): GSYVideoOptionBuilder {
+    private fun setOption(coverUrl: String?, playUrl: String?): GSYVideoOptionBuilder {
         val gsyVideoOption = GSYVideoOptionBuilder()
         val imageView = SimpleDraweeView(this)
         imageView.scaleType = ImageView.ScaleType.CENTER_CROP
-        imageView.setImageURI(playDetail.coverUrl)
+        imageView.setImageURI(coverUrl)
         gsyVideoOption
                 .setThumbImageView(imageView)
                 .setIsTouchWiget(true)
@@ -126,7 +136,7 @@ class PlayDetailActivity : BaseActivity(), IPlayDetailContract.View {
                 .setAutoFullWithSize(true)
                 .setShowFullAnimation(false)
                 .setNeedLockFull(true)
-                .setUrl(playDetail.playUrl)
+                .setUrl(playUrl)
                 .setCacheWithPlay(true)
                 .setIsTouchWiget(false)
                 .setEnlargeImageRes(R.drawable.full_screen)
@@ -154,15 +164,25 @@ class PlayDetailActivity : BaseActivity(), IPlayDetailContract.View {
 
 
     override fun onNext(t: List<BaseMuti>) {
-        list.add(playDetail)
+        // 走这个回调，肯定不为null
+        list.add(playDetail!!)
         list.addAll(t)
         list.add(FooterBean(R.color.white))
-        adapter.notifyItemInserted(0)
-        detail_player.startPlayLogic()
+        // 动画不能调用notifyDataSetChanged
+        adapter.notifyItemRangeInserted(0, list.size)
 
     }
 
+    /**
+     * 视频详情的回调
+     */
     override fun onNextMore(t: List<BaseMuti>) {
+        list.addAll(t)
+        adapter.notifyItemRangeInserted(0, t.size)
+        val videoBeanForClient = t.get(0) as VideoBeanForClient
+        setOption(videoBeanForClient.cover.detail, videoBeanForClient.playUrl).build(detail_player)
+        detail_player.startPlayLogic()
+        iv_bg.setImageURI(videoBeanForClient.cover.blurred)
     }
 
     override fun onError() {
@@ -198,6 +218,8 @@ class PlayDetailActivity : BaseActivity(), IPlayDetailContract.View {
             detail_player.currentPlayer.release()
         }
         orientationUtils.releaseListener()
+        // 释放内存
+        ConstantCache.data = null
     }
 
 

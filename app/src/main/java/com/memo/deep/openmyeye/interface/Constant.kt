@@ -19,6 +19,7 @@ interface Constant {
                 "last_channel" to "eyepetizer_zhihuiyun_market",
                 "system_version_code" to "26")
         val INTENT_DATA = "data"
+        val INTENT_ID = "id"
     }
 
 }

@@ -5,9 +5,14 @@ import com.bkvito.beikeshequ.retrofit.RetrofitFactory
 import com.bkvito.beikeshequ.retrofit.RetrofitUtils
 import com.memo.deep.openmyeye.`interface`.Constant
 import com.memo.deep.openmyeye.bean.beanBase.BaseMuti
+import com.memo.deep.openmyeye.bean.beanItem.VideoBeanForClient
 import com.memo.deep.openmyeye.ui.mvp.contract.IPlayDetailContract
 import com.trello.rxlifecycle2.LifecycleProvider
 import com.trello.rxlifecycle2.android.ActivityEvent
+import io.reactivex.Observable
+import io.reactivex.functions.BiFunction
+import okhttp3.ResponseBody
+import retrofit2.Response
 
 class PlayDetailPresenter(val view: IPlayDetailContract.View,
                           private val provider: LifecycleProvider<ActivityEvent>) : IPlayDetailContract.Presenter {
@@ -41,24 +46,28 @@ class PlayDetailPresenter(val view: IPlayDetailContract.View,
     }
 
     /**
-     * 获取更多评论
+     * 获取video的详情
      */
-    fun getMoreComment() {
-        RetrofitFactory
+    override fun getPlayDetailVideo(id: Int) {
+        val playDetailContent = RetrofitFactory
                 .createInterface()
-                .getComment(getParamMap(0))
-                .map {
-                    val body = it.body().string()
-                    return@map RetrofitUtils.transformData(body)
-                }
+                .getPlayDetailContent(getParamMap(id))
+        val playDetailVideo = RetrofitFactory
+                .createInterface()
+                .getPlayDetailVideo(id.toString(), getParamMap())
+        Observable.zip(playDetailVideo, playDetailContent,
+                BiFunction<VideoBeanForClient, Response<ResponseBody>, List<BaseMuti>> { t1, t2 ->
+                    val list = mutableListOf<BaseMuti>()
+                    val body2 = t2.body().string()
+                    val list2 = RetrofitUtils.transformData(body2)
+                    list.add(t1)
+                    list.addAll(list2)
+                    return@BiFunction list
+                })
                 .compose(RetrofitUtils.setBase(provider))
                 .subscribe(object : BaseObserver<List<BaseMuti>>() {
                     override fun onNext(t: List<BaseMuti>) {
-                        if (t.isEmpty()) {
-                            view.onMoreEnd()
-                        } else {
-                            view.onNextMore(t)
-                        }
+                        view.onNextMore(t)
                     }
 
                     override fun onError(e: Throwable) {
@@ -71,9 +80,11 @@ class PlayDetailPresenter(val view: IPlayDetailContract.View,
     /**
      * 获取添加参数过后的map
      */
-    private fun getParamMap(id: Int): Map<String, String> {
+    private fun getParamMap(id: Int? = null): Map<String, String> {
         val mutableMap = mutableMapOf<String, String>()
-        mutableMap.put("id", id.toString())
+        if (id != null) {
+            mutableMap.put("id", id.toString())
+        }
         mutableMap.putAll(Constant.URL_MAP)
         return mutableMap
     }

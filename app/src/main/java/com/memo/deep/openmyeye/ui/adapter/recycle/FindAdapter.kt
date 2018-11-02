@@ -44,7 +44,8 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>,
         addItemType(BaseMuti.squareCardCollection, R.layout.item_find_square_card_collection)
         addItemType(BaseMuti.videoCollectionWithBrief, R.layout.item_find_video_collection_with_brief)
         addItemType(BaseMuti.dynamicInfoCard, R.layout.item_find_dynamic_info_card)
-        // 自己加的
+        addItemType(BaseMuti.videoBeanForClient, R.layout.item_play_detail_info)
+        // 自己加的，上上面一个使用的是同一个布局
         addItemType(BaseMuti.playDetail, R.layout.item_play_detail_info)
         addItemType(BaseMuti.footerBean, R.layout.custom_footer)
 
@@ -66,6 +67,8 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>,
             BaseMuti.squareCardCollection -> initSquareCardCollection()
             BaseMuti.videoCollectionWithBrief -> initVideoCollectionWithBrief()
             BaseMuti.dynamicInfoCard -> initDynamicInfoCard()
+            BaseMuti.videoBeanForClient -> initVideoBeanForClient()
+            // 自己添加的
             BaseMuti.playDetail -> initPlayDetail()
             BaseMuti.footerBean -> initFooter()
         }
@@ -178,13 +181,13 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>,
     private fun initVideoCollectionWithBrief() {
         // 初始化了，就不在初始化了，解决滑动卡顿的问题
         if (initVideo) return
-        // 必须添加点击事件，不然嵌套无法点击
-        helper.addOnClickListener(R.id.vp_video_collection)
-        helper.addOnClickListener(R.id.tv_watch)
         // 上面标题
         val videoCollectionWithBrief = item as VideoCollectionWithBrief
         helper.setText(R.id.tv_title, videoCollectionWithBrief.data.header.title)
                 .setText(R.id.tv_detail, videoCollectionWithBrief.data.header.description)
+                // 必须添加点击事件，不然嵌套无法点击
+                .addOnClickListener(R.id.vp_video_collection)
+                .addOnClickListener(R.id.tv_watch)
         helper.getView<SimpleDraweeView>(R.id.iv).setImageURI(videoCollectionWithBrief.data.header.icon)
         // 下面ViewPager
         val viewPager = helper.getView<ViewPager>(R.id.vp_video_collection)
@@ -215,6 +218,7 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>,
                 .setText(R.id.tv_type, "#" + dynamicInfoCard.data.simpleVideo.category)
                 .setText(R.id.tv_time, time)
                 .setText(R.id.tv_duration, duration)
+                .addOnClickListener(R.id.ll_video)
         val pic = helper.getView<SimpleDraweeView>(R.id.iv)
         val header = helper.getView<SimpleDraweeView>(R.id.iv_header)
         pic.setImageURI(dynamicInfoCard.data.simpleVideo.cover.detail)
@@ -252,6 +256,37 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>,
             helper.setText(R.id.tv_title, playDetail.title)
                     .setText(R.id.tv_type, playDetail.type)
                     .setText(R.id.tv_description, playDetail.description)
+        }
+    }
+
+    /**
+     * 初始化播放详情页面的
+     */
+    private fun initVideoBeanForClient() {
+        val videoBeanForClient = item as VideoBeanForClient
+        helper.setText(R.id.tv_collection, videoBeanForClient.consumption.collectionCount.toString())
+                .setText(R.id.tv_share, videoBeanForClient.consumption.shareCount.toString())
+                .setText(R.id.tv_reply, videoBeanForClient.consumption.replyCount.toString())
+                .setText(R.id.tv_name1, videoBeanForClient.tags.get(0).name)
+                .setText(R.id.tv_name2, videoBeanForClient.tags.get(1).name)
+                .setText(R.id.tv_name3, videoBeanForClient.tags.get(2).name)
+                .setText(R.id.tv_author, videoBeanForClient.author.name)
+                .setText(R.id.tv_detail, videoBeanForClient.author.description)
+
+        helper.getView<SimpleDraweeView>(R.id.iv1).setImageURI(videoBeanForClient.tags.get(0).headerImage)
+        helper.getView<SimpleDraweeView>(R.id.iv2).setImageURI(videoBeanForClient.tags.get(1).headerImage)
+        helper.getView<SimpleDraweeView>(R.id.iv3).setImageURI(videoBeanForClient.tags.get(2).headerImage)
+        helper.getView<SimpleDraweeView>(R.id.iv).setImageURI(videoBeanForClient.author.icon)
+
+        if (isFirstPlay) {
+            isFirstPlay = false
+            helper.getView<FZTextView>(R.id.tv_title).startTyper(activity, videoBeanForClient.title)
+            helper.getView<FZTextView>(R.id.tv_type).startTyper(activity, videoBeanForClient.category)
+            helper.getView<FZTextView>(R.id.tv_description).startTyper(activity, videoBeanForClient.description)
+        } else {
+            helper.setText(R.id.tv_title, videoBeanForClient.title)
+                    .setText(R.id.tv_type, videoBeanForClient.category)
+                    .setText(R.id.tv_description, videoBeanForClient.description)
         }
     }
 

@@ -8,9 +8,11 @@ import android.view.View
 import android.view.animation.LinearInterpolator
 import com.blankj.utilcode.util.ToastUtils
 import com.memo.deep.openmyeye.R
+import com.memo.deep.openmyeye.`interface`.Constant
 import com.memo.deep.openmyeye.bean.beanBase.BaseMuti
 import com.memo.deep.openmyeye.bean.beanItem.*
 import com.memo.deep.openmyeye.bean.my.PlayDetail
+import com.memo.deep.openmyeye.cache.ConstantCache
 import com.memo.deep.openmyeye.ui.activity.PlayDetailActivity
 import com.memo.deep.openmyeye.ui.adapter.recycle.FindAdapter
 import com.memo.deep.openmyeye.ui.mvp.contract.IFindContract
@@ -83,25 +85,25 @@ class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
 
     private lateinit var playDetail: PlayDetail
     private fun initListener() {
+        // item 的整体点击你以为
         adapter.setOnItemClickListener { adapter, view, position ->
             val item = list.get(position)
             when (item) {
                 is FollowCard -> {
-                    playDetail = presenter.setFollowCardData(item)
+                    ConstantCache.data = presenter.setFollowCardData(item)
                     val intent = Intent(activity, PlayDetailActivity::class.java)
-                    intent.putExtra("data", playDetail)
                     startActivity(intent)
                 }
                 is VideoSmallCard -> {
-                    playDetail = presenter.setVideoSmallCardData(item)
+                    ConstantCache.data = presenter.setVideoSmallCardData(item)
                     val intent = Intent(activity, PlayDetailActivity::class.java)
-                    intent.putExtra("data", playDetail)
                     startActivity(intent)
                 }
             }
 
         }
 
+        // 子View 的点击事件，是那种不是嵌套的，例如一个item下面有图片和文字，其中文字的点击
         adapter.setOnItemChildClickListener { adapter, view, position ->
             val item = list.get(position)
             when (item) {
@@ -112,10 +114,12 @@ class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
                         }
                     }
                 }
-                is SquareCardCollection -> {
+                is DynamicInfoCard -> {
+                    val intent = Intent(activity, PlayDetailActivity::class.java)
+                    intent.putExtra(Constant.INTENT_ID, item.data.simpleVideo.id)
+                    startActivity(intent)
                 }
-                is HorizontalScrollCard -> {
-                }
+
             }
         }
 
@@ -127,9 +131,8 @@ class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
     private val onViewPagerClick: (item: Any) -> Unit = {
         when (it) {
             is VideoCollectionWithBrief.Data.Item -> {
-                playDetail = presenter.setVideoCollectionWithBriefData(it)
+                ConstantCache.data = presenter.setVideoCollectionWithBriefData(it)
                 val intent = Intent(activity, PlayDetailActivity::class.java)
-                intent.putExtra("data", playDetail)
                 startActivity(intent)
             }
             is SquareCardCollection.Data.Item -> {

@@ -3,7 +3,7 @@ package com.memo.deep.openmyeye.ui.view.textView
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.TextView
-import com.memo.deep.openmyeye.util.FontCache
+import com.memo.deep.openmyeye.cache.FontCache
 
 
 /**

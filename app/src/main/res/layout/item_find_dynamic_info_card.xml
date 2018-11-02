@@ -83,6 +83,7 @@
             android:text="fasfdafafasfafadffasfdafafasfafadffasfdafafasfafadffasfdafafasfafadffasfdafafasfafadffasfdafafasfafadffasfdafafasfafadffasfdafafasfafadffasfdafafasfafadffasfdafafasfafadf" />
 
         <com.qmuiteam.qmui.layout.QMUILinearLayout
+            android:id="@+id/ll_video"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/comment_gray"

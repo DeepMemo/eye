@@ -132,6 +132,10 @@ object RetrofitUtils {
                     val element = gson.fromJson(json, DynamicInfoCard::class.java)
                     list.add(element)
                 }
+                "VideoBeanForClient" -> {
+                    val element = gson.fromJson(json, VideoBeanForClient::class.java)
+                    list.add(element)
+                }
             }
         }
         return list

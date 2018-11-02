@@ -160,5 +160,4 @@ class FindPresenter(val view: IFindContract.View,
         return playDetail
     }
 
-
 }
