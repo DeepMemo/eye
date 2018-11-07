@@ -147,9 +147,11 @@
 
 
         <FrameLayout
+            android:id="@+id/ll_fl1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:visibility="gone">
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/iv1"
@@ -171,10 +173,12 @@
 
 
         <FrameLayout
+            android:id="@+id/ll_fl2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:visibility="gone">
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/iv2"
@@ -196,10 +200,12 @@
 
 
         <FrameLayout
+            android:id="@+id/ll_fl3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:visibility="gone">
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/iv3"

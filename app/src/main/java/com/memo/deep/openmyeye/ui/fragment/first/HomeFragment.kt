@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.memo.deep.openmyeye.R
+import com.memo.deep.openmyeye.ui.fragment.second.CreateFragment
+import com.memo.deep.openmyeye.ui.fragment.second.DailyReportFragment
 import com.memo.deep.openmyeye.ui.fragment.second.FindFragment
 import com.memo.deep.openmyeye.ui.fragment.second.RecommendFragment
 import kotlinx.android.synthetic.main.fragment_home.view.*
@@ -19,13 +21,17 @@ class HomeFragment : Fragment() {
     }
 
     private fun initView(inflate: View) {
-        val discoverFragment = FindFragment()
-        val recommendFragment = RecommendFragment()
         // 初始化tab
-        inflate.spl.setViewPager(inflate.vp,
-                arrayOf("发现", "推荐"),
+        inflate.spl.setViewPager(
+                inflate.vp,
+                arrayOf("发现", "推荐", "日报", "创意"),
                 activity,
-                arrayListOf<Fragment>(discoverFragment, recommendFragment))
+                arrayListOf<Fragment>(
+                        FindFragment(),
+                        RecommendFragment(),
+                        DailyReportFragment(),
+                        CreateFragment()
+                ))
     }
 
 

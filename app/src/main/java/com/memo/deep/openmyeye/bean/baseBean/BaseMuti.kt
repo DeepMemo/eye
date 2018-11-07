@@ -1,4 +1,4 @@
-package com.memo.deep.openmyeye.bean.beanBase
+package com.memo.deep.openmyeye.bean.baseBean
 
 import com.chad.library.adapter.base.entity.MultiItemEntity
 
@@ -18,10 +18,11 @@ abstract class BaseMuti : MultiItemEntity {
         val videoCollectionWithBrief = 6
         val banner = 7
         val dynamicInfoCard = 8
+        val videoBeanForClient = 11
+        val viewPagerFollowCard = 12
+
         // 自己加的
         val playDetail = 9
-        // 自己加的
         val footerBean = 10
-        val videoBeanForClient = 11
     }
 }

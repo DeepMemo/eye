@@ -4,10 +4,10 @@ import com.bkvito.beikeshequ.retrofit.BaseObserver
 import com.bkvito.beikeshequ.retrofit.RetrofitFactory
 import com.bkvito.beikeshequ.retrofit.RetrofitUtils
 import com.memo.deep.openmyeye.`interface`.Constant
-import com.memo.deep.openmyeye.bean.beanBase.BaseMuti
-import com.memo.deep.openmyeye.bean.beanItem.FollowCard
-import com.memo.deep.openmyeye.bean.beanItem.VideoCollectionWithBrief
-import com.memo.deep.openmyeye.bean.beanItem.VideoSmallCard
+import com.memo.deep.openmyeye.bean.baseBean.BaseMuti
+import com.memo.deep.openmyeye.bean.itemBean.FollowCard
+import com.memo.deep.openmyeye.bean.itemBean.VideoCollectionWithBrief
+import com.memo.deep.openmyeye.bean.itemBean.VideoSmallCard
 import com.memo.deep.openmyeye.bean.my.PlayDetail
 import com.memo.deep.openmyeye.ui.mvp.contract.IFindContract
 import com.trello.rxlifecycle2.LifecycleProvider
@@ -150,18 +150,18 @@ class FindPresenter(val view: IFindContract.View,
         playDetail.collectionCount = item.data.content.data.consumption.collectionCount
         playDetail.shareCount = item.data.content.data.consumption.shareCount
         playDetail.replyCount = item.data.content.data.consumption.replyCount
-        playDetail.pic1 = item.data.content.data.tags.get(0).headerImage
-        playDetail.pic2 = item.data.content.data.tags.get(1).headerImage
-        playDetail.pic3 = item.data.content.data.tags.get(2).headerImage
-        playDetail.name1 = item.data.content.data.tags.get(0).name
-        playDetail.name2 = item.data.content.data.tags.get(1).name
-        playDetail.name3 = item.data.content.data.tags.get(2).name
         playDetail.author = item.data.content.data.author.name
         playDetail.authorPicUrl = item.data.content.data.author.icon
         playDetail.authorType = item.data.content.data.category
-
+        // bug，可能图片没有三张，不使用这种方式了，使用传递id查询的方式
+        val tags = item.data.content.data.tags
+        tags.forEach {
+            playDetail.picList.add(it.headerImage)
+            playDetail.nameList.add(it.name)
+        }
         return playDetail
     }
+
 
     override fun setVideoSmallCardData(item: VideoSmallCard): PlayDetail {
         val playDetail = PlayDetail()
@@ -175,15 +175,15 @@ class FindPresenter(val view: IFindContract.View,
         playDetail.collectionCount = item.data.consumption.collectionCount
         playDetail.shareCount = item.data.consumption.shareCount
         playDetail.replyCount = item.data.consumption.replyCount
-        playDetail.pic1 = item.data.tags.get(0).headerImage
-        playDetail.pic2 = item.data.tags.get(1).headerImage
-        playDetail.pic3 = item.data.tags.get(2).headerImage
-        playDetail.name1 = item.data.tags.get(0).name
-        playDetail.name2 = item.data.tags.get(1).name
-        playDetail.name3 = item.data.tags.get(2).name
         playDetail.author = item.data.author.name
         playDetail.authorPicUrl = item.data.author.icon
         playDetail.authorType = item.data.category
+        // bug，可能图片没有三张，不使用这种方式了，使用传递id查询的方式
+        val tags = item.data.tags
+        tags.forEach {
+            playDetail.picList.add(it.headerImage)
+            playDetail.nameList.add(it.name)
+        }
 
         return playDetail
     }
@@ -200,17 +200,16 @@ class FindPresenter(val view: IFindContract.View,
         playDetail.collectionCount = item.data.consumption.collectionCount
         playDetail.shareCount = item.data.consumption.shareCount
         playDetail.replyCount = item.data.consumption.replyCount
-        playDetail.pic1 = item.data.tags.get(0).headerImage
-        playDetail.pic2 = item.data.tags.get(1).headerImage
-        playDetail.pic3 = item.data.tags.get(2).headerImage
-        playDetail.name1 = item.data.tags.get(0).name
-        playDetail.name2 = item.data.tags.get(1).name
-        playDetail.name3 = item.data.tags.get(2).name
         playDetail.author = item.data.author.name
         playDetail.authorPicUrl = item.data.author.icon
         playDetail.authorType = item.data.category
+        // bug，可能图片没有三张，不使用这种方式了，使用传递id查询的方式
+        val tags = item.data.tags
+        tags.forEach {
+            playDetail.picList.add(it.headerImage)
+            playDetail.nameList.add(it.name)
+        }
 
         return playDetail
     }
-
 }

@@ -1,6 +1,6 @@
 package com.memo.deep.openmyeye.ui.mvp.contract
 
-import com.memo.deep.openmyeye.bean.beanBase.BaseMuti
+import com.memo.deep.openmyeye.bean.baseBean.BaseMuti
 
 interface IPlayDetailContract {
 

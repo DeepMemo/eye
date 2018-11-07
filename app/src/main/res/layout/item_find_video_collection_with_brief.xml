@@ -45,6 +45,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="TED/ #科技"
+                android:textColor="@color/word_gray"
                 android:textSize="12sp" />
         </LinearLayout>
 

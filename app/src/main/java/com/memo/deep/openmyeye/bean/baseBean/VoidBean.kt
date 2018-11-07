@@ -1,4 +1,4 @@
-package com.memo.deep.openmyeye.bean.beanBase
+package com.memo.deep.openmyeye.bean.baseBean
 
 
 /**

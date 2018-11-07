@@ -20,6 +20,7 @@ interface Constant {
                 "system_version_code" to "26")
         val INTENT_DATA = "data"
         val INTENT_ID = "id"
+        val INTENT_URL = "url"
     }
 
 }

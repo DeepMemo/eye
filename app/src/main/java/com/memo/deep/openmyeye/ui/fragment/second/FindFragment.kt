@@ -4,13 +4,12 @@ import android.animation.ObjectAnimator
 import android.content.Intent
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.LinearLayoutManager
-import android.view.View
 import android.view.animation.LinearInterpolator
 import com.blankj.utilcode.util.ToastUtils
 import com.memo.deep.openmyeye.R
 import com.memo.deep.openmyeye.`interface`.Constant
-import com.memo.deep.openmyeye.bean.beanBase.BaseMuti
-import com.memo.deep.openmyeye.bean.beanItem.*
+import com.memo.deep.openmyeye.bean.baseBean.BaseMuti
+import com.memo.deep.openmyeye.bean.itemBean.*
 import com.memo.deep.openmyeye.cache.ConstantCache
 import com.memo.deep.openmyeye.ui.activity.PlayDetailActivity
 import com.memo.deep.openmyeye.ui.adapter.recycle.FindAdapter
@@ -29,8 +28,7 @@ open class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
 
     protected lateinit var presenter: IFindContract.Presenter
     protected lateinit var adapter: FindAdapter
-    override fun initView(view: View) {
-        inflate = view
+    override fun initView() {
         initAdapter()
         initSrl()
         initData()
@@ -42,7 +40,6 @@ open class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
         inflate.rv.layoutManager = LinearLayoutManager(activity)
         adapter = FindAdapter(this, list, onViewPagerClick = onViewPagerClick)
         inflate.rv.adapter = adapter
-        adapter.setPreLoadNumber(3)
     }
 
 
@@ -68,7 +65,8 @@ open class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
     protected fun initData() {
         presenter = FindPresenter(this,
                 NaviLifecycle.createFragmentLifecycleProvider(this))
-        inflate.srl.autoRefresh()
+        // 网络请求，使用懒加载的回调，因第一个Fragment可见，第二个Fragment不可见，所以必须这样写
+        isFragmentVisibe(userVisibleHint)
     }
 
     protected lateinit var objectAnimator: ObjectAnimator
@@ -133,7 +131,10 @@ open class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
                 val intent = Intent(activity, PlayDetailActivity::class.java)
                 startActivity(intent)
             }
-            is SquareCardCollection.Data.Item -> {
+            is FollowCard -> {
+                ConstantCache.data = presenter.setFollowCardData(it)
+                val intent = Intent(activity, PlayDetailActivity::class.java)
+                startActivity(intent)
             }
             is HorizontalScrollCard.Data.Item -> {
             }
@@ -158,7 +159,7 @@ open class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
     }
 
     /**
-     *
+     * 重置可以刷新数据
      */
     protected fun initLoadMore() {
         // 刷新一次，数据重新获取，可以进行加载更多操作
@@ -216,12 +217,31 @@ open class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
     }
 
 
+    /**
+     * 给子类覆写的方法，提供获取网络数据的入口
+     */
     open fun getContent() {
         presenter.getFindContent()
     }
 
+    /**
+     * 同上
+     */
     open fun getMoreContent() {
         presenter.getMoreComment()
+    }
+
+    /**
+     * 懒加载的回调
+     */
+    override fun isFragmentVisibe(isVisible: Boolean) {
+        if (isVisible) {
+            inflate.srl.autoRefresh()
+            // 网络请求过一次，就不再是第一次了
+            isFirst = false
+        } else {
+
+        }
     }
 
 }

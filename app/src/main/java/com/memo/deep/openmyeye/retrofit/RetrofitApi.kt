@@ -1,6 +1,6 @@
 package com.bkvito.beikeshequ.retrofit
 
-import com.memo.deep.openmyeye.bean.beanItem.VideoBeanForClient
+import com.memo.deep.openmyeye.bean.itemBean.VideoBeanForClient
 import io.reactivex.Observable
 import okhttp3.ResponseBody
 import retrofit2.Response

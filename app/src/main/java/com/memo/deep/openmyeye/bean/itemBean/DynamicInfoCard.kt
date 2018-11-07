@@ -1,7 +1,7 @@
-package com.memo.deep.openmyeye.bean.beanItem
+package com.memo.deep.openmyeye.bean.itemBean
 
 import com.chad.library.adapter.base.entity.MultiItemEntity
-import com.memo.deep.openmyeye.bean.beanBase.BaseMuti
+import com.memo.deep.openmyeye.bean.baseBean.BaseMuti
 
 /**
  * 评论的item

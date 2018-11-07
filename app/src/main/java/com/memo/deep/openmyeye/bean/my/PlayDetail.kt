@@ -1,6 +1,6 @@
 package com.memo.deep.openmyeye.bean.my
 
-import com.memo.deep.openmyeye.bean.beanBase.BaseMuti
+import com.memo.deep.openmyeye.bean.baseBean.BaseMuti
 import java.io.Serializable
 
 /**
@@ -14,12 +14,8 @@ class PlayDetail : Serializable, BaseMuti() {
     var bgUrl: String = ""
     var title: String = ""
     var type: String = ""
-    var pic1: String = ""
-    var name1: String = ""
-    var pic2: String = ""
-    var name2: String = ""
-    var pic3: String = ""
-    var name3: String = ""
+    var picList = mutableListOf<String>()
+    var nameList = mutableListOf<String>()
     var author: String = ""
     var authorPicUrl: String = ""
     var authorType: String = ""

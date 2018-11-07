@@ -8,9 +8,9 @@ import android.widget.ImageView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.memo.deep.openmyeye.R
 import com.memo.deep.openmyeye.`interface`.Constant
-import com.memo.deep.openmyeye.bean.beanBase.BaseMuti
-import com.memo.deep.openmyeye.bean.beanItem.FooterBean
-import com.memo.deep.openmyeye.bean.beanItem.VideoBeanForClient
+import com.memo.deep.openmyeye.bean.baseBean.BaseMuti
+import com.memo.deep.openmyeye.bean.itemBean.FooterBean
+import com.memo.deep.openmyeye.bean.itemBean.VideoBeanForClient
 import com.memo.deep.openmyeye.bean.my.PlayDetail
 import com.memo.deep.openmyeye.cache.ConstantCache
 import com.memo.deep.openmyeye.ui.adapter.recycle.FindAdapter

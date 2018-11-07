@@ -1,9 +1,9 @@
 package com.memo.deep.openmyeye.ui.mvp.contract
 
-import com.memo.deep.openmyeye.bean.beanBase.BaseMuti
-import com.memo.deep.openmyeye.bean.beanItem.FollowCard
-import com.memo.deep.openmyeye.bean.beanItem.VideoCollectionWithBrief
-import com.memo.deep.openmyeye.bean.beanItem.VideoSmallCard
+import com.memo.deep.openmyeye.bean.baseBean.BaseMuti
+import com.memo.deep.openmyeye.bean.itemBean.FollowCard
+import com.memo.deep.openmyeye.bean.itemBean.VideoCollectionWithBrief
+import com.memo.deep.openmyeye.bean.itemBean.VideoSmallCard
 import com.memo.deep.openmyeye.bean.my.PlayDetail
 
 interface IFindContract {

@@ -1,10 +1,11 @@
-package com.memo.deep.openmyeye.bean.beanItem
+package com.memo.deep.openmyeye.bean.itemBean
 
-import com.memo.deep.openmyeye.bean.beanBase.BaseMuti
+import com.memo.deep.openmyeye.bean.baseBean.BaseMuti
 
 /**
  * 开眼精选图标的
  */
+
 data class FollowCard(
         var type: String = "",
         var data: Data = Data(),
@@ -22,6 +23,26 @@ data class FollowCard(
             var content: Content = Content(),
             var adTrack: Any = Any()
     ) {
+
+        data class Header(
+                var id: Int = 0,
+                var title: String = "",
+                var font: Any = Any(),
+                var subTitle: Any = Any(),
+                var subTitleFont: Any = Any(),
+                var textAlign: String = "",
+                var cover: Any = Any(),
+                var label: Any = Any(),
+                var actionUrl: String = "",
+                var labelList: Any = Any(),
+                var rightText: Any = Any(),
+                var icon: String = "",
+                var iconType: String = "",
+                var description: String = "",
+                var time: Long = 0,
+                var showHateVideo: Boolean = false
+        )
+
 
         data class Content(
                 var type: String = "",
@@ -53,6 +74,7 @@ data class FollowCard(
                     var playInfo: List<PlayInfo> = listOf(),
                     var campaign: Any = Any(),
                     var waterMarks: Any = Any(),
+                    var ad: Boolean = false,
                     var adTrack: Any = Any(),
                     var type: String = "",
                     var titlePgc: Any = Any(),
@@ -78,11 +100,11 @@ data class FollowCard(
             ) {
 
                 data class Cover(
-                    var feed: String = "",
-                    var detail: String = "",
-                    var blurred: String = "",
-                    var sharing: Any = Any(),
-                    var homepage: String = ""
+                        var feed: String = "",
+                        var detail: String = "",
+                        var blurred: String = "",
+                        var sharing: Any = Any(),
+                        var homepage: String = ""
                 )
 
 
@@ -96,39 +118,39 @@ data class FollowCard(
                 ) {
 
                     data class Url(
-                        var name: String = "",
-                        var url: String = "",
-                        var size: Int = 0
+                            var name: String = "",
+                            var url: String = "",
+                            var size: Int = 0
                     )
                 }
 
 
                 data class Tag(
-                    var id: Int = 0,
-                    var name: String = "",
-                    var actionUrl: String = "",
-                    var adTrack: Any = Any(),
-                    var desc: Any = Any(),
-                    var bgPicture: String = "",
-                    var headerImage: String = "",
-                    var tagRecType: String = "",
-                    var childTagList: Any = Any(),
-                    var childTagIdList: Any = Any(),
-                    var communityIndex: Int = 0
+                        var id: Int = 0,
+                        var name: String = "",
+                        var actionUrl: String = "",
+                        var adTrack: Any = Any(),
+                        var desc: Any = Any(),
+                        var bgPicture: String = "",
+                        var headerImage: String = "",
+                        var tagRecType: String = "",
+                        var childTagList: Any = Any(),
+                        var childTagIdList: Any = Any(),
+                        var communityIndex: Int = 0
                 )
 
 
                 data class Consumption(
-                    var collectionCount: Int = 0,
-                    var shareCount: Int = 0,
-                    var replyCount: Int = 0
+                        var collectionCount: Int = 0,
+                        var shareCount: Int = 0,
+                        var replyCount: Int = 0
                 )
 
 
                 data class Provider(
-                    var name: String = "",
-                    var alias: String = "",
-                    var icon: String = ""
+                        var name: String = "",
+                        var alias: String = "",
+                        var icon: String = ""
                 )
 
 
@@ -148,45 +170,25 @@ data class FollowCard(
                 ) {
 
                     data class Follow(
-                        var itemType: String = "",
-                        var itemId: Int = 0,
-                        var followed: Boolean = false
+                            var itemType: String = "",
+                            var itemId: Int = 0,
+                            var followed: Boolean = false
                     )
 
 
                     data class Shield(
-                        var itemType: String = "",
-                        var itemId: Int = 0,
-                        var shielded: Boolean = false
+                            var itemType: String = "",
+                            var itemId: Int = 0,
+                            var shielded: Boolean = false
                     )
                 }
 
 
                 data class WebUrl(
-                    var raw: String = "",
-                    var forWeibo: String = ""
+                        var raw: String = "",
+                        var forWeibo: String = ""
                 )
             }
         }
-
-
-        data class Header(
-            var id: Int = 0,
-            var title: String = "",
-            var font: Any = Any(),
-            var subTitle: Any = Any(),
-            var subTitleFont: Any = Any(),
-            var textAlign: String = "",
-            var cover: Any = Any(),
-            var label: Any = Any(),
-            var actionUrl: String = "",
-            var labelList: Any = Any(),
-            var rightText: Any = Any(),
-            var icon: String = "",
-            var iconType: String = "",
-            var description: String = "",
-            var time: Long = 0,
-            var showHateVideo: Boolean = false
-        )
     }
 }

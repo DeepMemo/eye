@@ -1,8 +1,9 @@
 package com.bkvito.beikeshequ.retrofit
 
 import com.google.gson.Gson
-import com.memo.deep.openmyeye.bean.beanBase.BaseMuti
-import com.memo.deep.openmyeye.bean.beanItem.*
+import com.google.gson.reflect.TypeToken
+import com.memo.deep.openmyeye.bean.baseBean.BaseMuti
+import com.memo.deep.openmyeye.bean.itemBean.*
 import com.trello.rxlifecycle2.LifecycleProvider
 import com.trello.rxlifecycle2.android.ActivityEvent
 import com.trello.rxlifecycle2.android.FragmentEvent
@@ -120,9 +121,25 @@ object RetrofitUtils {
                     val element = gson.fromJson(json, VideoSmallCard::class.java)
                     list.add(element)
                 }
+                // 大类下，还有其他小类，就是有其他的数据结构
                 "squareCardCollection" -> {
-                    val element = gson.fromJson(json, SquareCardCollection::class.java)
-                    list.add(element)
+                    val itemJson = JSONObject(json)
+                            .getJSONObject("data")
+                            .getJSONArray("itemList")
+                            .get(0)
+                            .toString()
+
+                    val itemType = JSONObject(itemJson).getString("type")
+                    if (itemType == "followCard") {
+                        val type = object : TypeToken<SquareCardCollection<FollowCard>>() {}.type
+                        val element = gson.fromJson<SquareCardCollection<FollowCard>>(json, type)
+                        list.add(element)
+                    } else if (itemType == "banner") {
+                        val type = object : TypeToken<SquareCardCollection<Banner>>() {}.type
+                        val element = gson.fromJson<SquareCardCollection<Banner>>(json, type)
+                        // 之前默认的结构，只是单独提出了类
+                        list.add(element)
+                    }
                 }
                 "videoCollectionWithBrief" -> {
                     val element = gson.fromJson(json, VideoCollectionWithBrief::class.java)
@@ -139,6 +156,11 @@ object RetrofitUtils {
             }
         }
         return list
+    }
+
+    fun <T : BaseMuti> setType(gson: Gson, json: String): T {
+        val type = object : TypeToken<T>() {}.type
+        return gson.fromJson<T>(json, type)
     }
 
 

@@ -14,7 +14,8 @@ class Test {
     }
 
     fun time() {
-        val millis2String = TimeUtils.millis2String(1539496511000L, SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()))
+        val oneDay = 24 * 60 * 60 * 1000
+        val millis2String = TimeUtils.millis2String(1541379600000 - oneDay, SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()))
         print(millis2String)
     }
 }

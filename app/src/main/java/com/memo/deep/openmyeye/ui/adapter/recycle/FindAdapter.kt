@@ -1,5 +1,6 @@
 package com.memo.deep.openmyeye.ui.adapter.recycle
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -13,9 +14,11 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.facebook.drawee.view.SimpleDraweeView
 import com.memo.deep.openmyeye.R
-import com.memo.deep.openmyeye.bean.beanBase.BaseMuti
-import com.memo.deep.openmyeye.bean.beanItem.*
+import com.memo.deep.openmyeye.`interface`.Constant
+import com.memo.deep.openmyeye.bean.baseBean.BaseMuti
+import com.memo.deep.openmyeye.bean.itemBean.*
 import com.memo.deep.openmyeye.bean.my.PlayDetail
+import com.memo.deep.openmyeye.cache.ConstantCache
 import com.memo.deep.openmyeye.ui.activity.BaseActivity
 import com.memo.deep.openmyeye.ui.adapter.viewpager.CardAdapter
 import com.memo.deep.openmyeye.ui.adapter.viewpager.NormalViewPagerAdapter
@@ -45,7 +48,8 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>,
         addItemType(BaseMuti.videoCollectionWithBrief, R.layout.item_find_video_collection_with_brief)
         addItemType(BaseMuti.dynamicInfoCard, R.layout.item_find_dynamic_info_card)
         addItemType(BaseMuti.videoBeanForClient, R.layout.item_play_detail_info)
-        // 自己加的，上上面一个使用的是同一个布局
+        addItemType(BaseMuti.viewPagerFollowCard, R.layout.item_viewpager_follow_card)
+        // 自己加的，videoBeanForClient和上面一个使用的是同一个布局
         addItemType(BaseMuti.playDetail, R.layout.item_play_detail_info)
         addItemType(BaseMuti.footerBean, R.layout.custom_footer)
 
@@ -68,15 +72,19 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>,
             BaseMuti.videoCollectionWithBrief -> initVideoCollectionWithBrief()
             BaseMuti.dynamicInfoCard -> initDynamicInfoCard()
             BaseMuti.videoBeanForClient -> initVideoBeanForClient()
+            // 是从squareCardCollection数据结构分类出来的
+            BaseMuti.viewPagerFollowCard -> initViewPagerFollowCard()
             // 自己添加的
             BaseMuti.playDetail -> initPlayDetail()
             BaseMuti.footerBean -> initFooter()
         }
     }
 
+
     /**
      * 初始化viewpager
      */
+    @SuppressLint("ClickableViewAccessibility")
     private fun initViewPager(viewPager: ViewPager, list: ArrayList<Fragment>, itemList: List<Any>) {
         viewPager.adapter = CardAdapter(list, fragment?.childFragmentManager)
         // 两个页面的空白间隙
@@ -161,20 +169,28 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>,
     private var initSquare = false
     private fun initSquareCardCollection() {
         // 初始化了，就不在初始化了，解决滑动卡顿的问题
+        // 隐藏bug，如果刷新数据，这里的数据改变了，那么一样不会进行初始化。
         if (initSquare) return
-        val squareCardCollection = item as SquareCardCollection
+        val squareCardCollection = item as SquareCardCollection<Any>
         val viewPager = helper.getView<ViewPager>(R.id.vp_square)
+        helper.setText(R.id.tv_header, squareCardCollection.data.header.title)
         val list = ArrayList<Fragment>()
         squareCardCollection.data.itemList.forEach {
-            val element = CardFragment()
             val bundle = Bundle()
-            bundle.putString("url", it.data.image)
-            element.arguments = bundle
-            list.add(element)
+            when (it) {
+                // 原来的
+                is Banner -> {
+                    bundle.putString(Constant.INTENT_URL, it.data.image)
+                    val element = CardFragment()
+                    element.arguments = bundle
+                    list.add(element)
+                }
+            }
         }
         initViewPager(viewPager, list, squareCardCollection.data.itemList)
         initSquare = true
 
+//        viewPager.adapter = NormalViewPagerAdapter(mContext, squareCardCollection.data.itemList)
     }
 
     private var initVideo = false
@@ -192,10 +208,12 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>,
         // 下面ViewPager
         val viewPager = helper.getView<ViewPager>(R.id.vp_video_collection)
         val list = ArrayList<Fragment>()
+        var index = 0
+        ConstantCache.data = videoCollectionWithBrief.data.itemList
         videoCollectionWithBrief.data.itemList.forEach {
-            val element = AuthorFragment()
             val bundle = Bundle()
-            bundle.putSerializable("item", it)
+            bundle.putInt(Constant.INTENT_ID, index++)
+            val element = AuthorFragment()
             element.arguments = bundle
             list.add(element)
         }
@@ -225,26 +243,30 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>,
         header.setImageURI(dynamicInfoCard.data.user.avatar)
     }
 
-
+    private var isFirstPlay = true
     /**
      * 初始化播放详情页面的
      */
-    private var isFirstPlay = true
-
     private fun initPlayDetail() {
         val playDetail = item as PlayDetail
         helper.setText(R.id.tv_collection, playDetail.collectionCount.toString())
                 .setText(R.id.tv_share, playDetail.shareCount.toString())
                 .setText(R.id.tv_reply, playDetail.replyCount.toString())
-                .setText(R.id.tv_name1, playDetail.name1)
-                .setText(R.id.tv_name2, playDetail.name2)
-                .setText(R.id.tv_name3, playDetail.name3)
                 .setText(R.id.tv_author, playDetail.author)
                 .setText(R.id.tv_detail, playDetail.authorType)
 
-        helper.getView<SimpleDraweeView>(R.id.iv1).setImageURI(playDetail.pic1)
-        helper.getView<SimpleDraweeView>(R.id.iv2).setImageURI(playDetail.pic2)
-        helper.getView<SimpleDraweeView>(R.id.iv3).setImageURI(playDetail.pic3)
+        // 因tag可能不是三个,动态显示
+        val nameList = listOf(R.id.tv_name1, R.id.tv_name2, R.id.tv_name3)
+        val picList = listOf(R.id.iv1, R.id.iv2, R.id.iv3)
+        val llList = listOf(R.id.ll_fl1, R.id.ll_fl2, R.id.ll_fl3)
+        var index = 0
+        playDetail.nameList.forEach {
+            if (index > 2) return@forEach
+            helper.setText(nameList.get(index), it)
+            helper.setVisible(llList.get(index), true)
+            helper.getView<SimpleDraweeView>(picList.get(index)).setImageURI(playDetail.picList.get(index))
+            index++
+        }
         helper.getView<SimpleDraweeView>(R.id.iv).setImageURI(playDetail.authorPicUrl)
 
         if (isFirstPlay) {
@@ -267,17 +289,23 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>,
         helper.setText(R.id.tv_collection, videoBeanForClient.consumption.collectionCount.toString())
                 .setText(R.id.tv_share, videoBeanForClient.consumption.shareCount.toString())
                 .setText(R.id.tv_reply, videoBeanForClient.consumption.replyCount.toString())
-                .setText(R.id.tv_name1, videoBeanForClient.tags.get(0).name)
-                .setText(R.id.tv_name2, videoBeanForClient.tags.get(1).name)
-                .setText(R.id.tv_name3, videoBeanForClient.tags.get(2).name)
                 .setText(R.id.tv_author, videoBeanForClient.author.name)
                 .setText(R.id.tv_detail, videoBeanForClient.author.description)
 
-        helper.getView<SimpleDraweeView>(R.id.iv1).setImageURI(videoBeanForClient.tags.get(0).headerImage)
-        helper.getView<SimpleDraweeView>(R.id.iv2).setImageURI(videoBeanForClient.tags.get(1).headerImage)
-        helper.getView<SimpleDraweeView>(R.id.iv3).setImageURI(videoBeanForClient.tags.get(2).headerImage)
+        // 因tag可能不是三个,动态显示
+        val nameList = listOf(R.id.tv_name1, R.id.tv_name2, R.id.tv_name3)
+        val picList = listOf(R.id.iv1, R.id.iv2, R.id.iv3)
+        val llList = listOf(R.id.ll_fl1, R.id.ll_fl2, R.id.ll_fl3)
+        var index = 0
+        videoBeanForClient.tags.forEach {
+            if (index > 2) return@forEach
+            helper.setText(nameList.get(index), it.name)
+            helper.setVisible(llList.get(index), true)
+            helper.getView<SimpleDraweeView>(picList.get(index)).setImageURI(it.headerImage)
+            index++
+        }
         helper.getView<SimpleDraweeView>(R.id.iv).setImageURI(videoBeanForClient.author.icon)
-
+        // 第一次进入，开始打字动画
         if (isFirstPlay) {
             isFirstPlay = false
             helper.getView<FZTextView>(R.id.tv_title).startTyper(activity, videoBeanForClient.title)
@@ -289,6 +317,36 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>,
                     .setText(R.id.tv_description, videoBeanForClient.description)
         }
     }
+
+    private var initViewpagerFollowCard = false
+    private fun initViewPagerFollowCard() {
+        // 初始化了，就不在初始化了，解决滑动卡顿的问题
+        // 隐藏bug，如果刷新数据，这里的数据改变了，那么一样不会进行初始化。
+        if (initViewpagerFollowCard) return
+        val squareCardCollection = item as SquareCardCollection<Any>
+        helper.setText(R.id.tv_subtitle, squareCardCollection.data.header.subTitle)
+                .setText(R.id.tv_title, squareCardCollection.data.header.title)
+        val viewPager = helper.getView<ViewPager>(R.id.vp_follow_card)
+        val list = ArrayList<Fragment>()
+        var index = 0
+        ConstantCache.data = squareCardCollection.data.itemList
+        squareCardCollection.data.itemList.forEach {
+            val bundle = Bundle()
+            when (it) {
+                // 其他bean里的，新的
+                is FollowCard -> {
+                    // 直接判断是第几个
+                    bundle.putInt(Constant.INTENT_ID, index++)
+                    val element = AuthorFragment()
+                    element.arguments = bundle
+                    list.add(element)
+                }
+            }
+        }
+        initViewPager(viewPager, list, squareCardCollection.data.itemList)
+        initViewpagerFollowCard = true
+    }
+
 
     /**
      * 添加footer

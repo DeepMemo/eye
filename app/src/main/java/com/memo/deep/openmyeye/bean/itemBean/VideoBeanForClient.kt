@@ -1,6 +1,6 @@
-package com.memo.deep.openmyeye.bean.beanItem
+package com.memo.deep.openmyeye.bean.itemBean
 
-import com.memo.deep.openmyeye.bean.beanBase.BaseMuti
+import com.memo.deep.openmyeye.bean.baseBean.BaseMuti
 
 /**
  *根据ID查询视频的详情

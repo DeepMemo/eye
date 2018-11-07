@@ -5,24 +5,25 @@ import com.memo.deep.openmyeye.`interface`.Constant
 import com.memo.deep.openmyeye.bean.baseBean.BaseMuti
 import kotlinx.android.synthetic.main.fragment_second.view.*
 
-class RecommendFragment : FindFragment() {
+/**
+ * 日报
+ */
+class DailyReportFragment : FindFragment() {
 
-    var page = 0
+    val url = "http://baobab.kaiyanapp.com/api/v5/index/tab/feed"
     override fun getContent() {
-        // 刷新重置
-        page = 0
-        val map = mutableMapOf("page" to page.toString(),
-                "isOldUser" to "true")
-        map.putAll(Constant.URL_MAP)
-        presenter.getCommonContent("http://baobab.kaiyanapp.com/api/v5/index/tab/allRec", map)
+        index = 1
+        presenter.getCommonContent(url, Constant.URL_MAP)
     }
 
+    val oneDayMining = 24 * 60 * 60 * 1000
+    var index = 1
     override fun getMoreContent() {
-        page++
-        val map = mutableMapOf("page" to page.toString(),
-                "isOldUser" to "true")
+        val date = System.currentTimeMillis() - index++ * oneDayMining
+        val map = mutableMapOf("date" to date.toString(),
+                "num" to "2")
         map.putAll(Constant.URL_MAP)
-        presenter.getCommonMoreContent("http://baobab.kaiyanapp.com/api/v5/index/tab/allRec", map)
+        presenter.getCommonMoreContent(url, map)
     }
 
     override fun onNext(t: List<BaseMuti>) {

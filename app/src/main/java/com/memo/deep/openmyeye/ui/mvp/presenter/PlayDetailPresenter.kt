@@ -4,8 +4,8 @@ import com.bkvito.beikeshequ.retrofit.BaseObserver
 import com.bkvito.beikeshequ.retrofit.RetrofitFactory
 import com.bkvito.beikeshequ.retrofit.RetrofitUtils
 import com.memo.deep.openmyeye.`interface`.Constant
-import com.memo.deep.openmyeye.bean.beanBase.BaseMuti
-import com.memo.deep.openmyeye.bean.beanItem.VideoBeanForClient
+import com.memo.deep.openmyeye.bean.baseBean.BaseMuti
+import com.memo.deep.openmyeye.bean.itemBean.VideoBeanForClient
 import com.memo.deep.openmyeye.ui.mvp.contract.IPlayDetailContract
 import com.trello.rxlifecycle2.LifecycleProvider
 import com.trello.rxlifecycle2.android.ActivityEvent

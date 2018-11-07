@@ -1,6 +1,5 @@
 package com.memo.deep.openmyeye
 
-import com.memo.deep.openmyeye.util.MyUtils
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -18,10 +17,6 @@ class ExampleUnitTest {
 
     @Test
     fun inTest() {
-//        val list = com.memo.deep.openmyeye.ztest.Test().time()
-        var str = "fafda"
-//        http://baobab.kaiyanapp.com/api%5C%2Fv5%5C%2Findex%5C%2Ftab%5C%2FallRec
-        println( MyUtils.urlDecode("api%5C%2Fv5%5C%2Findex%5C%2Ftab%5C%2FallRec"))
-
+        com.memo.deep.openmyeye.ztest.Test().time()
     }
 }

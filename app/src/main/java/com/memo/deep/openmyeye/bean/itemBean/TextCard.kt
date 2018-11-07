@@ -1,6 +1,6 @@
-package com.memo.deep.openmyeye.bean.beanItem
+package com.memo.deep.openmyeye.bean.itemBean
 
-import com.memo.deep.openmyeye.bean.beanBase.BaseMuti
+import com.memo.deep.openmyeye.bean.baseBean.BaseMuti
 
 /**
  * 文字
@@ -13,7 +13,7 @@ data class TextCard(
         var adIndex: Int = 0
 ) : BaseMuti() {
     override fun getItemType(): Int {
-        if (data.type == "footer2") {
+        if (data.type.contains("footer")) {
             return BaseMuti.textCardFooter
         }
         return BaseMuti.textCard

@@ -7,9 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.facebook.drawee.view.SimpleDraweeView
 import com.memo.deep.openmyeye.R
-import com.memo.deep.openmyeye.bean.beanItem.HorizontalScrollCard
-import com.memo.deep.openmyeye.bean.beanItem.SquareCardCollection
-import com.memo.deep.openmyeye.bean.beanItem.VideoCollectionWithBrief
+import com.memo.deep.openmyeye.bean.itemBean.HorizontalScrollCard
+import com.memo.deep.openmyeye.bean.itemBean.VideoCollectionWithBrief
 import kotlinx.android.synthetic.main.item_find_follow_card.view.*
 
 /**
@@ -35,10 +34,10 @@ class NormalViewPagerAdapter(val context: Context?, val list: List<Any>) : Pager
                 view = LayoutInflater.from(context).inflate(R.layout.fragment_card, null)
                 view.findViewById<SimpleDraweeView>(R.id.iv).setImageURI(item.data.image)
             }
-            is SquareCardCollection.Data.Item -> {
-                view = LayoutInflater.from(context).inflate(R.layout.fragment_card, null)
-                view.findViewById<SimpleDraweeView>(R.id.iv).setImageURI(item.data.image)
-            }
+//            is SquareCardCollection.Data.Item -> {
+//                view = LayoutInflater.from(context).inflate(R.layout.fragment_card, null)
+//                view.findViewById<SimpleDraweeView>(R.id.iv).setImageURI(item.data.image)
+//            }
             is VideoCollectionWithBrief.Data.Item -> {
                 view = LayoutInflater.from(context).inflate(R.layout.item_find_follow_card, null)
                 view.tv_title.text = item.data.title
