@@ -5,10 +5,10 @@ import android.graphics.Canvas
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.ViewTreeObserver
-import android.widget.TextView
+import com.ctetin.expandabletextviewlibrary.ExpandableTextView
 import com.memo.deep.openmyeye.R
-import com.memo.deep.openmyeye.ui.activity.BaseActivity
 import com.memo.deep.openmyeye.cache.FontCache
+import com.memo.deep.openmyeye.ui.activity.BaseActivity
 import com.trello.rxlifecycle2.android.ActivityEvent
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -18,15 +18,15 @@ import java.util.concurrent.TimeUnit
 /**
  * 方正兰亭中粗黑简体的TextView
  */
-class FZTextView : TextView {
+class FZTextView : ExpandableTextView {
     // 不知道为什么不能延迟初始化，没意义，都会被覆盖掉
     var charIncrease: Int = 1
     var typerSpeed: Int = 100
     var isSameComplete: Boolean = false
+    var isBold: Boolean = true
 
-    constructor(context: Context, charIncrease: Int) : super(context) {
+    constructor(context: Context) : super(context) {
         init(context)
-        this.charIncrease = charIncrease
     }
 
     constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet) {
@@ -39,26 +39,26 @@ class FZTextView : TextView {
 
     private fun init(context: Context, attributeSet: AttributeSet? = null, defStyleAttr: Int = 0) {
         val attributes = context.obtainStyledAttributes(attributeSet, R.styleable.FZTextView)
-        val isBold = attributes.getBoolean(R.styleable.FZTextView_bold, true)
+        isBold = attributes.getBoolean(R.styleable.FZTextView_bold, true)
         isSameComplete = attributes.getBoolean(R.styleable.FZTextView_sameComplete, false)
         charIncrease = attributes.getInt(R.styleable.FZTextView_charIncrease, 1)
         typerSpeed = attributes.getInt(R.styleable.FZTextView_typerSpeed, 50)
         attributes.recycle()
-        applyCustomFont(context, isBold)
+        applyCustomFont(isBold)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
     }
 
-    private fun applyCustomFont(context: Context, isBold: Boolean) {
+    public fun applyCustomFont(isBold: Boolean) {
         var fontName = if (isBold) "fonts/FZLanTingHeiS-DB1-GB-Regular.TTF" else "FZLanTingHeiS-L-GB-Regular.TTF"
         val customFont = FontCache.getTypeface(fontName, context)
         typeface = customFont
     }
 
     public fun startTyper(activity: BaseActivity?, text: String) {
-        if (activity == null||text.isEmpty()) {
+        if (activity == null || text.isEmpty()) {
             return
         }
 

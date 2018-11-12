@@ -153,6 +153,14 @@ object RetrofitUtils {
                     val element = gson.fromJson(json, VideoBeanForClient::class.java)
                     list.add(element)
                 }
+                "autoPlayFollowCard" -> {
+                    val element = gson.fromJson(json, AutoPlayFollowCard::class.java)
+                    list.add(element)
+                }
+                "pictureFollowCard" -> {
+                    val element = gson.fromJson(json, PictureFollowCard::class.java)
+                    list.add(element)
+                }
             }
         }
         return list

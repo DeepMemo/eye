@@ -3,9 +3,12 @@ package com.memo.deep.openmyeye.util
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import com.blankj.utilcode.util.TimeUtils
 import java.io.UnsupportedEncodingException
 import java.net.URLDecoder
 import java.net.URLEncoder
+import java.text.SimpleDateFormat
+import java.util.*
 
 object MyUtils {
 
@@ -84,6 +87,18 @@ object MyUtils {
             return ""
         }
 
+    }
+
+    fun changeTime(time: Long): String {
+        var timeString = ""
+        // 今天之内
+        if (TimeUtils.isToday(time)) {
+            timeString = TimeUtils.millis2String(time, SimpleDateFormat("mm:ss", Locale.getDefault()))
+        } else {
+            timeString = TimeUtils.millis2String(time, SimpleDateFormat("yy/MM/dd", Locale.getDefault()))
+        }
+
+        return timeString
     }
 
 }

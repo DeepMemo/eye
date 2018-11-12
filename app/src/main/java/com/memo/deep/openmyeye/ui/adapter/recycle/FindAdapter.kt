@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.view.GestureDetector
 import android.view.MotionEvent
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.TimeUtils
@@ -49,11 +50,13 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>,
         addItemType(BaseMuti.dynamicInfoCard, R.layout.item_find_dynamic_info_card)
         addItemType(BaseMuti.videoBeanForClient, R.layout.item_play_detail_info)
         addItemType(BaseMuti.viewPagerFollowCard, R.layout.item_viewpager_follow_card)
+        addItemType(BaseMuti.autoPlayFollowCard, R.layout.item_find_auto_play_follow_card)
+        addItemType(BaseMuti.pictureFollowCard1, R.layout.item_find_picture_follow_card1)
+        addItemType(BaseMuti.pictureFollowCard4, R.layout.item_find_picture_follow_card4)
+
         // 自己加的，videoBeanForClient和上面一个使用的是同一个布局
         addItemType(BaseMuti.playDetail, R.layout.item_play_detail_info)
         addItemType(BaseMuti.footerBean, R.layout.custom_footer)
-
-
     }
 
     private lateinit var helper: BaseViewHolder
@@ -74,6 +77,9 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>,
             BaseMuti.videoBeanForClient -> initVideoBeanForClient()
             // 是从squareCardCollection数据结构分类出来的
             BaseMuti.viewPagerFollowCard -> initViewPagerFollowCard()
+            BaseMuti.autoPlayFollowCard -> initAutoPlayFollowCard()
+            BaseMuti.pictureFollowCard1 -> initPictureFollowCard1()
+            BaseMuti.pictureFollowCard4 -> initPictureFollowCard4()
             // 自己添加的
             BaseMuti.playDetail -> initPlayDetail()
             BaseMuti.footerBean -> initFooter()
@@ -348,6 +354,80 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>,
     }
 
 
+    private fun initAutoPlayFollowCard() {
+        val autoPlayFollowCard = item as AutoPlayFollowCard
+        val data = autoPlayFollowCard.data.content.data
+        helper.setText(R.id.tv_author, data.owner.nickname)
+                .setText(R.id.tv_collection, data.consumption.collectionCount.toString())
+                .setText(R.id.tv_reply, data.consumption.replyCount.toString())
+                .setText(R.id.tv_time, MyUtils.changeTime(data.createTime))
+
+        helper.getView<SimpleDraweeView>(R.id.iv).setImageURI(autoPlayFollowCard.data.header.icon)
+        helper.getView<FZTextView>(R.id.tv_description).setContent(data.description)
+        addTags(data.tags)
+    }
+
+    private fun addTags(tags: List<*>) {
+        val linearLayout = helper.getView<LinearLayout>(R.id.ll_tag)
+        //bug 这里不清楚，tag会一直添加,大概因为复用的问题
+        linearLayout.removeAllViews()
+        for (tag in tags) {
+            val fzTextView = FZTextView(mContext)
+            fzTextView.layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+//            fzTextView.textSize = ConvertUtils.sp2px(12f).toFloat()
+            fzTextView.textSize = 12f
+            fzTextView.setTextColor(ContextCompat.getColor(mContext, R.color.comment_blue))
+            fzTextView.setPadding(10, 5, 10, 5)
+            when (tag) {
+                is AutoPlayFollowCard.Data.Content.Data.Tag -> fzTextView.text = tag.name
+                is PictureFollowCard.Data.Content.Data.Tag -> fzTextView.text = tag.name
+            }
+            fzTextView.applyCustomFont(false)
+            fzTextView.setBackgroundResource(R.drawable.shape_communit_grayy)
+            linearLayout.addView(fzTextView)
+        }
+    }
+
+
+    private fun initPictureFollowCard1() {
+        val pictureFollowCard = item as PictureFollowCard
+        val data = pictureFollowCard.data.content.data
+        helper.setText(R.id.tv_author, data.owner.nickname)
+                .setText(R.id.tv_collection, data.consumption.collectionCount.toString())
+                .setText(R.id.tv_reply, data.consumption.replyCount.toString())
+                .setText(R.id.tv_time, MyUtils.changeTime(data.createTime))
+        helper.getView<SimpleDraweeView>(R.id.iv_pic).setImageURI(data.cover.detail)
+        helper.getView<SimpleDraweeView>(R.id.iv).setImageURI(pictureFollowCard.data.header.icon)
+        helper.getView<FZTextView>(R.id.tv_description).setContent(data.description)
+        addTags(data.tags)
+    }
+
+    private fun initPictureFollowCard4() {
+        val pictureFollowCard = item as PictureFollowCard
+        val data = pictureFollowCard.data.content.data
+        helper.setText(R.id.tv_author, data.owner.nickname)
+                .setText(R.id.tv_collection, data.consumption.collectionCount.toString())
+                .setText(R.id.tv_reply, data.consumption.replyCount.toString())
+                .setText(R.id.tv_time, MyUtils.changeTime(data.createTime))
+
+        helper.getView<SimpleDraweeView>(R.id.iv).setImageURI(pictureFollowCard.data.header.icon)
+        helper.getView<FZTextView>(R.id.tv_description).setContent(data.description)
+
+        val list = listOf(
+                helper.getView<SimpleDraweeView>(R.id.iv_pic1),
+                helper.getView<SimpleDraweeView>(R.id.iv_pic2),
+                helper.getView<SimpleDraweeView>(R.id.iv_pic3),
+                helper.getView<SimpleDraweeView>(R.id.iv_pic4))
+        var index = 0
+        for (url in data.urls) {
+            if (index < 4) {
+                list.get(index++).setImageURI(url)
+            }
+        }
+    }
+
+
     /**
      * 添加footer
      */
@@ -357,6 +437,7 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>,
         helper.setVisible(R.id.load_more_loading_view, false)
         helper.setTextColor(R.id.tv_footer, ContextCompat.getColor(mContext, footerBean.color))
     }
+
 
     /**
      * 有些界面需要白色的字体

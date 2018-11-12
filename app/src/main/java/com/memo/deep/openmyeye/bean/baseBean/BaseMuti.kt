@@ -20,6 +20,9 @@ abstract class BaseMuti : MultiItemEntity {
         val dynamicInfoCard = 8
         val videoBeanForClient = 11
         val viewPagerFollowCard = 12
+        val autoPlayFollowCard = 13
+        val pictureFollowCard1 = 14
+        val pictureFollowCard4 = 15
 
         // 自己加的
         val playDetail = 9

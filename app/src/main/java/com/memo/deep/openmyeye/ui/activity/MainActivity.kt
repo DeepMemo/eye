@@ -12,6 +12,7 @@ import com.memo.deep.openmyeye.ui.activity.TestActivity
 import com.memo.deep.openmyeye.ui.fragment.first.FocusFragment
 import com.memo.deep.openmyeye.ui.fragment.first.HomeFragment
 import com.memo.deep.openmyeye.ui.fragment.second.FindFragment
+import kotlinx.android.synthetic.main.activity_main.*
 import pub.devrel.easypermissions.EasyPermissions
 
 class MainActivity : AppCompatActivity() {
@@ -20,8 +21,9 @@ class MainActivity : AppCompatActivity() {
     // 下标签的索引
     private val home = 0
     private val focus = 1
-    private val notification = 2
-    private val my = 3
+    private val add = 2
+    private val notification = 3
+    private val my = 4
     // 当前显示的fragment
     private var currentFragment: Fragment? = null
 
@@ -40,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         listFragment = listOf(
                 homeFragment, focusFragment,
                 discoverFragment, focusFragment3)
-        changeFragment(homeFragment, "home")
+        changeFragment(homeFragment, home)
     }
 
     private fun initDiscoveryAdapter(view: View) {
@@ -73,7 +75,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * 下面tab标签切换
      */
-    private fun changeFragment(fragment: Fragment, tag: String) {
+    private fun changeFragment(fragment: Fragment, tag: Int) {
         val beginTransaction = supportFragmentManager
                 .beginTransaction()
         // 这里解决一个bug，如果使用replace，切换回来，导致上面的tab不能正常使用，换了一个框架依旧如此
@@ -81,39 +83,58 @@ class MainActivity : AppCompatActivity() {
         if (currentFragment != null) {
             beginTransaction.hide(currentFragment!!)
         }
-        val findFragmentByTag = supportFragmentManager.findFragmentByTag(tag)
+        val findFragmentByTag = supportFragmentManager.findFragmentByTag(tag.toString())
         // 如果添加过就直接显示
         if (findFragmentByTag != null) {
             beginTransaction.show(findFragmentByTag)
         } else {
             beginTransaction
-                    .add(R.id.ll_content, fragment, tag)
+                    .add(R.id.ll_content, fragment, tag.toString())
         }
         beginTransaction.commit()
         currentFragment = fragment
+        changeColor(tag)
     }
 
 
     fun onClick(v: View) {
         when (v.id) {
-            R.id.tv_home -> {
-                changeFragment(listFragment.get(home), "home")
-
+            R.id.ll_home -> {
+                changeFragment(listFragment.get(home), home)
             }
-            R.id.tv_focus -> {
-                changeFragment(listFragment.get(focus), "focus")
+            R.id.ll_focus -> {
+                changeFragment(listFragment.get(focus), focus)
             }
             R.id.iv_add -> {
             }
-            R.id.tv_notification -> {
-                changeFragment(listFragment.get(notification), "notification")
+            R.id.ll_notification -> {
+                changeFragment(listFragment.get(notification), notification)
             }
-            R.id.tv_my -> {
+            R.id.ll_my -> {
 //                changeFragment(listFragment.get(my), "my")
+                changeColor(my)
                 startActivity(Intent(this, TestActivity::class.java))
             }
         }
     }
+
+    fun changeColor(currentIndex: Int) {
+        val ivList = listOf(iv_home, iv_focus, iv_add, iv_notification, iv_my)
+        //  因add没有text，所以故意多加了一个tv——focus
+        val tvList = listOf(tv_home, tv_focus, tv_focus, tv_notification, tv_my)
+        for (i in 0..4) {
+            val imageView = ivList.get(i)
+            val textView = tvList.get(i)
+            if (currentIndex == i) {
+                imageView.isSelected = true
+                textView.isSelected = true
+            } else {
+                imageView.isSelected = false
+                textView.isSelected = false
+            }
+        }
+    }
+
 
     override fun onRestart() {
         super.onRestart()

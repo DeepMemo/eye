@@ -10,6 +10,7 @@
     <string name="reply">回复</string>
     <string name="cache">缓存</string>
     <string name="pull_to_close">下  拉  关  闭  页  面</string>
+    <string name="publish">发布：</string>
 
 
 </resources>
