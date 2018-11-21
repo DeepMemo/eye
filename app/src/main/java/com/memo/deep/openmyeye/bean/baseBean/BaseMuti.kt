@@ -27,5 +27,7 @@ abstract class BaseMuti : MultiItemEntity {
         // 自己加的
         val playDetail = 9
         val footerBean = 10
+        val searchString = 16
+        val searchTitle = 17
     }
 }

@@ -1,13 +1,12 @@
 package com.memo.deep.openmyeye.ui.fragment.first
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.memo.deep.openmyeye.R
 
-class FocusFragment : Fragment() {
+class FocusFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

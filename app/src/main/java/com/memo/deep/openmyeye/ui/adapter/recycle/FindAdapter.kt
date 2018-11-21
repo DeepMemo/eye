@@ -5,8 +5,11 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
+import android.text.Html
 import android.view.GestureDetector
 import android.view.MotionEvent
+import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.blankj.utilcode.util.ConvertUtils
@@ -19,24 +22,33 @@ import com.memo.deep.openmyeye.`interface`.Constant
 import com.memo.deep.openmyeye.bean.baseBean.BaseMuti
 import com.memo.deep.openmyeye.bean.itemBean.*
 import com.memo.deep.openmyeye.bean.my.PlayDetail
+import com.memo.deep.openmyeye.bean.my.SearchMuti
+import com.memo.deep.openmyeye.bean.my.SearchTitleMuti
 import com.memo.deep.openmyeye.cache.ConstantCache
+import com.memo.deep.openmyeye.code.ListVideo
 import com.memo.deep.openmyeye.ui.activity.BaseActivity
 import com.memo.deep.openmyeye.ui.adapter.viewpager.CardAdapter
 import com.memo.deep.openmyeye.ui.adapter.viewpager.NormalViewPagerAdapter
 import com.memo.deep.openmyeye.ui.fragment.third.AuthorFragment
 import com.memo.deep.openmyeye.ui.fragment.third.CardFragment
+import com.memo.deep.openmyeye.ui.view.textView.FZExpandTextView
 import com.memo.deep.openmyeye.ui.view.textView.FZTextView
 import com.memo.deep.openmyeye.util.MyUtils
+import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder
 import java.text.SimpleDateFormat
 import java.util.*
 
 /**
  * 发现页面的adapter
  */
-class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>,
+class FindAdapter(private val fragment: Fragment? = null, list: List<BaseMuti>,
                   val isWhite: Boolean = false, var activity: BaseActivity? = null,
                   val onViewPagerClick: (item: Any) -> Unit = {})
     : BaseMultiItemQuickAdapter<BaseMuti, BaseViewHolder>(list) {
+
+    companion object {
+        val TAG = "FindAdapter"
+    }
 
     init {
         addItemType(BaseMuti.horizontalScrollCard, R.layout.item_find_horizontal_scroll_card)
@@ -53,6 +65,8 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>,
         addItemType(BaseMuti.autoPlayFollowCard, R.layout.item_find_auto_play_follow_card)
         addItemType(BaseMuti.pictureFollowCard1, R.layout.item_find_picture_follow_card1)
         addItemType(BaseMuti.pictureFollowCard4, R.layout.item_find_picture_follow_card4)
+        addItemType(BaseMuti.searchString, R.layout.item_search_string)
+        addItemType(BaseMuti.searchTitle, R.layout.item_search_title)
 
         // 自己加的，videoBeanForClient和上面一个使用的是同一个布局
         addItemType(BaseMuti.playDetail, R.layout.item_play_detail_info)
@@ -83,6 +97,8 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>,
             // 自己添加的
             BaseMuti.playDetail -> initPlayDetail()
             BaseMuti.footerBean -> initFooter()
+            BaseMuti.searchString -> initSearchString()
+            BaseMuti.searchTitle -> initSearchTitle()
         }
     }
 
@@ -152,8 +168,9 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>,
 
     private fun initFollowCard() {
         val followCard = item as FollowCard
-        val detail = followCard.data.content.data.author.name +
-                " /  #" + followCard.data.content.data.category
+//        val detail = followCard.data.content.data.author.name +
+//                " /  #" + followCard.data.content.data.category
+        val detail = followCard.data.header.description
         helper.setText(R.id.tv_title, followCard.data.content.data.title)
                 .setText(R.id.tv_detail, detail)
         helper.getView<SimpleDraweeView>(R.id.iv).setImageURI(followCard.data.content.data.cover.detail)
@@ -363,19 +380,25 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>,
                 .setText(R.id.tv_time, MyUtils.changeTime(data.createTime))
 
         helper.getView<SimpleDraweeView>(R.id.iv).setImageURI(autoPlayFollowCard.data.header.icon)
-        helper.getView<FZTextView>(R.id.tv_description).setContent(data.description)
+        helper.getView<FZExpandTextView>(R.id.tv_description).setContent(data.description)
         addTags(data.tags)
+        initCoverVideo(autoPlayFollowCard)
     }
 
     private fun addTags(tags: List<*>) {
         val linearLayout = helper.getView<LinearLayout>(R.id.ll_tag)
         //bug 这里不清楚，tag会一直添加,大概因为复用的问题
         linearLayout.removeAllViews()
+        var index = 0
         for (tag in tags) {
             val fzTextView = FZTextView(mContext)
-            fzTextView.layoutParams = LinearLayout.LayoutParams(
+            val layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-//            fzTextView.textSize = ConvertUtils.sp2px(12f).toFloat()
+            // 后面添加的tag增加margin
+            if (index != 0) {
+                layoutParams.setMargins(5, 0, 0, 0)
+            }
+            fzTextView.layoutParams = layoutParams
             fzTextView.textSize = 12f
             fzTextView.setTextColor(ContextCompat.getColor(mContext, R.color.comment_blue))
             fzTextView.setPadding(10, 5, 10, 5)
@@ -386,7 +409,35 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>,
             fzTextView.applyCustomFont(false)
             fzTextView.setBackgroundResource(R.drawable.shape_communit_grayy)
             linearLayout.addView(fzTextView)
+            index++
         }
+    }
+
+    private fun initCoverVideo(autoPlayFollowCard: AutoPlayFollowCard) {
+        val gsyVideoOption = GSYVideoOptionBuilder()
+        val imageView = SimpleDraweeView(mContext)
+        imageView.scaleType = ImageView.ScaleType.CENTER_CROP
+        imageView.setImageURI(autoPlayFollowCard.data.content.data.cover.detail)
+        gsyVideoOption
+                .setThumbImageView(imageView)
+                .setRotateViewAuto(false)
+                // 小屏不支持滑动
+                .setIsTouchWiget(false)
+                .setLockLand(false)
+                // 根据尺寸全屏自动选择横屏还是竖屏
+//                .setAutoFullWithSize(true)
+                //音频焦点冲突时是否释放
+                .setReleaseWhenLossAudio(false)
+                .setUrl(autoPlayFollowCard.data.content.data.playUrl)
+                .setEnlargeImageRes(R.drawable.full_screen)
+                .setShrinkImageRes(com.shuyu.gsyvideoplayer.R.drawable.video_shrink)
+        val listVideo = helper.getView<ListVideo>(R.id.detail_player)
+        listVideo.fullscreenButton.setOnClickListener {
+            listVideo.startWindowFullscreen(mContext, false, true)
+        }
+        listVideo.playPosition = helper.layoutPosition
+        listVideo.tag = TAG
+        gsyVideoOption.build(listVideo)
     }
 
 
@@ -399,7 +450,13 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>,
                 .setText(R.id.tv_time, MyUtils.changeTime(data.createTime))
         helper.getView<SimpleDraweeView>(R.id.iv_pic).setImageURI(data.cover.detail)
         helper.getView<SimpleDraweeView>(R.id.iv).setImageURI(pictureFollowCard.data.header.icon)
-        helper.getView<FZTextView>(R.id.tv_description).setContent(data.description)
+        val fzTextView = helper.getView<FZExpandTextView>(R.id.tv_description)
+        if (data.description == "") {
+            fzTextView.visibility = View.GONE
+        } else {
+            fzTextView.visibility = View.VISIBLE
+            fzTextView.setContent(data.description)
+        }
         addTags(data.tags)
     }
 
@@ -410,10 +467,13 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>,
                 .setText(R.id.tv_collection, data.consumption.collectionCount.toString())
                 .setText(R.id.tv_reply, data.consumption.replyCount.toString())
                 .setText(R.id.tv_time, MyUtils.changeTime(data.createTime))
-
         helper.getView<SimpleDraweeView>(R.id.iv).setImageURI(pictureFollowCard.data.header.icon)
-        helper.getView<FZTextView>(R.id.tv_description).setContent(data.description)
-
+        val fzTextView = helper.getView<FZExpandTextView>(R.id.tv_description)
+        if (data.description == "") {
+            fzTextView.visibility = View.GONE
+        } else {
+            fzTextView.setContent(data.description)
+        }
         val list = listOf(
                 helper.getView<SimpleDraweeView>(R.id.iv_pic1),
                 helper.getView<SimpleDraweeView>(R.id.iv_pic2),
@@ -425,6 +485,25 @@ class FindAdapter(private val fragment: Fragment?, list: List<BaseMuti>,
                 list.get(index++).setImageURI(url)
             }
         }
+    }
+
+    private fun initSearchString() {
+        val searchMuti = item as SearchMuti
+        var color = ContextCompat.getColor(mContext, R.color.comment_blue)
+        if (searchMuti.isColorMore) {
+            color = ContextCompat.getColor(mContext, R.color.word_black)
+        }
+        helper.setText(R.id.tv, Html.fromHtml(searchMuti.name))
+                .setTextColor(R.id.tv, color)
+
+    }
+
+    private fun initSearchTitle() {
+        val stringMuti = item as SearchTitleMuti
+        helper.setText(R.id.tv, stringMuti.name)
+                .setVisible(R.id.tv_del, stringMuti.name == mContext.getString(R.string.search_history))
+                .addOnClickListener(R.id.tv)
+                .addOnClickListener(R.id.tv_del)
     }
 
 

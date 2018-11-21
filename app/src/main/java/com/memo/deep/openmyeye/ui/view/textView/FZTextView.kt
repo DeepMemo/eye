@@ -1,11 +1,10 @@
 package com.memo.deep.openmyeye.ui.view.textView
 
 import android.content.Context
-import android.graphics.Canvas
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.ViewTreeObserver
-import com.ctetin.expandabletextviewlibrary.ExpandableTextView
+import android.widget.TextView
 import com.memo.deep.openmyeye.R
 import com.memo.deep.openmyeye.cache.FontCache
 import com.memo.deep.openmyeye.ui.activity.BaseActivity
@@ -18,7 +17,7 @@ import java.util.concurrent.TimeUnit
 /**
  * 方正兰亭中粗黑简体的TextView
  */
-class FZTextView : ExpandableTextView {
+open class FZTextView : TextView {
     // 不知道为什么不能延迟初始化，没意义，都会被覆盖掉
     var charIncrease: Int = 1
     var typerSpeed: Int = 100
@@ -102,10 +101,6 @@ class FZTextView : ExpandableTextView {
                     this.text = it
                     index++
                 }
-    }
-
-    override fun onDraw(canvas: Canvas?) {
-        super.onDraw(canvas)
     }
 
 }

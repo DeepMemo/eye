@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.memo.deep.openmyeye.bean.baseBean.BaseMuti
 import com.memo.deep.openmyeye.bean.itemBean.*
+import com.memo.deep.openmyeye.bean.my.SearchMuti
 import com.trello.rxlifecycle2.LifecycleProvider
 import com.trello.rxlifecycle2.android.ActivityEvent
 import com.trello.rxlifecycle2.android.FragmentEvent
@@ -11,6 +12,7 @@ import io.reactivex.FlowableTransformer
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import org.json.JSONArray
 import org.json.JSONObject
 
 
@@ -169,6 +171,17 @@ object RetrofitUtils {
     fun <T : BaseMuti> setType(gson: Gson, json: String): T {
         val type = object : TypeToken<T>() {}.type
         return gson.fromJson<T>(json, type)
+    }
+
+    fun transformArray(json: String, isColorMore: Boolean = false): List<BaseMuti> {
+        val list = mutableListOf<SearchMuti>()
+        val jsonArray = JSONArray(json)
+        for (i in 0 until jsonArray.length()) {
+            val name = jsonArray.get(i).toString()
+            list.add(SearchMuti(name, isColorMore))
+        }
+
+        return list
     }
 
 

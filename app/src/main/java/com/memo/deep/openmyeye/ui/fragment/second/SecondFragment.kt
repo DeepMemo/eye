@@ -5,13 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.memo.deep.openmyeye.R
-import com.trello.navi2.component.support.NaviFragment
+import com.memo.deep.openmyeye.ui.fragment.first.BaseFragment
 
 
 /**
  * 第二层次的通用fragment
  */
-abstract class SecondFragment<T> : NaviFragment() {
+abstract class SecondFragment<T> : BaseFragment() {
 
     //第一次网络请求
     protected var isFirst = true

@@ -57,6 +57,24 @@
 
     </LinearLayout>
 
+    <com.memo.deep.openmyeye.ui.view.textView.FZExpandTextView
+        android:id="@+id/tv_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        android:contentDescription="ffadfafajfafjaldfjlajfljldfajdlfjdaslfjlakdjflasjdfffadfafajfafjaldfjlajfljldfajdlfjdaslfjlakdjflasjdflajflkjadlfkjalkfjlkadjflkaffadfafajfafjaldfjlajfljldfajdlfjdaslfjlakdjflasjdflajflkjadlfkjalkfjlkadjflkaffadfafajfafjaldfjlajfljldfajdlfjdaslfjlakdjflasjdflajflkjadlfkjalkfjlkadjflkalajflkjadlfkjalkfjlkadjflka"
+        android:textColor="@color/word_black"
+        app:bold="false"
+        app:ep_contract_text="收回"
+        app:ep_end_color="@color/comment_blue"
+        app:ep_expand_text="展开"
+        app:ep_max_line="4"
+        app:ep_need_always_showright="true"
+        app:ep_need_animation="true"
+        app:ep_need_contract="true"
+        app:ep_need_expand="true" />
+
     <LinearLayout
         android:id="@+id/ll_tag"
         android:layout_width="match_parent"
@@ -64,7 +82,7 @@
         android:layout_marginEnd="15dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="12dp"
-        android:orientation="horizontal"></LinearLayout>
+        android:orientation="horizontal"/>
 
     <LinearLayout
         android:layout_width="match_parent"

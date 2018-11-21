@@ -9,8 +9,9 @@ import com.memo.deep.openmyeye.R
 import com.memo.deep.openmyeye.ui.fragment.second.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
-class HomeFragment : Fragment() {
+class HomeFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
         val inflate = LayoutInflater.from(activity).inflate(
                 R.layout.fragment_home, container, false)
         initView(inflate)
@@ -48,6 +49,5 @@ class HomeFragment : Fragment() {
                         FashingFragment()
                 ))
     }
-
 
 }

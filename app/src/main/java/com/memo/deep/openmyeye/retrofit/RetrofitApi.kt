@@ -40,4 +40,20 @@ interface RetrofitApi {
     @GET("/api/v2/video/{id}")
     fun getPlayDetailVideo(@Path("id") id: String, @QueryMap map: Map<String, String>): Observable<VideoBeanForClient>
 
+    // 获取分类
+    @GET("/api/v5/category/list")
+    fun getCategory(@QueryMap map: Map<String, String>): Observable<Response<ResponseBody>>
+
+    // 获取热门搜索
+    @GET("/api/v3/queries/hot")
+    fun getHotSearch(@QueryMap map: Map<String, String>): Observable<Response<ResponseBody>>
+
+    // 获取搜索结果
+    @GET("/api/v3/search")
+    fun getSearch(@QueryMap map: Map<String, String>): Observable<Response<ResponseBody>>
+
+    // 获取预搜索（输入一个字的时候）
+    @GET("api/v3/search/preSearch")
+    fun getPreSearch(@QueryMap map: Map<String, String>): Observable<Response<ResponseBody>>
+
 }

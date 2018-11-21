@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import com.memo.deep.openmyeye.R
+import com.memo.deep.openmyeye.ui.activity.CategoryActivity
+import com.memo.deep.openmyeye.ui.activity.SearchActivity
 import com.memo.deep.openmyeye.ui.activity.TestActivity
 import com.memo.deep.openmyeye.ui.fragment.first.FocusFragment
 import com.memo.deep.openmyeye.ui.fragment.first.HomeFragment
@@ -106,6 +108,7 @@ class MainActivity : AppCompatActivity() {
                 changeFragment(listFragment.get(focus), focus)
             }
             R.id.iv_add -> {
+                startActivity(Intent(this, TestActivity::class.java))
             }
             R.id.ll_notification -> {
                 changeFragment(listFragment.get(notification), notification)
@@ -113,7 +116,15 @@ class MainActivity : AppCompatActivity() {
             R.id.ll_my -> {
 //                changeFragment(listFragment.get(my), "my")
                 changeColor(my)
-                startActivity(Intent(this, TestActivity::class.java))
+            }
+            // 这是fragment 的view
+            R.id.iv_fun -> {
+                startActivity(Intent(this, CategoryActivity::class.java))
+            }
+            // 这是fragment 的view
+            R.id.ll_search -> {
+                startActivity(Intent(this, SearchActivity::class.java))
+                overridePendingTransition(R.anim.item_top_to_bottom, 0)
             }
         }
     }

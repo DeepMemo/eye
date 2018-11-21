@@ -11,6 +11,11 @@
     <string name="cache">缓存</string>
     <string name="pull_to_close">下  拉  关  闭  页  面</string>
     <string name="publish">发布：</string>
-
+    <string name="category_title">置顶分类排序</string>
+    <string name="cancle">取消</string>
+    <string name="search_hint">搜索视频、作者、用户及视频</string>
+    <string name="search_history">搜索历史</string>
+    <string name="hot_search_key">热搜关键词</string>
+    <string name="del">删除</string>
 
 </resources>
