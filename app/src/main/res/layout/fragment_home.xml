@@ -22,7 +22,7 @@
             android:src="@drawable/ic_action_category" />
 
         <com.flyco.tablayout.SlidingTabLayout
-            android:id="@+id/spl"
+            android:id="@+id/stl"
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:layout_weight="1"

@@ -19,8 +19,7 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun initView(inflate: View) {
-        // 初始化tab
-        inflate.spl.setViewPager(
+        inflate.stl.setViewPager(
                 inflate.vp,
                 arrayOf("发现", "推荐", "日报", "社区", "广告", "生活", "动画", "搞笑",
                         "开胃", "创意", "运动", "音乐", "萌宠", "剧情", "科技", "旅行",

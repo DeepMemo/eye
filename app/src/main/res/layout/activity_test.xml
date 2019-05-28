@@ -1,52 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
+    <include layout="@layout/toolbar" />
 
-    <LinearLayout
+    <!--折线图,layout的背景色为 #bdbdbd 灰-->
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/line_chart"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <com.qmuiteam.qmui.widget.QMUIRadiusImageView
-            android:id="@+id/iv_fun"
-            android:layout_width="26dp"
-            android:layout_height="38dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:src="@drawable/ic_action_category"
-            app:qmui_is_circle="true" />
-
-        <com.flyco.tablayout.SlidingTabLayout
-            android:id="@+id/spl"
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_weight="1"
-            app:tl_indicator_color="@color/word_black"
-            app:tl_indicator_height="3dp"
-            app:tl_indicator_margin_bottom="5dp"
-            app:tl_indicator_width="15dp"
-            app:tl_textSelectColor="@color/word_black"
-            app:tl_textUnselectColor="@color/word_gray" />
+        android:layout_height="300dp"
+        android:layout_margin="16dp"
+        android:background="#ffffff" />
 
 
-        <ImageView
-            android:id="@+id/iv_search"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginEnd="10dp"
-            android:src="@drawable/search_72px" />
-    </LinearLayout>
+</FrameLayout>
 
-    <View style="@style/gap"></View>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-</LinearLayout>

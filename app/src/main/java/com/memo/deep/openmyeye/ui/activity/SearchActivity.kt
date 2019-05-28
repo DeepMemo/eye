@@ -21,8 +21,10 @@ import com.memo.deep.openmyeye.bean.my.SearchTitleMuti
 import com.memo.deep.openmyeye.ui.adapter.recycle.FindAdapter
 import com.memo.deep.openmyeye.ui.mvp.contract.ISearchContract
 import com.memo.deep.openmyeye.ui.mvp.presenter.SearchPresenter
+import com.oushangfeng.pinnedsectionitemdecoration.PinnedHeaderItemDecoration
 import jp.wasabeef.recyclerview.animators.SlideInDownAnimator
 import kotlinx.android.synthetic.main.activity_search.*
+
 
 class SearchActivity : BaseActivity(), ISearchContract.View {
 
@@ -39,13 +41,32 @@ class SearchActivity : BaseActivity(), ISearchContract.View {
     private fun initView() {
         rv.layoutManager = LinearLayoutManager(this)
         rv.adapter = adapter
+        // RecycleView 的往下动画
         val slideInDownAnimator = SlideInDownAnimator(LinearInterpolator())
         slideInDownAnimator.addDuration = 200
         rv.itemAnimator = slideInDownAnimator
         // 这是列表滚动的效果，并不是第一次加载的效果
 //        adapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM)
+        setSticky()
         setListener()
 
+    }
+
+    private fun setSticky() {
+        rv.addItemDecoration(
+                // 设置粘性标签对应的类型
+                PinnedHeaderItemDecoration.Builder(BaseMuti.searchTitle)
+                        // 设置分隔线资源ID
+//                        .setDividerId(R.drawable.divider)
+                        // 开启绘制分隔线，默认关闭
+//                        .enableDivider(true)
+                        // 通过传入包括标签和其内部的子控件的ID设置其对应的点击事件
+                        .setClickIds(R.id.tv)
+                        // 是否关闭标签点击事件，默认开启
+//                        .disableHeaderClick(false)
+                        // 设置标签和其内部的子控件的监听，若设置点击监听不为null，但是disableHeaderClick(true)的话，还是不会响应点击事件
+//                        .setHeaderClickListener(clickAdapter)
+                        .create())
     }
 
     // 开始搜索的标志，不然就是预搜索

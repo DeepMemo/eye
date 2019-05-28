@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import com.memo.deep.openmyeye.R
 import com.memo.deep.openmyeye.ui.activity.CategoryActivity
+import com.memo.deep.openmyeye.ui.activity.CategoryDetailActivity
 import com.memo.deep.openmyeye.ui.activity.SearchActivity
 import com.memo.deep.openmyeye.ui.activity.TestActivity
 import com.memo.deep.openmyeye.ui.fragment.first.FocusFragment
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         initView()
         initData()
+        Log.i("===>","=====-=>"+resources.displayMetrics.density)
     }
 
     private fun initData() {
@@ -115,6 +117,7 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.ll_my -> {
 //                changeFragment(listFragment.get(my), "my")
+                startActivity(Intent(this, CategoryDetailActivity::class.java))
                 changeColor(my)
             }
             // 这是fragment 的view

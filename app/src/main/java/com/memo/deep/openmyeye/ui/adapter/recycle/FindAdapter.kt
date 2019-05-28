@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
+import android.support.v7.widget.RecyclerView
 import android.text.Html
 import android.view.GestureDetector
 import android.view.MotionEvent
@@ -34,9 +35,11 @@ import com.memo.deep.openmyeye.ui.fragment.third.CardFragment
 import com.memo.deep.openmyeye.ui.view.textView.FZExpandTextView
 import com.memo.deep.openmyeye.ui.view.textView.FZTextView
 import com.memo.deep.openmyeye.util.MyUtils
+import com.oushangfeng.pinnedsectionitemdecoration.utils.FullSpanUtil
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 /**
  * 发现页面的adapter
@@ -48,6 +51,8 @@ class FindAdapter(private val fragment: Fragment? = null, list: List<BaseMuti>,
 
     companion object {
         val TAG = "FindAdapter"
+        val TYPE_HEADER = 1
+        val TYPE_DATA = 2
     }
 
     init {
@@ -529,6 +534,20 @@ class FindAdapter(private val fragment: Fragment? = null, list: List<BaseMuti>,
         for (id in ids) {
             helper.getView<TextView>(id).setTextColor(ContextCompat.getColor(mContext, R.color.white))
         }
+    }
+
+    /**
+     * 以下处理粘性头部
+     */
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        FullSpanUtil.onAttachedToRecyclerView(recyclerView, this, BaseMuti.searchTitle)
+    }
+
+    override fun onViewAttachedToWindow(holder: BaseViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        FullSpanUtil.onViewAttachedToWindow(holder, this, BaseMuti.searchTitle)
+
     }
 
 }

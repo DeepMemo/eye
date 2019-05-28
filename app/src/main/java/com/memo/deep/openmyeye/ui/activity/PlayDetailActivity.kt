@@ -124,6 +124,12 @@ class PlayDetailActivity : BaseActivity(), IPlayDetailContract.View {
 
 
     private fun setOption(coverUrl: String?, playUrl: String?): GSYVideoOptionBuilder {
+//        val videoOptionModel =  VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "rtsp_transport", "tcp");
+//        val videoOptionModel1 =  VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "rtsp_flags", "prefer_tcp");
+//        val list =  ArrayList<VideoOptionModel>();
+//        list.add(videoOptionModel);
+//        list.add(videoOptionModel1);
+//        GSYVideoManager.instance().setOptionModelList(list);
         val gsyVideoOption = GSYVideoOptionBuilder()
         val imageView = SimpleDraweeView(this)
         imageView.scaleType = ImageView.ScaleType.CENTER_CROP
@@ -136,6 +142,7 @@ class PlayDetailActivity : BaseActivity(), IPlayDetailContract.View {
                 .setAutoFullWithSize(true)
                 .setShowFullAnimation(false)
                 .setNeedLockFull(true)
+//                .setUrl("rtsp://admin:admin88888@172.20.0.235:554/h264/ch33/main/av_stream")
                 .setUrl(playUrl)
                 .setCacheWithPlay(true)
                 .setIsTouchWiget(false)

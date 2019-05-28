@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.content.Intent
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import android.view.animation.LinearInterpolator
 import com.blankj.utilcode.util.ToastUtils
 import com.memo.deep.openmyeye.R
@@ -53,6 +54,8 @@ open class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
                                         percent: Float, offset: Int, headerHeight: Int, maxDragHeight: Int) {
                 val angle = 360f * percent
                 inflate.iv_header.rotation = angle
+                onRecycle.invoke(inflate, percent)
+
             }
         })
 
@@ -141,6 +144,7 @@ open class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
         }
 
     }
+
 
     override fun onNext(t: List<BaseMuti>) {
         val diffResult = DiffUtil.calculateDiff(NewDiffCallback(list, t), true)
@@ -244,4 +248,7 @@ open class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
         }
     }
 
+    var onRecycle = fun(view: View, percent: Float) {
+
+    }
 }
