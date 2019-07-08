@@ -25,13 +25,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.activity.mvp.MainActivity">
+        <activity android:name=".ui.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.activity.mvp.MainActivity"></activity>
         <activity android:name=".ui.activity.TestActivity" />
         <activity
             android:name=".ui.activity.PlayDetailActivity"
@@ -39,7 +40,7 @@
             android:screenOrientation="portrait" />
         <activity android:name=".ui.activity.CategoryActivity" />
         <activity android:name=".ui.activity.SearchActivity" />
-        <activity android:name=".ui.activity.CategoryDetailActivity"></activity>
+        <activity android:name=".ui.activity.CategoryDetailActivity" />
     </application>
 
 </manifest>

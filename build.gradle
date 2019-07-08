@@ -31,8 +31,6 @@ task clean(type: Delete) {
 
 
 ext {
-    rxjava2Version = '2.0.8'
-    retrofit2Version = '2.2.0'
-    rxlifecycle='2.1.0'
-    gsonVersion = '2.8.0'
+    rxjava2Version = '2.2.2'
+    retrofit2Version = '2.6.0'
 }

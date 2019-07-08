@@ -27,7 +27,7 @@ class PlayDetailPresenter(val view: IPlayDetailContract.View,
                 .createInterface()
                 .getPlayDetailContent(getParamMap(id))
                 .map {
-                    val body = it.body().string()
+                    val body = it.body()?.string()
                     return@map RetrofitUtils.transformData(body)
                 }
                 .compose(RetrofitUtils.setBase(provider))
@@ -58,7 +58,7 @@ class PlayDetailPresenter(val view: IPlayDetailContract.View,
         Observable.zip(playDetailVideo, playDetailContent,
                 BiFunction<VideoBeanForClient, Response<ResponseBody>, List<BaseMuti>> { t1, t2 ->
                     val list = mutableListOf<BaseMuti>()
-                    val body2 = t2.body().string()
+                    val body2 = t2.body()?.string()
                     val list2 = RetrofitUtils.transformData(body2)
                     list.add(t1)
                     list.addAll(list2)

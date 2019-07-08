@@ -186,7 +186,7 @@ class FindAdapter(private val fragment: Fragment? = null, list: List<BaseMuti>,
     private fun initVideoSmall() {
         val videoSmallCard = item as VideoSmallCard
         val detail = videoSmallCard.data.category + " /  #开眼精选"
-        val minute = MyUtils.getMinute(videoSmallCard.data.duration)
+        val minute = MyUtils.getMinute(videoSmallCard.data.duration.toLong())
         helper.setText(R.id.tv_title, videoSmallCard.data.title)
                 .setText(R.id.tv_detail, detail)
                 .setText(R.id.tv_time, minute)
@@ -256,7 +256,7 @@ class FindAdapter(private val fragment: Fragment? = null, list: List<BaseMuti>,
         val dynamicInfoCard = item as DynamicInfoCard
         val time = TimeUtils.millis2String(dynamicInfoCard.data.createDate
                 , SimpleDateFormat("yyyy/MM/dd", Locale.getDefault()))
-        val duration = MyUtils.getMinute(dynamicInfoCard.data.simpleVideo.duration)
+        val duration = MyUtils.getMinute(dynamicInfoCard.data.simpleVideo.duration.toLong())
         helper.setText(R.id.tv_nickname, dynamicInfoCard.data.user.nickname)
                 .setText(R.id.tv_comment, dynamicInfoCard.data.reply.message)
                 .setText(R.id.tv_praise, dynamicInfoCard.data.reply.likeCount.toString())
@@ -382,7 +382,7 @@ class FindAdapter(private val fragment: Fragment? = null, list: List<BaseMuti>,
         helper.setText(R.id.tv_author, data.owner.nickname)
                 .setText(R.id.tv_collection, data.consumption.collectionCount.toString())
                 .setText(R.id.tv_reply, data.consumption.replyCount.toString())
-                .setText(R.id.tv_time, MyUtils.changeTime(data.createTime))
+                .setText(R.id.tv_time, MyUtils.getMinute(data.duration.toLong()))
 
         helper.getView<SimpleDraweeView>(R.id.iv).setImageURI(autoPlayFollowCard.data.header.icon)
         helper.getView<FZExpandTextView>(R.id.tv_description).setContent(data.description)

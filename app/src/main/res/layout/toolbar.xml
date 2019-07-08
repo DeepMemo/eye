@@ -63,6 +63,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
+        android:id="@+id/gap"
         style="@style/gap"
         app:layout_constraintBottom_toBottomOf="parent" />
 

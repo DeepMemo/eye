@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
+import com.blankj.utilcode.util.ToastUtils
 import com.memo.deep.openmyeye.R
 import com.memo.deep.openmyeye.ui.activity.CategoryActivity
 import com.memo.deep.openmyeye.ui.activity.CategoryDetailActivity
@@ -15,6 +16,7 @@ import com.memo.deep.openmyeye.ui.activity.TestActivity
 import com.memo.deep.openmyeye.ui.fragment.first.FocusFragment
 import com.memo.deep.openmyeye.ui.fragment.first.HomeFragment
 import com.memo.deep.openmyeye.ui.fragment.second.FindFragment
+import com.memo.deep.openmyeye.util.MyUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import pub.devrel.easypermissions.EasyPermissions
 
@@ -35,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         initView()
         initData()
-        Log.i("===>","=====-=>"+resources.displayMetrics.density)
+        Log.i("===>", "=====-=>" + resources.displayMetrics.density)
     }
 
     private fun initData() {
@@ -159,6 +161,24 @@ class MainActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         Log.i("===>main", "=====-=>onNewIntent")
+    }
+
+    // 是否是第二次点击退出
+    private var is2BackPress = false
+
+    override fun onBackPressed() {
+        // 第一次点击为false，就设置为第二次退出状态了，
+        // 第二次再点击就进入else，如果超时了，就重新为了false
+        if (!is2BackPress) {
+            is2BackPress = true
+            ToastUtils.showShort("再点击一次退出")
+            //  等待两秒
+            MyUtils.waitSecond(2000) {
+                is2BackPress = false
+            }
+        } else {
+            super.onBackPressed()
+        }
     }
 
 

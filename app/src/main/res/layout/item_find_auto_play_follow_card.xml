@@ -174,7 +174,7 @@
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/card_more_action_icon" />
+                android:src="@drawable/up_test" />
 
         </LinearLayout>
 

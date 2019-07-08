@@ -1,5 +1,6 @@
 package com.bkvito.beikeshequ.retrofit
 
+import com.memo.deep.openmyeye.bean.ItemListBean.StartBean
 import com.memo.deep.openmyeye.bean.itemBean.VideoBeanForClient
 import io.reactivex.Observable
 import okhttp3.ResponseBody
@@ -55,5 +56,13 @@ interface RetrofitApi {
     // 获取预搜索（输入一个字的时候）
     @GET("api/v3/search/preSearch")
     fun getPreSearch(@QueryMap map: Map<String, String>): Observable<Response<ResponseBody>>
+
+    // 获取关注上面的tab数据
+    @GET("api/v5/community/tab/list")
+    fun getTabList(@QueryMap map: Map<String, String>): Observable<ResponseBody>
+
+    // 获取关注上面的tab数据
+    @GET("api/v2/configs")
+    fun getStartPic(@QueryMap map: Map<String, String>): Observable<StartBean>
 
 }

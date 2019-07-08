@@ -3,12 +3,14 @@ package com.memo.deep.openmyeye.util
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import com.bkvito.beikeshequ.retrofit.RetrofitUtils
 import com.blankj.utilcode.util.TimeUtils
 import java.io.UnsupportedEncodingException
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 object MyUtils {
 
@@ -20,7 +22,7 @@ object MyUtils {
         return list
     }
 
-    fun getMinute(duration: Int): String {
+    fun getMinute(duration: Long): String {
         val minute = duration / 60
         val second = duration % 60
         val str = "%02d:%02d"
@@ -99,6 +101,15 @@ object MyUtils {
         }
 
         return timeString
+    }
+
+    fun waitSecond(millSecond: Long = 1000, method: () -> Unit) {
+        io.reactivex.Observable.just("")
+                .delay(millSecond, TimeUnit.MILLISECONDS)
+                .compose(RetrofitUtils.setThread())
+                .subscribe {
+                    method()
+                }
     }
 
 }

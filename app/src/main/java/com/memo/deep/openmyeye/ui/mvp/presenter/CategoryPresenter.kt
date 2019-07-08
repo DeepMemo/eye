@@ -18,7 +18,7 @@ class CategoryPresenter(val view: ICategoryContract.View,
                 .compose(RetrofitUtils.setBase(provider))
                 .subscribe(object : BaseObserver<Response<ResponseBody>>() {
                     override fun onNext(t: Response<ResponseBody>) {
-                        val list = RetrofitUtils.transformData(t.body().string())
+                        val list = RetrofitUtils.transformData(t.body()?.string().toString())
                         view.onNext(list)
                     }
                 })

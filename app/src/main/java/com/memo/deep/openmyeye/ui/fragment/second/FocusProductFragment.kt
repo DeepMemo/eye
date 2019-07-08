@@ -1,9 +1,11 @@
 package com.memo.deep.openmyeye.ui.fragment.second
 
 import android.graphics.Rect
+import android.os.Bundle
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import com.memo.deep.openmyeye.R
 import com.memo.deep.openmyeye.`interface`.Constant
 import com.memo.deep.openmyeye.bean.baseBean.BaseMuti
@@ -13,11 +15,11 @@ import com.shuyu.gsyvideoplayer.GSYVideoManager
 import kotlinx.android.synthetic.main.fragment_second.view.*
 
 /**
- * 社区有新的选项，是不同的item
+ * 关注作品、作者的fragment
  */
-class CommunityFragment : FindFragment() {
+class FocusProductFragment : FindFragment() {
 
-    val url = "http://baobab.kaiyanapp.com/api/v5/index/tab/ugcSelected"
+    val url = "http://baobab.kaiyanapp.com/api/v6/community/tab/follow"
     var start = 0
     override fun getContent() {
         presenter.getCommonContent(url, Constant.URL_MAP)
@@ -25,8 +27,10 @@ class CommunityFragment : FindFragment() {
     }
 
     override fun getMoreContent() {
-        start += 10
-        val map = mutableMapOf("start" to start.toString())
+        start += 5
+        val map = mutableMapOf(
+                "start" to start.toString(),
+                "num" to "5")
         map.putAll(Constant.URL_MAP)
         presenter.getCommonMoreContent(url, map)
     }
@@ -42,15 +46,15 @@ class CommunityFragment : FindFragment() {
         initLoadMore()
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        addListener()
+    }
+
 
     var firstVisibleItem = 0
     var lastVisibleItem = 0
     var visibleCount = 0
-    override fun initView() {
-        super.initView()
-        addListener()
-    }
-
     private fun addListener() {
         inflate.rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
@@ -96,5 +100,4 @@ class CommunityFragment : FindFragment() {
         }
         GSYVideoManager.releaseAllVideos()
     }
-
 }

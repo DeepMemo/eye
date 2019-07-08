@@ -27,7 +27,7 @@ class FindPresenter(val view: IFindContract.View,
                 .createInterface()
                 .getCommonContent(path, map)
                 .map {
-                    val body = it.body().string()
+                    val body = it.body()?.string().toString()
                     return@map RetrofitUtils.transformData(body)
                 }
                 .compose(RetrofitUtils.setFragmentBase(provider))
@@ -51,7 +51,7 @@ class FindPresenter(val view: IFindContract.View,
                 .createInterface()
                 .getCommonContent(path, map)
                 .map {
-                    val body = it.body().string()
+                    val body = it.body()?.string().toString()
                     return@map RetrofitUtils.transformData(body)
                 }
                 .compose(RetrofitUtils.setFragmentBase(provider))
@@ -79,7 +79,7 @@ class FindPresenter(val view: IFindContract.View,
                 .createInterface()
                 .getFindContent(Constant.URL_MAP)
                 .map {
-                    val body = it.body().string()
+                    val body = it.body()?.string()
                     return@map RetrofitUtils.transformData(body)
                 }
                 .compose(RetrofitUtils.setFragmentBase(provider))
@@ -105,7 +105,7 @@ class FindPresenter(val view: IFindContract.View,
                 .createInterface()
                 .getComment(getParamMap())
                 .map {
-                    val body = it.body().string()
+                    val body = it.body()?.string()
                     return@map RetrofitUtils.transformData(body)
                 }
                 .compose(RetrofitUtils.setFragmentBase(provider))

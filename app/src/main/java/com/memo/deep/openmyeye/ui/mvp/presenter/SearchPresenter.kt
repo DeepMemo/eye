@@ -44,7 +44,7 @@ class SearchPresenter(val view: ISearchContract.View,
                     }
 
                     override fun onNext(t: Response<ResponseBody>) {
-                        val json = t.body().string()
+                        val json = t.body()?.string().toString()
                         val transformArray = RetrofitUtils.transformArray(json, true) as List<SearchMuti>
                         val htmlColor = "<font color='#4687D7'>%s</font>"
                         val keyWithColor = String.format(htmlColor, key)
@@ -66,7 +66,7 @@ class SearchPresenter(val view: ISearchContract.View,
                 .compose(RetrofitUtils.setBase(provider))
                 .subscribe(object : BaseObserver<Response<ResponseBody>>() {
                     override fun onNext(t: Response<ResponseBody>) {
-                        val json = t.body().string()
+                        val json = t.body()?.string().toString()
                         view.onHotNext(RetrofitUtils.transformArray(json))
                     }
 
@@ -83,7 +83,7 @@ class SearchPresenter(val view: ISearchContract.View,
                 .compose(RetrofitUtils.setBase(provider))
                 .subscribe(object : BaseObserver<Response<ResponseBody>>() {
                     override fun onNext(t: Response<ResponseBody>) {
-                        val json = t.body().string()
+                        val json = t.body()?.string()
                         view.onNext(RetrofitUtils.transformData(json))
                     }
                 })

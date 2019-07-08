@@ -53,7 +53,7 @@ open class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
             override fun onHeaderMoving(header: RefreshHeader?, isDragging: Boolean,
                                         percent: Float, offset: Int, headerHeight: Int, maxDragHeight: Int) {
                 val angle = 360f * percent
-                inflate.iv_header.rotation = angle
+                inflate.iv_common_refresh_header.rotation = angle
                 onRecycle.invoke(inflate, percent)
 
             }
@@ -75,7 +75,7 @@ open class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
     protected lateinit var objectAnimator: ObjectAnimator
     protected fun initRotation() {
         objectAnimator = ObjectAnimator.ofFloat(
-                inflate.iv_header, "rotation", 0f, 360f)
+                inflate.iv_common_refresh_header, "rotation", 0f, 360f)
                 .setDuration(600)
         // 差值器，是其平滑，默认中间快，两头慢
         objectAnimator.interpolator = LinearInterpolator()

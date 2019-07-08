@@ -94,8 +94,10 @@ object RetrofitUtils {
     /**
      * 把responseBody的json数据依次转变成对应的bean类
      */
-    fun transformData(string: String): List<BaseMuti> {
+    fun transformData(string: String?): List<BaseMuti> {
         val list = ArrayList<BaseMuti>()
+        if (string ==null)
+            return list
         val jsonObject = JSONObject(string)
         val array = jsonObject.getJSONArray("itemList")
         val gson = Gson()

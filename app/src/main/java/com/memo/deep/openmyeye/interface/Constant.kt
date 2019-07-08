@@ -21,6 +21,7 @@ interface Constant {
         val INTENT_DATA = "data"
         val INTENT_ID = "id"
         val INTENT_URL = "url"
+        val DATA = "data"
     }
 
 }

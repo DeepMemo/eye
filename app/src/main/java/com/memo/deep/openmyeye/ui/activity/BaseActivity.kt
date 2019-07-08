@@ -1,7 +1,10 @@
 package com.memo.deep.openmyeye.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import com.google.gson.Gson
+import com.memo.deep.openmyeye.`interface`.Constant
 import com.trello.navi2.component.support.NaviAppCompatActivity
 import com.trello.rxlifecycle2.LifecycleProvider
 import com.trello.rxlifecycle2.android.ActivityEvent
@@ -84,5 +87,12 @@ open class BaseActivity : NaviAppCompatActivity(), EasyPermissions.PermissionCal
         super.onDestroy()
     }
 
+
+    fun startAc(clazz: Class<*>, map: Map<String, String> = mapOf()) {
+        val intent = Intent(this, clazz)
+        val json = Gson().toJson(map)
+        intent.putExtra(Constant.DATA, json)
+        startActivity(intent)
+    }
 
 }
