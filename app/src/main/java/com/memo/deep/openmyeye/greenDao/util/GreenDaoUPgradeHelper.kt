@@ -3,7 +3,8 @@ package com.memo.deep.openmyeye.greenDao.util
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import com.github.yuweiguocn.library.greendao.MigrationHelper
-import com.memo.deep.openmyeye.greenDao.database.*
+import com.memo.deep.openmyeye.greenDao.dao.*
+import com.memo.deep.openmyeye.greenDao.database.Note3
 import org.greenrobot.greendao.database.Database
 
 /**
@@ -23,7 +24,7 @@ class GreenDaoUPgradeHelper(context: Context, name: String, facctory: SQLiteData
             override fun onDropAllTables(db: Database?, ifExists: Boolean) {
                 DaoMaster.dropAllTables(db, ifExists)
             }
-        }, NoteDao::class.java, Note2Dao::class.java, Note3Dao::class.java,Note4Dao::class.java)
+        }, NoteDao::class.java, Note2Dao::class.java, Note3Dao::class.java, Note4Dao::class.java)
 
         var oldVersionCopy = oldVersion
         while (oldVersionCopy < newVersion) {

@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.memo.deep.openmyeye.R
-import com.memo.deep.openmyeye.ui.fragment.first.BaseFragment
+import com.memo.deep.openmyeye.ui.fragment.base.BaseFragment
 
 
 /**

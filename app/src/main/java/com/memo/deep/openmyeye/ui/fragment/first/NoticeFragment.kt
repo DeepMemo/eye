@@ -10,12 +10,12 @@ import com.memo.deep.openmyeye.cache.FontCache
 import com.memo.deep.openmyeye.ui.activity.SearchActivity
 import com.memo.deep.openmyeye.ui.adapter.viewpager.CardAdapter
 import com.memo.deep.openmyeye.ui.fragment.base.BaseFragment
-import com.memo.deep.openmyeye.ui.fragment.second.FocusAuthorFragment
-import com.memo.deep.openmyeye.ui.fragment.second.FocusProductFragment
+import com.memo.deep.openmyeye.ui.fragment.second.CommunityFragment
+import com.memo.deep.openmyeye.ui.fragment.second.NoticePushFragment
 import kotlinx.android.synthetic.main.fragment_focus.*
 import kotlinx.android.synthetic.main.toolbar.*
 
-class FocusFragment : BaseFragment() {
+class NoticeFragment : BaseFragment() {
 
     lateinit var inflate: View
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,13 +25,13 @@ class FocusFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         inflate = LayoutInflater.from(activity).inflate(
-                R.layout.fragment_focus, container, false)
+                R.layout.fragment_notice, container, false)
         return inflate
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView(arrayOf("作品", "动态"))
+        initView(arrayOf("推送", "互动"))
         initData()
     }
 
@@ -51,15 +51,15 @@ class FocusFragment : BaseFragment() {
     }
 
     private fun initView(array: Array<String>) {
-        setToolbar("Subscription", R.drawable.search_72px)
+        setToolbar("Notification", R.drawable.search_72px)
         val textView = inflate.findViewById<TextView>(R.id.tv_toolbar_title)
         tv_toolbar_title.typeface = FontCache.getTypeface("fonts/Lobster-1.4.otf", activity!!)
         inflate.findViewById<View>(R.id.gap).visibility = View.INVISIBLE
         inflate.findViewById<View>(R.id.iv_back).visibility = View.INVISIBLE
         textView.textSize = 22f
         vp.adapter = CardAdapter(arrayListOf(
-                FocusProductFragment(),
-                FocusAuthorFragment()
+                NoticePushFragment(),
+                CommunityFragment()
         ), childFragmentManager)
         stl.setViewPager(vp, array)
     }

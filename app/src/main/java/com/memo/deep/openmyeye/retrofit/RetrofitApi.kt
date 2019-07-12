@@ -1,5 +1,6 @@
 package com.bkvito.beikeshequ.retrofit
 
+import com.memo.deep.openmyeye.bean.ItemListBean.NoticePushBean
 import com.memo.deep.openmyeye.bean.ItemListBean.StartBean
 import com.memo.deep.openmyeye.bean.itemBean.VideoBeanForClient
 import io.reactivex.Observable
@@ -61,8 +62,12 @@ interface RetrofitApi {
     @GET("api/v5/community/tab/list")
     fun getTabList(@QueryMap map: Map<String, String>): Observable<ResponseBody>
 
-    // 获取关注上面的tab数据
+    // 获取首次进入背景图
     @GET("api/v2/configs")
     fun getStartPic(@QueryMap map: Map<String, String>): Observable<StartBean>
+
+    // 获取推送消息
+    @GET("api/v3/messages")
+    fun getPush(@QueryMap map: Map<String, String>): Observable<NoticePushBean>
 
 }

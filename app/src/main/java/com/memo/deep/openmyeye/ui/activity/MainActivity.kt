@@ -10,12 +10,12 @@ import android.view.View
 import com.blankj.utilcode.util.ToastUtils
 import com.memo.deep.openmyeye.R
 import com.memo.deep.openmyeye.ui.activity.CategoryActivity
-import com.memo.deep.openmyeye.ui.activity.CategoryDetailActivity
 import com.memo.deep.openmyeye.ui.activity.SearchActivity
 import com.memo.deep.openmyeye.ui.activity.TestActivity
 import com.memo.deep.openmyeye.ui.fragment.first.FocusFragment
 import com.memo.deep.openmyeye.ui.fragment.first.HomeFragment
-import com.memo.deep.openmyeye.ui.fragment.second.FindFragment
+import com.memo.deep.openmyeye.ui.fragment.first.MyFragment
+import com.memo.deep.openmyeye.ui.fragment.first.NoticeFragment
 import com.memo.deep.openmyeye.util.MyUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import pub.devrel.easypermissions.EasyPermissions
@@ -26,9 +26,10 @@ class MainActivity : AppCompatActivity() {
     // 下标签的索引
     private val home = 0
     private val focus = 1
-    private val add = 2
-    private val notification = 3
-    private val my = 4
+    // 不是fragment，所以不在里面排序
+    private val add = 4
+    private val notice = 2
+    private val my = 3
     // 当前显示的fragment
     private var currentFragment: Fragment? = null
 
@@ -43,11 +44,11 @@ class MainActivity : AppCompatActivity() {
     private fun initData() {
         val homeFragment = HomeFragment()
         val focusFragment = FocusFragment()
-        val discoverFragment = FindFragment()
-        val focusFragment3 = FocusFragment()
+        val noticeFragment = NoticeFragment()
+        val focusFragment3 = MyFragment()
         listFragment = listOf(
                 homeFragment, focusFragment,
-                discoverFragment, focusFragment3)
+                noticeFragment, focusFragment3)
         changeFragment(homeFragment, home)
     }
 
@@ -115,12 +116,14 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this, TestActivity::class.java))
             }
             R.id.ll_notification -> {
-                changeFragment(listFragment.get(notification), notification)
+                changeFragment(listFragment.get(notice), notice)
             }
             R.id.ll_my -> {
 //                changeFragment(listFragment.get(my), "my")
-                startActivity(Intent(this, CategoryDetailActivity::class.java))
-                changeColor(my)
+//                startActivity(Intent(this, CategoryDetailActivity::class.java))
+//                changeColor(my)
+                changeFragment(listFragment.get(my), my)
+
             }
             // 这是fragment 的view
             R.id.iv_fun -> {
@@ -135,10 +138,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun changeColor(currentIndex: Int) {
-        val ivList = listOf(iv_home, iv_focus, iv_add, iv_notification, iv_my)
-        //  因add没有text，所以故意多加了一个tv——focus
-        val tvList = listOf(tv_home, tv_focus, tv_focus, tv_notification, tv_my)
-        for (i in 0..4) {
+        val ivList = listOf(iv_home, iv_focus, iv_notification, iv_my)
+        //  因add没有text，所以故意多    加了一个tv——focus
+        val tvList = listOf(tv_home, tv_focus, tv_notification, tv_my)
+        for (i in 0..3) {
             val imageView = ivList.get(i)
             val textView = tvList.get(i)
             if (currentIndex == i) {

@@ -3,7 +3,7 @@ package com.memo.deep.openmyeye.app
 import android.app.Application
 import com.bkvito.beikeshequ.retrofit.RetrofitUtils
 import com.facebook.drawee.backends.pipeline.Fresco
-import com.memo.deep.openmyeye.greenDao.database.DaoMaster
+import com.memo.deep.openmyeye.greenDao.dao.DaoMaster
 import com.memo.deep.openmyeye.greenDao.util.GreenDaoUPgradeHelper
 import io.reactivex.Observable
 

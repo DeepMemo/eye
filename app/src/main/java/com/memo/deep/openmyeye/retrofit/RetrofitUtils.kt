@@ -96,7 +96,7 @@ object RetrofitUtils {
      */
     fun transformData(string: String?): List<BaseMuti> {
         val list = ArrayList<BaseMuti>()
-        if (string ==null)
+        if (string == null)
             return list
         val jsonObject = JSONObject(string)
         val array = jsonObject.getJSONArray("itemList")

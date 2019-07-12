@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.memo.deep.openmyeye.R
+import com.memo.deep.openmyeye.ui.fragment.base.BaseFragment
 import com.memo.deep.openmyeye.ui.fragment.second.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 

@@ -15,4 +15,5 @@
     <color name="text_cover">#A5494444</color>
     <color name="tag_bg">#ECF3FB</color>
     <color name="search_bg">#F0F0F0</color>
+    <color name="border">#FFD7D5D5</color>
 </resources>

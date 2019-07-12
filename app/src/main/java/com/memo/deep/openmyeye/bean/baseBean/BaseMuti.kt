@@ -7,6 +7,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity
  */
 abstract class BaseMuti : MultiItemEntity {
     companion object {
+        val defalt = -1
         val horizontalScrollCard = 0
         val textCard = 1
         // textCard有两种格式
@@ -29,5 +30,9 @@ abstract class BaseMuti : MultiItemEntity {
         val footerBean = 10
         val searchString = 16
         val searchTitle = 17
+    }
+
+    override fun getItemType(): Int {
+        return defalt
     }
 }

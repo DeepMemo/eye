@@ -51,6 +51,13 @@ class CommunityFragment : FindFragment() {
         addListener()
     }
 
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        if (!isVisibleToUser){
+            GSYVideoManager.releaseAllVideos()
+        }
+    }
+
     private fun addListener() {
         inflate.rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {

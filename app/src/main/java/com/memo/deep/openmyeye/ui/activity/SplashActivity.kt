@@ -42,7 +42,7 @@ class SplashActivity : BaseActivity() {
                 .subscribe(object : BaseObserver<StartBean>() {
                     override fun onNext(t: StartBean) {
                         startAni(t.startPage.imageUrl)
-                        MyUtils.waitSecond(2100) {
+                        MyUtils.waitSecond(2000) {
                             startAc(MainActivity::class.java)
                             finish()
                         }

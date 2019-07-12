@@ -51,6 +51,12 @@ class FocusProductFragment : FindFragment() {
         addListener()
     }
 
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        if (!isVisibleToUser) {
+            GSYVideoManager.releaseAllVideos()
+        }
+    }
 
     var firstVisibleItem = 0
     var lastVisibleItem = 0

@@ -3,7 +3,7 @@ package com.memo.deep.openmyeye.bean.ItemListBean
 /**
  *     author : deep
  *     time   : 2019/07/08
- *     desc   :
+ *     desc   : 启动页的查询接口
  *     version: 1.0
  */
 

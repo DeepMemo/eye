@@ -35,7 +35,6 @@
             app:tl_textSelectColor="@color/word_black"
             app:tl_textUnselectColor="@color/word_gray" />
 
-
         <LinearLayout
             android:id="@+id/ll_search"
             android:layout_width="wrap_content"

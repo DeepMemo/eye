@@ -1,4 +1,4 @@
-package com.memo.deep.openmyeye.ui.fragment.first
+package com.memo.deep.openmyeye.ui.fragment.base
 
 import android.content.Intent
 import android.os.Bundle
@@ -72,10 +72,10 @@ open class BaseFragment : NaviFragment(), View.OnClickListener {
     }
 
 
-    private fun onRightTextClick() {
+    open fun onRightTextClick() {
     }
 
-    private fun onMenuClick() {
+    open fun onMenuClick() {
     }
 
     fun startAc(clazz: Class<*>, map: Map<String, String> = mapOf()) {
