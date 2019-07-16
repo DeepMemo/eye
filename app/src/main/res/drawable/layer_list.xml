@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:width="360dp"
+        android:height="1000dp"
+        android:drawable="@color/start_bg"
+        android:gravity="center"></item>
+
+    <item
+        android:width="120dp"
+        android:height="40dp"
+        android:drawable="@drawable/eye_loading_icon"
+        android:gravity="center"></item>
+
+</layer-list>

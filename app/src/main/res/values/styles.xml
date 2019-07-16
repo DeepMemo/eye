@@ -32,4 +32,11 @@
         <item name="android:alpha">0.1</item>
     </style>
 
+    <style name="slash" parent="QMUI.Compat.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@drawable/layer_list</item>
+    </style>
+
 </resources>
