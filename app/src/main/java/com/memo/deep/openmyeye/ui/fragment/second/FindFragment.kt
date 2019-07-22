@@ -12,6 +12,8 @@ import com.memo.deep.openmyeye.`interface`.Constant
 import com.memo.deep.openmyeye.bean.baseBean.BaseMuti
 import com.memo.deep.openmyeye.bean.itemBean.*
 import com.memo.deep.openmyeye.cache.ConstantCache
+import com.memo.deep.openmyeye.ui.activity.AllCategoryActivity
+import com.memo.deep.openmyeye.ui.activity.CategoryDetailActivity
 import com.memo.deep.openmyeye.ui.activity.PlayDetailActivity
 import com.memo.deep.openmyeye.ui.adapter.recycle.FindAdapter
 import com.memo.deep.openmyeye.ui.mvp.contract.IFindContract
@@ -65,7 +67,7 @@ open class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
         }
     }
 
-    protected fun initData() {
+    protected open fun initData() {
         presenter = FindPresenter(this,
                 NaviLifecycle.createFragmentLifecycleProvider(this))
         // 网络请求，使用懒加载的回调，因第一个Fragment可见，第二个Fragment不可见，所以必须这样写
@@ -97,6 +99,15 @@ open class FindFragment : SecondFragment<BaseMuti>(), IFindContract.View {
                     ConstantCache.data = presenter.setVideoSmallCardData(item)
                     val intent = Intent(activity, PlayDetailActivity::class.java)
                     startActivity(intent)
+                }
+                is BriefCard -> {
+                    startAc(CategoryDetailActivity::class.java,
+                            mapOf(Constant.INTENT_ID to item.data.id.toString()))
+                }
+                is TextCard -> {
+                    if (item.data.text.contains("全部分类")) {
+                        startAc(AllCategoryActivity::class.java)
+                    }
                 }
             }
 

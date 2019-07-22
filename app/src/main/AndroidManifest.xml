@@ -43,6 +43,8 @@
         <activity android:name=".ui.activity.CategoryActivity" />
         <activity android:name=".ui.activity.SearchActivity" />
         <activity android:name=".ui.activity.CategoryDetailActivity" />
+        <activity android:name=".ui.activity.Test2Activity" />
+        <activity android:name=".ui.activity.AllCategoryActivity" />
     </application>
 
 </manifest>

@@ -69,7 +69,7 @@ dependencies {
     implementation 'com.trello.rxlifecycle2:rxlifecycle-navi:2.2.1'
     implementation 'pub.devrel:easypermissions:1.2.0'
     // 工具类
-    implementation 'com.blankj:utilcode:1.19.0'
+    implementation 'com.blankj:utilcode:1.23.7'
     // RecycleView adapter的工具类
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-14'
@@ -107,4 +107,7 @@ dependencies {
     implementation 'com.shuyu:gsyVideoPlayer-ex_so:6.0.1'
     // rxView
     implementation 'com.jakewharton.rxbinding3:rxbinding:3.0.0-alpha2'
+    // 全部分类不是瀑布流，而是流式布局
+    implementation 'com.hyman:flowlayout-lib:1.1.2'
+    implementation 'com.github.1002326270xc:LayoutManager-FlowLayout:v1.8'
 }

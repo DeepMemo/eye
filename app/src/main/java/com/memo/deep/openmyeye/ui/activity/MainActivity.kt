@@ -11,7 +11,7 @@ import com.blankj.utilcode.util.ToastUtils
 import com.memo.deep.openmyeye.R
 import com.memo.deep.openmyeye.ui.activity.CategoryActivity
 import com.memo.deep.openmyeye.ui.activity.SearchActivity
-import com.memo.deep.openmyeye.ui.activity.TestActivity
+import com.memo.deep.openmyeye.ui.activity.Test2Activity
 import com.memo.deep.openmyeye.ui.fragment.first.FocusFragment
 import com.memo.deep.openmyeye.ui.fragment.first.HomeFragment
 import com.memo.deep.openmyeye.ui.fragment.first.MyFragment
@@ -113,7 +113,7 @@ class MainActivity : AppCompatActivity() {
                 changeFragment(listFragment.get(focus), focus)
             }
             R.id.iv_add -> {
-                startActivity(Intent(this, TestActivity::class.java))
+                startActivity(Intent(this, Test2Activity::class.java))
             }
             R.id.ll_notification -> {
                 changeFragment(listFragment.get(notice), notice)

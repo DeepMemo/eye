@@ -155,7 +155,9 @@ class FindAdapter(private val fragment: Fragment? = null, list: List<BaseMuti>,
     }
 
     private fun initTextCard() {
-        helper.setText(R.id.tv_header, (item as TextCard).data.text)
+        val data = (item as TextCard).data
+        helper.setText(R.id.tv_header, data.text)
+        helper.setVisible(R.id.iv_arrow,data.text!="热门分类")
         setTextColorWhite(R.id.tv_header)
     }
 

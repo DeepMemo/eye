@@ -1,8 +1,10 @@
 package com.bkvito.beikeshequ.retrofit
 
+import com.memo.deep.openmyeye.bean.ItemListBean.AllTypeBean
 import com.memo.deep.openmyeye.bean.ItemListBean.NoticePushBean
 import com.memo.deep.openmyeye.bean.ItemListBean.StartBean
 import com.memo.deep.openmyeye.bean.itemBean.VideoBeanForClient
+import com.memo.deep.openmyeye.bean.my.CategoryDeatilTypeBean
 import io.reactivex.Observable
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -69,5 +71,13 @@ interface RetrofitApi {
     // 获取推送消息
     @GET("api/v3/messages")
     fun getPush(@QueryMap map: Map<String, String>): Observable<NoticePushBean>
+
+    // 获取具体分类的tab
+    @GET("api/v4/categories/detail/tab")
+    fun getCategoryTab(@QueryMap map: Map<String, String>): Observable<CategoryDeatilTypeBean>
+
+    // 获取全部分类
+    @GET("api/v4/categories/all")
+    fun getAllCategory(@QueryMap map: Map<String, String>): Observable<AllTypeBean>
 
 }

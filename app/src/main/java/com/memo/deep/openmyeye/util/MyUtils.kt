@@ -1,10 +1,13 @@
 package com.memo.deep.openmyeye.util
 
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.bkvito.beikeshequ.retrofit.RetrofitUtils
 import com.blankj.utilcode.util.TimeUtils
+import com.google.gson.Gson
+import com.memo.deep.openmyeye.`interface`.Constant
 import java.io.UnsupportedEncodingException
 import java.net.URLDecoder
 import java.net.URLEncoder
@@ -110,6 +113,14 @@ object MyUtils {
                 .subscribe {
                     method()
                 }
+    }
+
+    fun getIntentMap(intent: Intent): HashMap<String, String> {
+        val json = intent.getStringExtra(Constant.DATA)
+        if (json.isNullOrEmpty()) {
+            return HashMap<String, String>()
+        }
+        return Gson().fromJson(json, HashMap::class.java) as HashMap<String, String>
     }
 
 }

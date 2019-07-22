@@ -3,7 +3,6 @@ package com.memo.deep.openmyeye.ui.fragment.base
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import com.blankj.utilcode.util.BarUtils
 import com.google.gson.Gson
 import com.memo.deep.openmyeye.`interface`.Constant
 import com.trello.navi2.component.support.NaviFragment
@@ -20,11 +19,6 @@ open class BaseFragment : NaviFragment(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-    }
-
-
-    private fun setSatusBar() {
-        BarUtils.setStatusBarAlpha(activity!!, 0)
     }
 
     override fun onClick(v: View) {

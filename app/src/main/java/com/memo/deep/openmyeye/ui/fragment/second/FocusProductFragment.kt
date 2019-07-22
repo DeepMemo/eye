@@ -21,10 +21,12 @@ class FocusProductFragment : FindFragment() {
 
     val url = "http://baobab.kaiyanapp.com/api/v6/community/tab/follow"
     var start = 0
+
     override fun getContent() {
         presenter.getCommonContent(url, Constant.URL_MAP)
         start = 0
     }
+
 
     override fun getMoreContent() {
         start += 5

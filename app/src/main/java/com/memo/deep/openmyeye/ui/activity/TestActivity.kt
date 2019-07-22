@@ -16,7 +16,6 @@ import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
 import com.bkvito.beikeshequ.IMyService
-import com.blankj.utilcode.util.ToastUtils
 import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.XAxis
 import com.google.gson.Gson
@@ -31,8 +30,6 @@ class TestActivity : BaseActivity() {
     var mIMyService: IMyService? = null
     val mServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            Log.i("===>", "=====-=>onServiceConnected")
-            ToastUtils.showShort("onServiceConnected")
             mIMyService = IMyService.Stub.asInterface(service)
             try {
                 val student = mIMyService?.student?.get(0)
